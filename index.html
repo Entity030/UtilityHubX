@@ -1,0 +1,2410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0f;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --border: rgba(255,255,255,0.08);
+    --text: #e8e8f0;
+    --muted: #6b6b7e;
+    --accent: #ff6b35;
+    --accent2: #ffd166;
+    --glow: rgba(255,107,53,0.25);
+    --wb-bg: #111115;
+    --calc-btn-hover: rgba(255,255,255,0.06);
+    --calc-btn-border-hover: rgba(255,255,255,0.15);
+  }
+
+  :root[data-theme="light"] {
+    --bg: #f0f0f5;
+    --surface: #ffffff;
+    --surface2: #e8e8f0;
+    --border: rgba(0,0,0,0.1);
+    --text: #1a1a2e;
+    --muted: #7777aa;
+    --accent: #e85d22;
+    --accent2: #c97b00;
+    --glow: rgba(232,93,34,0.2);
+    --wb-bg: #f8f8ff;
+    --calc-btn-hover: rgba(0,0,0,0.05);
+    --calc-btn-border-hover: rgba(0,0,0,0.2);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    text-align: center;
+    margin-bottom: 0.3rem;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .card-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    align-self: flex-start;
+  }
+
+  /* ── CLOCK ── */
+  .clock-display {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 1.2rem 2rem;
+    background: var(--surface2);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  .clock-segment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .clock-digits {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(2.8rem, 8vw, 4rem);
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--glow), 0 0 40px rgba(255,107,53,0.1);
+    line-height: 1;
+    letter-spacing: 0.05em;
+  }
+
+  .clock-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .clock-sep {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(2.4rem, 7vw, 3.4rem);
+    color: var(--accent);
+    opacity: 0.5;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .clock-date {
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── NEWTON'S CRADLE ── */
+  #newton-canvas {
+    border-radius: 8px;
+    background: var(--surface2);
+  }
+
+  .cradle-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.45rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.08); }
+
+  /* ── SPIROGRAPH ── */
+  #spiro-canvas {
+    border-radius: 8px;
+    background: var(--surface2);
+  }
+
+  .spiro-controls {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .spiro-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .spiro-row input[type=range] {
+    flex: 1;
+    accent-color: var(--accent);
+    height: 3px;
+    cursor: pointer;
+  }
+
+  .spiro-val {
+    min-width: 28px;
+    text-align: right;
+    color: var(--accent2);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+  }
+
+  /* ── WHITEBOARD ── */
+  .whiteboard-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  #wb-canvas {
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    cursor: crosshair;
+    touch-action: none;
+    background: var(--wb-bg);
+    width: 100%;
+  }
+
+  .wb-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .color-swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+
+  .color-swatch.selected { border-color: #fff; transform: scale(1.2); }
+
+  .size-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .size-btn.selected { border-color: var(--accent); color: var(--accent); }
+  .wb-sep { width: 1px; height: 22px; background: var(--border); margin: 0 0.25rem; }
+
+  /* ── TIMER ── */
+  .timer-display {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(3rem, 10vw, 4.5rem);
+    color: var(--accent);
+    text-shadow: 0 0 24px var(--glow);
+    letter-spacing: 0.08em;
+    background: var(--surface2);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 1rem 2rem;
+    line-height: 1;
+  }
+  .timer-display.running { color: #06d6a0; text-shadow: 0 0 24px rgba(6,214,160,0.3); }
+  .timer-display.done { color: #ef476f; text-shadow: 0 0 24px rgba(239,71,111,0.4); animation: timerPulse 0.6s ease-in-out infinite alternate; }
+  @keyframes timerPulse { from { opacity: 1; } to { opacity: 0.4; } }
+
+  .timer-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
+
+  .timer-presets {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .preset-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .preset-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  /* ── NOTEPAD ── */
+  .notepad-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.6rem; }
+
+  #notepad-area {
+    width: 100%;
+    min-height: 220px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    padding: 1rem;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #notepad-area:focus { border-color: rgba(255,209,102,0.3); }
+
+  .notepad-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .save-indicator { display: flex; align-items: center; gap: 0.4rem; transition: color 0.4s; }
+  .save-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); transition: background 0.4s; }
+  .save-indicator.saved .save-dot { background: #06d6a0; }
+  .save-indicator.saved { color: #06d6a0; }
+
+  /* ── CALCULATOR ── */
+  .calc-wrap { width: 100%; max-width: 300px; display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .calc-screen {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .calc-expr { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--muted); min-height: 1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .calc-result { font-family: 'Share Tech Mono', monospace; font-size: 2.2rem; color: var(--accent2); line-height: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.45rem; }
+
+  .calc-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+    padding: 0.7rem 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    line-height: 1;
+  }
+  .calc-btn:hover { background: var(--calc-btn-hover); border-color: var(--calc-btn-border-hover); }
+  .calc-btn:active { transform: scale(0.95); }
+  .calc-btn.op { color: var(--accent); border-color: rgba(255,107,53,0.25); }
+  .calc-btn.op:hover { background: rgba(255,107,53,0.1); }
+  .calc-btn.eq { background: var(--accent); color: #fff; border-color: var(--accent); font-size: 1.2rem; }
+  .calc-btn.eq:hover { background: #e85d28; }
+  .calc-btn.clear { color: var(--accent2); border-color: rgba(255,209,102,0.25); }
+  .calc-btn.clear:hover { background: rgba(255,209,102,0.08); }
+  .calc-btn.span2 { grid-column: span 2; }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .theme-toggle-icon { font-size: 1rem; }
+
+  /* ── RANDOM NUMBER GENERATOR ── */
+  .rng-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .rng-range-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .rng-range-row input[type=number] {
+    width: 70px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.5rem;
+    outline: none;
+    transition: border-color 0.2s;
+    text-align: center;
+  }
+  .rng-range-row input[type=number]:focus { border-color: var(--accent); }
+
+  .rng-count-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .rng-count-btn {
+    width: 28px;
+    height: 28px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+    line-height: 1;
+    padding-bottom: 1px;
+  }
+  .rng-count-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .rng-count-val {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+    color: var(--accent2);
+    min-width: 24px;
+    text-align: center;
+  }
+
+  .rng-exclude-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .rng-exclude-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .rng-exclude-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    padding: 0.35rem 0.6rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .rng-exclude-input:focus { border-color: var(--accent); }
+  .rng-exclude-input::placeholder { color: var(--muted); opacity: 0.6; }
+
+  .rng-results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    min-height: 40px;
+    padding: 0.5rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  .rng-chip {
+    background: var(--surface);
+    border: 1px solid rgba(255,107,53,0.3);
+    border-radius: 6px;
+    color: var(--accent);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.9rem;
+    padding: 0.2rem 0.6rem;
+    animation: chipPop 0.15s ease-out;
+  }
+
+  @keyframes chipPop {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  /* ── PASSWORD GENERATOR ── */
+  .pw-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.8rem; }
+
+  .pw-output {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .pw-text {
+    flex: 1;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.92rem;
+    color: var(--accent2);
+    letter-spacing: 0.05em;
+    word-break: break-all;
+    min-height: 1.4em;
+  }
+
+  .pw-copy-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-family: 'Rajdhani', sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.65rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .pw-copy-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  .pw-sliders { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .pw-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .pw-row-label { min-width: 88px; }
+
+  .pw-row input[type=range] {
+    flex: 1;
+    accent-color: var(--accent);
+    height: 3px;
+    cursor: pointer;
+  }
+
+  .pw-val {
+    min-width: 20px;
+    text-align: right;
+    color: var(--accent2);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+  }
+
+  .pw-strength {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .pw-strength-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .pw-strength-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.4s ease, background 0.4s ease;
+  }
+
+  .pw-total {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  /* ── CASE CONVERTER ── */
+  .case-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .case-input, .case-output {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    padding: 0.75rem 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+  }
+  .case-input:focus { border-color: rgba(255,209,102,0.3); }
+  .case-output {
+    color: var(--accent2);
+    cursor: text;
+    user-select: all;
+    min-height: 60px;
+    word-break: break-all;
+    white-space: pre-wrap;
+    display: block;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+  }
+  .case-btns { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .case-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 0.35rem 0.7rem;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .case-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .case-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.08); }
+  .case-copy-row { display: flex; justify-content: flex-end; }
+  .case-copy-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-family: 'Rajdhani', sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .case-copy-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  /* ── WORD COUNTER ── */
+  .wc-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
+  .wc-textarea {
+    width: 100%;
+    min-height: 120px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    padding: 0.75rem 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+  .wc-textarea:focus { border-color: rgba(255,209,102,0.3); }
+  .wc-textarea::placeholder { color: var(--muted); opacity: 0.6; }
+  .wc-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+  .wc-stat {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 0.6rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    align-items: center;
+  }
+  .wc-stat-val { font-family: 'Share Tech Mono', monospace; font-size: 1.5rem; color: var(--accent); line-height: 1; }
+  .wc-stat-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-align: center; }
+  .wc-extra {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 0.6rem 0.75rem;
+  }
+  .wc-extra-row { display: flex; justify-content: space-between; }
+  .wc-extra-val { color: var(--accent2); font-family: 'Share Tech Mono', monospace; }
+
+  /* ── RANDOM COLOR GENERATOR ── */
+  .color-gen-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; align-items: center; }
+  .color-swatch-big {
+    width: 100%;
+    height: 110px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    transition: background 0.35s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .color-swatch-big::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .color-vals { width: 100%; display: flex; gap: 0.5rem; }
+  .color-val-box {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 0.55rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .color-val-box:hover { border-color: var(--accent); }
+  .color-val-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .color-val-text { font-family: 'Share Tech Mono', monospace; font-size: 0.92rem; color: var(--accent2); letter-spacing: 0.04em; }
+  .color-copied-toast {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .color-copied-toast.show { opacity: 1; }
+  .color-palette-row { display: flex; gap: 0.4rem; width: 100%; }
+  .color-palette-swatch {
+    flex: 1;
+    height: 34px;
+    border-radius: 7px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .color-palette-swatch:hover { transform: scaleY(1.15); border-color: rgba(255,255,255,0.3); }
+  .color-palette-swatch.active { border-color: #fff; transform: scaleY(1.2); }
+
+  /* ── UNIT CONVERTER ── */
+  .unit-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
+  .unit-category-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .unit-cat-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.65rem;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .unit-cat-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .unit-cat-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.08); }
+  .unit-row { display: flex; align-items: center; gap: 0.5rem; }
+  .unit-input {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    outline: none;
+    transition: border-color 0.2s;
+    min-width: 0;
+  }
+  .unit-input:focus { border-color: var(--accent); }
+  .unit-select {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    padding: 0.5rem 0.4rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    min-width: 85px;
+  }
+  .unit-select:focus { border-color: var(--accent); }
+  .unit-swap-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 1rem;
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+  .unit-swap-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .unit-result-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.25rem;
+    color: var(--accent2);
+    text-align: center;
+    letter-spacing: 0.04em;
+    min-height: 52px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── BASE64 ENCODER/DECODER ── */
+  .b64-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
+  .b64-mode-row { display: flex; gap: 0.4rem; }
+  .b64-mode-btn {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .b64-mode-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .b64-mode-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.08); }
+  .b64-textarea {
+    width: 100%;
+    min-height: 90px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    padding: 0.75rem 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+  .b64-textarea:focus { border-color: rgba(255,209,102,0.3); }
+  .b64-textarea::placeholder { color: var(--muted); opacity: 0.6; }
+  .b64-output {
+    width: 100%;
+    min-height: 90px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    word-break: break-all;
+    white-space: pre-wrap;
+    cursor: text;
+    user-select: all;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--accent2);
+  }
+  .b64-error { color: #ef476f !important; }
+  .b64-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">
+  <span class="theme-toggle-icon" id="theme-icon">☀️</span>
+  <span id="theme-label">Light</span>
+</button>
+
+<h1>Interactive Hub</h1>
+<p class="subtitle">Clock · Newton's Cradle · Spirograph · Whiteboard · Timer · Notepad · Calculator · RNG · Password · Case Converter · Word Counter · Color Generator · Unit Converter · Base64</p>
+
+<div class="grid">
+
+  <!-- CLOCK -->
+  <div class="card">
+    <div class="card-title">Digital Clock</div>
+    <div class="clock-display">
+      <div class="clock-segment">
+        <div class="clock-digits" id="cl-h">00</div>
+        <div class="clock-label">Hours</div>
+      </div>
+      <div class="clock-sep">:</div>
+      <div class="clock-segment">
+        <div class="clock-digits" id="cl-m">00</div>
+        <div class="clock-label">Minutes</div>
+      </div>
+      <div class="clock-sep">:</div>
+      <div class="clock-segment">
+        <div class="clock-digits" id="cl-s">00</div>
+        <div class="clock-label">Seconds</div>
+      </div>
+    </div>
+    <div class="clock-date" id="cl-date"></div>
+  </div>
+
+  <!-- NEWTON'S CRADLE -->
+  <div class="card">
+    <div class="card-title">Newton's Cradle</div>
+    <canvas id="newton-canvas" width="320" height="220"></canvas>
+    <div class="cradle-controls">
+      <button class="btn active" id="nc-1" onclick="setCradleCount(1,this)">1 Ball</button>
+      <button class="btn" id="nc-2" onclick="setCradleCount(2,this)">2 Balls</button>
+      <button class="btn" id="nc-3" onclick="setCradleCount(3,this)">3 Balls</button>
+      <button class="btn" onclick="resetCradle()">Reset</button>
+    </div>
+  </div>
+
+  <!-- SPIROGRAPH -->
+  <div class="card">
+    <div class="card-title">Spirograph</div>
+    <canvas id="spiro-canvas" width="320" height="260"></canvas>
+    <div class="spiro-controls">
+      <div class="spiro-row">
+        <span style="min-width:40px">R</span>
+        <input type="range" id="sp-R" min="60" max="130" value="100" oninput="spiroUpdate()">
+        <span class="spiro-val" id="sp-Rv">100</span>
+      </div>
+      <div class="spiro-row">
+        <span style="min-width:40px">r</span>
+        <input type="range" id="sp-r" min="10" max="80" value="37" oninput="spiroUpdate()">
+        <span class="spiro-val" id="sp-rv">37</span>
+      </div>
+      <div class="spiro-row">
+        <span style="min-width:40px">d</span>
+        <input type="range" id="sp-d" min="10" max="80" value="50" oninput="spiroUpdate()">
+        <span class="spiro-val" id="sp-dv">50</span>
+      </div>
+      <div style="display:flex;gap:0.5rem;margin-top:0.2rem">
+        <button class="btn" onclick="spiroAnimate()">Animate</button>
+        <button class="btn" onclick="spiroClear()">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMER -->
+  <div class="card">
+    <div class="card-title">Timer / Stopwatch</div>
+    <div class="timer-display" id="timer-display">00:00.0</div>
+    <div class="timer-controls">
+      <button class="btn" id="timer-startstop" onclick="timerToggle()">Start</button>
+      <button class="btn" onclick="timerReset()">Reset</button>
+      <button class="btn" id="timer-mode-btn" onclick="timerSwitchMode()">Stopwatch</button>
+    </div>
+    <div class="timer-presets" id="timer-presets">
+      <span style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);align-self:center;">Presets:</span>
+      <button class="preset-btn" onclick="timerSetPreset(60)">1m</button>
+      <button class="preset-btn" onclick="timerSetPreset(300)">5m</button>
+      <button class="preset-btn" onclick="timerSetPreset(600)">10m</button>
+      <button class="preset-btn" onclick="timerSetPreset(1500)">25m</button>
+      <button class="preset-btn" onclick="timerSetPreset(3600)">1h</button>
+    </div>
+  </div>
+
+  <!-- NOTEPAD -->
+  <div class="card">
+    <div class="card-title">Notepad</div>
+    <div class="notepad-wrap">
+      <textarea id="notepad-area" placeholder="Start typing... notes are autosaved."></textarea>
+      <div class="notepad-footer">
+        <span id="notepad-chars">0 chars</span>
+        <div class="save-indicator" id="save-indicator">
+          <div class="save-dot"></div>
+          <span id="save-label">Unsaved</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem">
+        <button class="btn" onclick="notepadCopy()">Copy All</button>
+        <button class="btn" onclick="notepadClear()">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALCULATOR -->
+  <div class="card">
+    <div class="card-title">Calculator</div>
+    <div class="calc-wrap">
+      <div class="calc-screen">
+        <div class="calc-expr" id="calc-expr">&nbsp;</div>
+        <div class="calc-result" id="calc-result">0</div>
+      </div>
+      <div class="calc-grid">
+        <button class="calc-btn clear span2" onclick="calcClear()">AC</button>
+        <button class="calc-btn clear" onclick="calcBackspace()">&#9003;</button>
+        <button class="calc-btn op" onclick="calcOp('%')">%</button>
+
+        <button class="calc-btn" onclick="calcNum('7')">7</button>
+        <button class="calc-btn" onclick="calcNum('8')">8</button>
+        <button class="calc-btn" onclick="calcNum('9')">9</button>
+        <button class="calc-btn op" onclick="calcOp('÷')">&divide;</button>
+
+        <button class="calc-btn" onclick="calcNum('4')">4</button>
+        <button class="calc-btn" onclick="calcNum('5')">5</button>
+        <button class="calc-btn" onclick="calcNum('6')">6</button>
+        <button class="calc-btn op" onclick="calcOp('×')">&times;</button>
+
+        <button class="calc-btn" onclick="calcNum('1')">1</button>
+        <button class="calc-btn" onclick="calcNum('2')">2</button>
+        <button class="calc-btn" onclick="calcNum('3')">3</button>
+        <button class="calc-btn op" onclick="calcOp('−')">&minus;</button>
+
+        <button class="calc-btn span2" onclick="calcNum('0')">0</button>
+        <button class="calc-btn" onclick="calcDot()">.</button>
+        <button class="calc-btn op" onclick="calcOp('+')">+</button>
+
+        <button class="calc-btn eq span2" onclick="calcEquals()">=</button>
+        <button class="calc-btn op" onclick="calcNegate()">+/&minus;</button>
+        <button class="calc-btn op" onclick="calcSqrt()">&radic;</button>
+      </div>
+    </div>
+  </div>
+
+    <!-- WHITEBOARD -->
+  <div class="card" style="grid-column: 1 / -1;">
+    <div class="card-title">Digital Whiteboard</div>
+    <div class="whiteboard-wrap">
+      <div class="wb-toolbar" id="wb-toolbar">
+        <!-- swatches injected by JS -->
+      </div>
+      <canvas id="wb-canvas" height="340"></canvas>
+    </div>
+  </div>
+
+  <!-- RANDOM NUMBER GENERATOR -->
+  <div class="card">
+    <div class="card-title">Random Number Generator</div>
+    <div class="rng-wrap">
+      <div class="rng-range-row">
+        <span>Min</span>
+        <input type="number" id="rng-min" value="1">
+        <span>Max</span>
+        <input type="number" id="rng-max" value="100">
+      </div>
+      <div class="rng-count-row">
+        <span>Count</span>
+        <button class="rng-count-btn" onclick="rngAdjust(-1)">−</button>
+        <span class="rng-count-val" id="rng-count-val">5</span>
+        <button class="rng-count-btn" onclick="rngAdjust(1)">+</button>
+      </div>
+      <div class="rng-exclude-row">
+        <span class="rng-exclude-label">Exclude numbers (comma-separated)</span>
+        <input type="text" class="rng-exclude-input" id="rng-exclude" placeholder="e.g. 3, 7, 13">
+      </div>
+      <div class="rng-results" id="rng-results">
+        <span style="color:var(--muted);font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;">Press generate…</span>
+      </div>
+      <button class="btn" onclick="rngGenerate()" style="align-self:center;padding:0.5rem 2rem;">Generate</button>
+    </div>
+  </div>
+
+  <!-- PASSWORD GENERATOR -->
+  <div class="card">
+    <div class="card-title">Password Generator</div>
+    <div class="pw-wrap">
+      <div class="pw-output">
+        <span class="pw-text" id="pw-text">—</span>
+        <button class="pw-copy-btn" onclick="pwCopy()">Copy</button>
+      </div>
+      <div class="pw-strength">
+        <span>Strength</span>
+        <div class="pw-strength-bar"><div class="pw-strength-fill" id="pw-strength-fill" style="width:0%;background:#ef476f"></div></div>
+        <span id="pw-strength-label">—</span>
+        <span class="pw-total" id="pw-total">0 chars</span>
+      </div>
+      <div class="pw-sliders">
+        <div class="pw-row">
+          <span class="pw-row-label">Uppercase</span>
+          <input type="range" id="pw-upper" min="0" max="20" value="4" oninput="pwUpdate()">
+          <span class="pw-val" id="pw-upper-val">4</span>
+        </div>
+        <div class="pw-row">
+          <span class="pw-row-label">Lowercase</span>
+          <input type="range" id="pw-lower" min="0" max="20" value="4" oninput="pwUpdate()">
+          <span class="pw-val" id="pw-lower-val">4</span>
+        </div>
+        <div class="pw-row">
+          <span class="pw-row-label">Numbers</span>
+          <input type="range" id="pw-nums" min="0" max="20" value="3" oninput="pwUpdate()">
+          <span class="pw-val" id="pw-nums-val">3</span>
+        </div>
+        <div class="pw-row">
+          <span class="pw-row-label">Symbols</span>
+          <input type="range" id="pw-syms" min="0" max="20" value="2" oninput="pwUpdate()">
+          <span class="pw-val" id="pw-syms-val">2</span>
+        </div>
+      </div>
+      <button class="btn" onclick="pwGenerate()" style="align-self:center;padding:0.5rem 2rem;">Generate</button>
+    </div>
+  </div>
+
+  <!-- CASE CONVERTER -->
+  <div class="card">
+    <div class="card-title">Case Converter</div>
+    <div class="case-wrap">
+      <textarea class="case-input" id="case-input" rows="3" placeholder="Type or paste text here…" oninput="caseConvert()"></textarea>
+      <div class="case-btns">
+        <button class="case-btn active" id="case-btn-snake" onclick="caseSetMode('snake',this)">snake_case</button>
+        <button class="case-btn" id="case-btn-lower" onclick="caseSetMode('lower',this)">lowercase</button>
+        <button class="case-btn" id="case-btn-upper" onclick="caseSetMode('upper',this)">UPPERCASE</button>
+        <button class="case-btn" id="case-btn-title" onclick="caseSetMode('title',this)">Title Case</button>
+        <button class="case-btn" id="case-btn-camel" onclick="caseSetMode('camel',this)">camelCase</button>
+        <button class="case-btn" id="case-btn-kebab" onclick="caseSetMode('kebab',this)">kebab-case</button>
+      </div>
+      <div id="case-output" class="case-output">—</div>
+      <div class="case-copy-row">
+        <button class="case-copy-btn" id="case-copy-btn" onclick="caseCopy()">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORD COUNTER -->
+  <div class="card">
+    <div class="card-title">Word Counter</div>
+    <div class="wc-wrap">
+      <textarea class="wc-textarea" id="wc-area" placeholder="Paste or type your text here…" oninput="wcUpdate()"></textarea>
+      <div class="wc-stats">
+        <div class="wc-stat"><div class="wc-stat-val" id="wc-words">0</div><div class="wc-stat-label">Words</div></div>
+        <div class="wc-stat"><div class="wc-stat-val" id="wc-chars">0</div><div class="wc-stat-label">Characters</div></div>
+        <div class="wc-stat"><div class="wc-stat-val" id="wc-sents">0</div><div class="wc-stat-label">Sentences</div></div>
+      </div>
+      <div class="wc-extra">
+        <div class="wc-extra-row"><span>Characters (no spaces)</span><span class="wc-extra-val" id="wc-nospace">0</span></div>
+        <div class="wc-extra-row"><span>Paragraphs</span><span class="wc-extra-val" id="wc-paras">0</span></div>
+        <div class="wc-extra-row"><span>Avg word length</span><span class="wc-extra-val" id="wc-avgword">—</span></div>
+        <div class="wc-extra-row"><span>Reading time (~200 wpm)</span><span class="wc-extra-val" id="wc-readtime">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RANDOM COLOR GENERATOR -->
+  <div class="card">
+    <div class="card-title">Random Color Generator</div>
+    <div class="color-gen-wrap">
+      <div class="color-swatch-big" id="color-swatch-big" style="background:#ff6b35"></div>
+      <div class="color-vals">
+        <div class="color-val-box" onclick="colorCopy('hex')" title="Click to copy">
+          <div class="color-val-label">HEX</div>
+          <div class="color-val-text" id="color-hex">#FF6B35</div>
+          <div class="color-copied-toast" id="toast-hex">Copied!</div>
+        </div>
+        <div class="color-val-box" onclick="colorCopy('rgb')" title="Click to copy">
+          <div class="color-val-label">RGB</div>
+          <div class="color-val-text" id="color-rgb">255, 107, 53</div>
+          <div class="color-copied-toast" id="toast-rgb">Copied!</div>
+        </div>
+        <div class="color-val-box" onclick="colorCopy('hsl')" title="Click to copy">
+          <div class="color-val-label">HSL</div>
+          <div class="color-val-text" id="color-hsl">18°, 100%, 60%</div>
+          <div class="color-copied-toast" id="toast-hsl">Copied!</div>
+        </div>
+      </div>
+      <div class="color-palette-row" id="color-palette"></div>
+      <button class="btn" onclick="colorGenerate()" style="align-self:center;padding:0.5rem 2rem;">Generate</button>
+    </div>
+  </div>
+
+  <!-- UNIT CONVERTER -->
+  <div class="card">
+    <div class="card-title">Unit Converter</div>
+    <div class="unit-wrap">
+      <div class="unit-category-row">
+        <button class="unit-cat-btn active" onclick="unitSetCat('length',this)">Length</button>
+        <button class="unit-cat-btn" onclick="unitSetCat('weight',this)">Weight</button>
+        <button class="unit-cat-btn" onclick="unitSetCat('temp',this)">Temp</button>
+        <button class="unit-cat-btn" onclick="unitSetCat('volume',this)">Volume</button>
+        <button class="unit-cat-btn" onclick="unitSetCat('speed',this)">Speed</button>
+        <button class="unit-cat-btn" onclick="unitSetCat('data',this)">Data</button>
+      </div>
+      <div class="unit-row">
+        <input class="unit-input" type="number" id="unit-from-val" value="1" oninput="unitConvert()">
+        <select class="unit-select" id="unit-from-sel" onchange="unitConvert()"></select>
+        <button class="unit-swap-btn" onclick="unitSwap()" title="Swap units">⇄</button>
+        <select class="unit-select" id="unit-to-sel" onchange="unitConvert()"></select>
+      </div>
+      <div class="unit-result-box" id="unit-result">—</div>
+    </div>
+  </div>
+
+  <!-- BASE64 ENCODER / DECODER -->
+  <div class="card">
+    <div class="card-title">Base64 Encoder / Decoder</div>
+    <div class="b64-wrap">
+      <div class="b64-mode-row">
+        <button class="b64-mode-btn active" id="b64-enc-btn" onclick="b64SetMode('encode',this)">Encode</button>
+        <button class="b64-mode-btn" id="b64-dec-btn" onclick="b64SetMode('decode',this)">Decode</button>
+      </div>
+      <textarea class="b64-textarea" id="b64-input" placeholder="Enter text to encode…" oninput="b64Convert()"></textarea>
+      <div class="b64-output" id="b64-output">—</div>
+      <div class="b64-footer">
+        <span id="b64-len">0 chars in / 0 chars out</span>
+        <button class="case-copy-btn" onclick="b64Copy()">Copy</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   CLOCK
+══════════════════════════════════════ */
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function tickClock(){
+  const now = new Date();
+  document.getElementById('cl-h').textContent = pad(now.getHours());
+  document.getElementById('cl-m').textContent = pad(now.getMinutes());
+  document.getElementById('cl-s').textContent = pad(now.getSeconds());
+  document.getElementById('cl-date').textContent =
+    days[now.getDay()] + ' · ' + months[now.getMonth()] + ' ' + now.getDate() + ' · ' + now.getFullYear();
+}
+
+tickClock();
+setInterval(tickClock, 1000);
+
+/* ══════════════════════════════════════
+   NEWTON'S CRADLE
+══════════════════════════════════════ */
+const nc = document.getElementById('newton-canvas');
+const nctx = nc.getContext('2d');
+const W = nc.width, H = nc.height;
+
+const BALLS = 5;
+const ballR = 14;
+const ropeLen = 110;
+const spacing = ballR * 2 + 2;
+const totalW = (BALLS - 1) * spacing;
+const cx = W / 2;
+const cy = 50;
+
+let ncCount = 1;
+let angles = new Array(BALLS).fill(0);
+let vels = new Array(BALLS).fill(0);
+let ncRAF;
+
+function ballX(i){ return cx - totalW/2 + i * spacing; }
+
+function resetCradle(){
+  angles = new Array(BALLS).fill(0);
+  vels = new Array(BALLS).fill(0);
+  const toSwing = ncCount;
+  for(let i = 0; i < toSwing; i++){
+    angles[i] = -Math.PI/4;
+    vels[i] = 0;
+  }
+}
+
+function setCradleCount(n, btn){
+  ncCount = n;
+  document.querySelectorAll('.cradle-controls .btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  resetCradle();
+}
+
+const g = 9.8, dt = 0.016, damp = 0.999;
+const threshold = 0.008;
+
+function stepCradle(){
+  // Simple impulse transfer approach
+  for(let i = 0; i < BALLS; i++){
+    vels[i] += -(g / ropeLen) * angles[i] * dt;
+    vels[i] *= damp;
+    angles[i] += vels[i];
+  }
+
+  // Collision: left group hits right group
+  const leftEdge = angles.length - 1;
+  // Check overlaps and do momentum transfer
+  for(let i = 0; i < BALLS - 1; i++){
+    const xi = ballX(i) + Math.sin(angles[i]) * ropeLen;
+    const xi1 = ballX(i+1) + Math.sin(angles[i+1]) * ropeLen;
+    if(xi + ballR >= xi1 - ballR && vels[i] > 0 && vels[i] > vels[i+1]){
+      const tmp = vels[i]; vels[i] = vels[i+1]; vels[i+1] = tmp;
+    }
+  }
+}
+
+function drawCradle(){
+  nctx.clearRect(0, 0, W, H);
+
+  // Frame bar
+  nctx.beginPath();
+  nctx.moveTo(cx - totalW/2 - 20, cy);
+  nctx.lineTo(cx + totalW/2 + 20, cy);
+  nctx.strokeStyle = '#3a3a4a';
+  nctx.lineWidth = 4;
+  nctx.stroke();
+
+  // Left & right uprights
+  nctx.beginPath();
+  nctx.moveTo(cx - totalW/2 - 20, cy);
+  nctx.lineTo(cx - totalW/2 - 20, cy + ropeLen + ballR + 20);
+  nctx.moveTo(cx + totalW/2 + 20, cy);
+  nctx.lineTo(cx + totalW/2 + 20, cy + ropeLen + ballR + 20);
+  nctx.strokeStyle = '#2a2a38';
+  nctx.lineWidth = 3;
+  nctx.stroke();
+
+  for(let i = 0; i < BALLS; i++){
+    const bx = ballX(i) + Math.sin(angles[i]) * ropeLen;
+    const by = cy + Math.cos(angles[i]) * ropeLen;
+
+    // Rope
+    nctx.beginPath();
+    nctx.moveTo(ballX(i), cy);
+    nctx.lineTo(bx, by);
+    nctx.strokeStyle = '#505065';
+    nctx.lineWidth = 1.5;
+    nctx.stroke();
+
+    // Ball
+    const grad = nctx.createRadialGradient(bx - 4, by - 4, 2, bx, by, ballR);
+    grad.addColorStop(0, '#8888cc');
+    grad.addColorStop(0.5, '#4444aa');
+    grad.addColorStop(1, '#1a1a3a');
+    nctx.beginPath();
+    nctx.arc(bx, by, ballR, 0, Math.PI*2);
+    nctx.fillStyle = grad;
+    nctx.fill();
+    nctx.strokeStyle = 'rgba(255,255,255,0.15)';
+    nctx.lineWidth = 1;
+    nctx.stroke();
+  }
+
+  stepCradle();
+  ncRAF = requestAnimationFrame(drawCradle);
+}
+
+resetCradle();
+drawCradle();
+
+/* ══════════════════════════════════════
+   SPIROGRAPH
+══════════════════════════════════════ */
+const sc = document.getElementById('spiro-canvas');
+const sctx = sc.getContext('2d');
+const SW = sc.width, SH = sc.height;
+let spiroRAF, spiroRunning = false;
+let spiroT = 0;
+
+function spiroVal(){
+  return {
+    R: +document.getElementById('sp-R').value,
+    r: +document.getElementById('sp-r').value,
+    d: +document.getElementById('sp-d').value
+  };
+}
+
+function spiroUpdate(){
+  ['R','r','d'].forEach(k => {
+    document.getElementById('sp-'+k+'v').textContent = document.getElementById('sp-'+k).value;
+  });
+  spiroClear();
+  drawSpiroFull();
+}
+
+function drawSpiroFull(){
+  const { R, r, d } = spiroVal();
+  const steps = 3000;
+  sctx.clearRect(0, 0, SW, SH);
+  sctx.beginPath();
+  const LCM = lcm(R, r);
+  const tMax = 2 * Math.PI * (LCM / r);
+  for(let i = 0; i <= steps; i++){
+    const t = (i / steps) * tMax;
+    const x = SW/2 + (R - r) * Math.cos(t) + d * Math.cos((R - r)/r * t);
+    const y = SH/2 + (R - r) * Math.sin(t) - d * Math.sin((R - r)/r * t);
+    const grad = sctx.createLinearGradient(0, 0, SW, SH);
+    grad.addColorStop(0, '#ff2020');
+    grad.addColorStop(0.5, '#ff8000');
+    grad.addColorStop(1, '#ffe000');
+    if(i === 0) sctx.moveTo(x, y);
+    else sctx.lineTo(x, y);
+  }
+  const grd = sctx.createLinearGradient(0, 0, SW, SH);
+  grd.addColorStop(0, '#ff3a3a');
+  grd.addColorStop(0.5, '#ff7b00');
+  grd.addColorStop(1, '#ffd000');
+  sctx.strokeStyle = grd;
+  sctx.lineWidth = 1.5;
+  sctx.stroke();
+}
+
+function gcd(a, b){ return b === 0 ? a : gcd(b, a % b); }
+function lcm(a, b){ return (a * b) / gcd(a, b); }
+
+function spiroClear(){
+  if(spiroRunning){ cancelAnimationFrame(spiroRAF); spiroRunning = false; }
+  sctx.clearRect(0, 0, SW, SH);
+  spiroT = 0;
+}
+
+function spiroAnimate(){
+  spiroClear();
+  const { R, r, d } = spiroVal();
+  const LCM = lcm(Math.round(R), Math.round(r));
+  const tMax = 2 * Math.PI * (LCM / Math.round(r));
+  spiroRunning = true;
+  let path = [];
+  const totalFrames = 300;
+  let frame = 0;
+
+  function step(){
+    if(!spiroRunning) return;
+    const t = (frame / totalFrames) * tMax;
+    const x = SW/2 + (R - r) * Math.cos(t) + d * Math.cos((R - r)/r * t);
+    const y = SH/2 + (R - r) * Math.sin(t) - d * Math.sin((R - r)/r * t);
+    path.push({x, y, t: frame / totalFrames});
+
+    sctx.clearRect(0, 0, SW, SH);
+    sctx.beginPath();
+    path.forEach((p, i) => {
+      if(i === 0) sctx.moveTo(p.x, p.y);
+      else sctx.lineTo(p.x, p.y);
+    });
+    const grd = sctx.createLinearGradient(0, 0, SW, SH);
+    grd.addColorStop(0, '#ff3a3a');
+    grd.addColorStop(0.5, '#ff7b00');
+    grd.addColorStop(1, '#ffd000');
+    sctx.strokeStyle = grd;
+    sctx.lineWidth = 1.8;
+    sctx.stroke();
+
+    frame++;
+    if(frame <= totalFrames) spiroRAF = requestAnimationFrame(step);
+    else spiroRunning = false;
+  }
+  spiroRAF = requestAnimationFrame(step);
+}
+
+drawSpiroFull();
+
+/* ══════════════════════════════════════
+   WHITEBOARD
+══════════════════════════════════════ */
+const wb = document.getElementById('wb-canvas');
+const wctx = wb.getContext('2d');
+
+let wbHistory = [];
+let wbRedoStack = [];
+const WB_MAX_HISTORY = 50;
+
+function wbSaveState() {
+  wbHistory.push(wctx.getImageData(0, 0, wb.width, wb.height));
+  if (wbHistory.length > WB_MAX_HISTORY) wbHistory.shift();
+  wbRedoStack = [];
+  updateUndoRedo();
+}
+
+function wbUndo() {
+  if (!wbHistory.length) return;
+  wbRedoStack.push(wctx.getImageData(0, 0, wb.width, wb.height));
+  wctx.putImageData(wbHistory.pop(), 0, 0);
+  updateUndoRedo();
+}
+
+function wbRedo() {
+  if (!wbRedoStack.length) return;
+  wbHistory.push(wctx.getImageData(0, 0, wb.width, wb.height));
+  wctx.putImageData(wbRedoStack.pop(), 0, 0);
+  updateUndoRedo();
+}
+
+function updateUndoRedo() {
+  document.getElementById('wb-undo').style.opacity = wbHistory.length ? '1' : '0.35';
+  document.getElementById('wb-redo').style.opacity = wbRedoStack.length ? '1' : '0.35';
+}
+
+function resizeWB(){
+  const w = wb.parentElement.clientWidth;
+  if (wb.width === w) return;
+  const imgData = wctx.getImageData(0, 0, wb.width, wb.height);
+  wb.width = w;
+  wctx.putImageData(imgData, 0, 0);
+}
+
+const colors = ['#ffffff','#ff6b35','#ffd166','#06d6a0','#118ab2','#ef476f','#9b5de5','#adb5bd'];
+let wbColor = '#ffffff';
+let wbSize = 3;
+let wbEraser = false;
+let drawing = false;
+let lastX, lastY;
+let wbMode = 'pen';
+
+const toolbar = document.getElementById('wb-toolbar');
+
+colors.forEach(c => {
+  const sw = document.createElement('div');
+  sw.className = 'color-swatch' + (c === wbColor ? ' selected' : '');
+  sw.style.background = c;
+  sw.onclick = () => {
+    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+    sw.classList.add('selected');
+    wbColor = c;
+    wbMode = 'pen';
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+    document.getElementById('wb-eraser').classList.remove('selected');
+  };
+  toolbar.appendChild(sw);
+});
+
+const sep1 = document.createElement('div'); sep1.className='wb-sep'; toolbar.appendChild(sep1);
+
+[['S',2],['M',5],['L',12]].forEach(([lbl, sz]) => {
+  const b = document.createElement('button');
+  b.className = 'size-btn' + (sz===3?' selected':'');
+  b.textContent = lbl;
+  b.onclick = () => {
+    wbSize = sz;
+    document.querySelectorAll('.size-btn').forEach(x => x.classList.remove('selected'));
+    b.classList.add('selected');
+  };
+  toolbar.appendChild(b);
+});
+
+const sep2 = document.createElement('div'); sep2.className='wb-sep'; toolbar.appendChild(sep2);
+
+const eraserBtn = document.createElement('button');
+eraserBtn.className='size-btn'; eraserBtn.id='wb-eraser'; eraserBtn.textContent='Eraser';
+eraserBtn.onclick = () => {
+  wbMode = wbMode === 'eraser' ? 'pen' : 'eraser';
+  eraserBtn.classList.toggle('selected', wbMode === 'eraser');
+};
+toolbar.appendChild(eraserBtn);
+
+const clearBtn = document.createElement('button');
+clearBtn.className='size-btn'; clearBtn.textContent='Clear';
+clearBtn.onclick = () => { wbSaveState(); wctx.clearRect(0, 0, wb.width, wb.height); };
+toolbar.appendChild(clearBtn);
+
+const sep3 = document.createElement('div'); sep3.className='wb-sep'; toolbar.appendChild(sep3);
+
+const undoBtn = document.createElement('button');
+undoBtn.className='size-btn'; undoBtn.id='wb-undo'; undoBtn.textContent='↩ Undo';
+undoBtn.style.opacity = '0.35';
+undoBtn.onclick = wbUndo;
+toolbar.appendChild(undoBtn);
+
+const redoBtn = document.createElement('button');
+redoBtn.className='size-btn'; redoBtn.id='wb-redo'; redoBtn.textContent='↪ Redo';
+redoBtn.style.opacity = '0.35';
+redoBtn.onclick = wbRedo;
+toolbar.appendChild(redoBtn);
+
+function getPos(e){
+  const rect = wb.getBoundingClientRect();
+  const scaleX = wb.width / rect.width;
+  const scaleY = wb.height / rect.height;
+  if(e.touches){
+    return {
+      x: (e.touches[0].clientX - rect.left) * scaleX,
+      y: (e.touches[0].clientY - rect.top) * scaleY
+    };
+  }
+  return {
+    x: (e.clientX - rect.left) * scaleX,
+    y: (e.clientY - rect.top) * scaleY
+  };
+}
+
+function startDraw(e){
+  e.preventDefault();
+  drawing = true;
+  const {x, y} = getPos(e);
+  lastX = x; lastY = y;
+  wbSaveState();
+}
+
+function draw(e){
+  if(!drawing) return;
+  e.preventDefault();
+  const {x, y} = getPos(e);
+  wctx.beginPath();
+  wctx.moveTo(lastX, lastY);
+  wctx.lineTo(x, y);
+  if(wbMode === 'eraser'){
+    wctx.globalCompositeOperation = 'destination-out';
+    wctx.strokeStyle = 'rgba(0,0,0,1)';
+    wctx.lineWidth = wbSize * 4;
+  } else {
+    wctx.globalCompositeOperation = 'source-over';
+    wctx.strokeStyle = wbColor;
+    wctx.lineWidth = wbSize;
+  }
+  wctx.lineCap = 'round';
+  wctx.lineJoin = 'round';
+  wctx.stroke();
+  lastX = x; lastY = y;
+}
+
+function endDraw(){ drawing = false; }
+
+wb.addEventListener('mousedown', startDraw);
+wb.addEventListener('mousemove', draw);
+wb.addEventListener('mouseup', endDraw);
+wb.addEventListener('mouseleave', endDraw);
+wb.addEventListener('touchstart', startDraw, {passive:false});
+wb.addEventListener('touchmove', draw, {passive:false});
+wb.addEventListener('touchend', endDraw);
+
+window.addEventListener('resize', resizeWB);
+resizeWB();
+
+/* ══════════════════════════════════════
+   TIMER / STOPWATCH
+══════════════════════════════════════ */
+let timerMode = 'stopwatch';
+let timerRunning = false;
+let timerInterval = null;
+let timerMs = 0;
+let countdownTotal = 0;
+let countdownMs = 0;
+let timerDone = false;
+
+const timerDisplay = document.getElementById('timer-display');
+const timerBtn = document.getElementById('timer-startstop');
+const timerModeBtn = document.getElementById('timer-mode-btn');
+const timerPresets = document.getElementById('timer-presets');
+
+function formatTimer(ms, showTenth) {
+  const h = Math.floor(ms / 3600000);
+  const m = Math.floor((ms % 3600000) / 60000);
+  const s = Math.floor((ms % 60000) / 1000);
+  const tenth = Math.floor((ms % 1000) / 100);
+  if (h > 0) return pad(h) + ':' + pad(m) + ':' + pad(s);
+  return pad(m) + ':' + pad(s) + (showTenth ? '.' + tenth : '');
+}
+
+function timerTick() {
+  if (timerMode === 'stopwatch') {
+    timerMs += 100;
+    timerDisplay.textContent = formatTimer(timerMs, true);
+  } else {
+    countdownMs -= 100;
+    if (countdownMs <= 0) {
+      countdownMs = 0;
+      timerDisplay.textContent = '00:00.0';
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerDone = true;
+      timerBtn.textContent = 'Start';
+      timerDisplay.className = 'timer-display done';
+      return;
+    }
+    timerDisplay.textContent = formatTimer(countdownMs, true);
+  }
+}
+
+function timerToggle() {
+  if (timerDone) { timerReset(); return; }
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    timerBtn.textContent = 'Resume';
+    timerDisplay.className = 'timer-display';
+  } else {
+    if (timerMode === 'countdown' && countdownMs <= 0 && countdownTotal > 0) {
+      countdownMs = countdownTotal * 1000;
+    }
+    timerRunning = true;
+    timerBtn.textContent = 'Pause';
+    timerDisplay.className = 'timer-display running';
+    timerInterval = setInterval(timerTick, 100);
+  }
+}
+
+function timerReset() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerDone = false;
+  timerMs = 0;
+  countdownMs = countdownTotal * 1000;
+  timerBtn.textContent = 'Start';
+  timerDisplay.className = 'timer-display';
+  timerDisplay.textContent = timerMode === 'stopwatch' ? '00:00.0' : formatTimer(countdownMs, true);
+}
+
+function timerSwitchMode() {
+  timerReset();
+  if (timerMode === 'stopwatch') {
+    timerMode = 'countdown';
+    timerModeBtn.textContent = 'Stopwatch';
+    timerPresets.style.display = 'flex';
+    timerDisplay.textContent = '00:00.0';
+  } else {
+    timerMode = 'stopwatch';
+    timerModeBtn.textContent = 'Countdown';
+    timerPresets.style.display = 'none';
+    timerDisplay.textContent = '00:00.0';
+  }
+}
+
+function timerSetPreset(seconds) {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerDone = false;
+  timerBtn.textContent = 'Start';
+  timerDisplay.className = 'timer-display';
+  countdownTotal = seconds;
+  countdownMs = seconds * 1000;
+  timerDisplay.textContent = formatTimer(countdownMs, false);
+}
+
+timerPresets.style.display = 'none';
+timerModeBtn.textContent = 'Countdown';
+
+/* ══════════════════════════════════════
+   NOTEPAD WITH AUTOSAVE
+══════════════════════════════════════ */
+const notepad = document.getElementById('notepad-area');
+const saveIndicator = document.getElementById('save-indicator');
+const saveLabel = document.getElementById('save-label');
+const notepadChars = document.getElementById('notepad-chars');
+const SAVE_KEY = 'hub_notepad_v1';
+let saveTimeout = null;
+
+function notepadLoad() {
+  try {
+    const saved = localStorage.getItem(SAVE_KEY);
+    if (saved) { notepad.value = saved; showSaved(); }
+  } catch(e) {}
+  updateCharCount();
+}
+
+function showSaved() {
+  saveIndicator.classList.add('saved');
+  saveLabel.textContent = 'Saved';
+}
+
+function showUnsaved() {
+  saveIndicator.classList.remove('saved');
+  saveLabel.textContent = 'Unsaved';
+}
+
+function updateCharCount() {
+  const len = notepad.value.length;
+  const words = notepad.value.trim() ? notepad.value.trim().split(/\s+/).length : 0;
+  notepadChars.textContent = len + ' chars \u00b7 ' + words + ' words';
+}
+
+notepad.addEventListener('input', () => {
+  updateCharCount();
+  showUnsaved();
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => {
+    try { localStorage.setItem(SAVE_KEY, notepad.value); showSaved(); } catch(e) {}
+  }, 1000);
+});
+
+function notepadCopy() {
+  navigator.clipboard.writeText(notepad.value).catch(() => {});
+}
+
+function notepadClear() {
+  if (!notepad.value || confirm('Clear all notes?')) {
+    notepad.value = '';
+    updateCharCount();
+    try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+    showUnsaved();
+  }
+}
+
+notepadLoad();
+
+/* ══════════════════════════════════════
+   CALCULATOR
+══════════════════════════════════════ */
+let calcCurrent = '0';
+let calcPrev = '';
+let calcOperator = null;
+let calcJustEvaled = false;
+
+const calcExprEl = document.getElementById('calc-expr');
+const calcResultEl = document.getElementById('calc-result');
+
+function calcRefresh() {
+  calcResultEl.textContent = calcCurrent.length > 12
+    ? parseFloat(calcCurrent).toExponential(4)
+    : calcCurrent;
+}
+
+function calcNum(n) {
+  if (calcJustEvaled) { calcCurrent = '0'; calcJustEvaled = false; }
+  if (calcCurrent === '0' && n !== '.') calcCurrent = n;
+  else if (calcCurrent.length < 14) calcCurrent += n;
+  calcRefresh();
+}
+
+function calcDot() {
+  if (calcJustEvaled) { calcCurrent = '0'; calcJustEvaled = false; }
+  if (!calcCurrent.includes('.')) calcCurrent += '.';
+  calcRefresh();
+}
+
+function calcOp(op) {
+  calcJustEvaled = false;
+  if (calcOperator && calcPrev !== '') calcEquals(true);
+  calcPrev = calcCurrent;
+  calcOperator = op;
+  calcCurrent = '0';
+  calcExprEl.textContent = calcPrev + ' ' + op;
+}
+
+function calcEquals(chain) {
+  if (!calcOperator || calcPrev === '') return;
+  const a = parseFloat(calcPrev), b = parseFloat(calcCurrent);
+  let result;
+  if (calcOperator === '+') result = a + b;
+  else if (calcOperator === '\u2212') result = a - b;
+  else if (calcOperator === '\u00d7') result = a * b;
+  else if (calcOperator === '\u00f7') result = b === 0 ? 'Error' : a / b;
+  else if (calcOperator === '%') result = a * b / 100;
+  if (result === 'Error') {
+    calcExprEl.textContent = calcPrev + ' ' + calcOperator + ' ' + calcCurrent + ' =';
+    calcCurrent = 'Error';
+    calcOperator = null; calcPrev = '';
+    calcRefresh(); return;
+  }
+  const r = parseFloat(result.toFixed(10));
+  if (!chain) {
+    calcExprEl.textContent = calcPrev + ' ' + calcOperator + ' ' + calcCurrent + ' =';
+    calcOperator = null; calcPrev = '';
+    calcJustEvaled = true;
+  }
+  calcCurrent = String(r);
+  calcRefresh();
+}
+
+function calcClear() {
+  calcCurrent = '0'; calcPrev = ''; calcOperator = null; calcJustEvaled = false;
+  calcExprEl.innerHTML = '&nbsp;';
+  calcRefresh();
+}
+
+function calcBackspace() {
+  if (calcJustEvaled) { calcClear(); return; }
+  calcCurrent = calcCurrent.length > 1 ? calcCurrent.slice(0, -1) : '0';
+  calcRefresh();
+}
+
+function calcNegate() {
+  if (calcCurrent === '0') return;
+  calcCurrent = calcCurrent.startsWith('-') ? calcCurrent.slice(1) : '-' + calcCurrent;
+  calcRefresh();
+}
+
+function calcSqrt() {
+  const n = parseFloat(calcCurrent);
+  calcExprEl.textContent = '\u221a' + calcCurrent;
+  calcCurrent = n < 0 ? 'Error' : String(parseFloat(Math.sqrt(n).toFixed(10)));
+  calcJustEvaled = true;
+  calcRefresh();
+}
+
+document.addEventListener('keydown', e => {
+  if (document.activeElement === notepad) return;
+  const k = e.key;
+  if (k >= '0' && k <= '9') calcNum(k);
+  else if (k === '.') calcDot();
+  else if (k === '+') calcOp('+');
+  else if (k === '-') calcOp('\u2212');
+  else if (k === '*') calcOp('\u00d7');
+  else if (k === '/') { e.preventDefault(); calcOp('\u00f7'); }
+  else if (k === 'Enter' || k === '=') calcEquals();
+  else if (k === 'Backspace') calcBackspace();
+  else if (k === 'Escape') calcClear();
+  if ((e.ctrlKey || e.metaKey) && k === 'z' && !e.shiftKey) { e.preventDefault(); wbUndo(); }
+  if ((e.ctrlKey || e.metaKey) && (k === 'y' || (k === 'z' && e.shiftKey))) { e.preventDefault(); wbRedo(); }
+});
+
+/* ══════════════════════════════════════
+   THEME TOGGLE
+══════════════════════════════════════ */
+let isDark = true;
+
+function toggleTheme() {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
+  document.getElementById('theme-label').textContent = isDark ? 'Light' : 'Dark';
+  // Update whiteboard canvas bg visually
+  wb.style.background = isDark ? '#111115' : '#f8f8ff';
+}
+
+// Initialize dark theme
+document.documentElement.setAttribute('data-theme', 'dark');
+
+/* ══════════════════════════════════════
+   RANDOM NUMBER GENERATOR
+══════════════════════════════════════ */
+let rngCount = 5;
+
+function rngAdjust(delta) {
+  rngCount = Math.max(1, Math.min(50, rngCount + delta));
+  document.getElementById('rng-count-val').textContent = rngCount;
+}
+
+function rngGetExcluded() {
+  const raw = document.getElementById('rng-exclude').value;
+  return raw.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n));
+}
+
+function rngGenerate() {
+  const min = parseInt(document.getElementById('rng-min').value);
+  const max = parseInt(document.getElementById('rng-max').value);
+  const excluded = new Set(rngGetExcluded());
+  const results = document.getElementById('rng-results');
+
+  if (isNaN(min) || isNaN(max) || min > max) {
+    results.innerHTML = '<span style="color:var(--accent);font-size:0.8rem;">Invalid range</span>';
+    return;
+  }
+
+  // Build pool of available numbers
+  const pool = [];
+  for (let i = min; i <= max; i++) {
+    if (!excluded.has(i)) pool.push(i);
+  }
+
+  if (pool.length === 0) {
+    results.innerHTML = '<span style="color:var(--muted);font-size:0.78rem;letter-spacing:0.1em;">No numbers available in range</span>';
+    return;
+  }
+
+  const nums = [];
+  for (let i = 0; i < rngCount; i++) {
+    nums.push(pool[Math.floor(Math.random() * pool.length)]);
+  }
+
+  results.innerHTML = nums.map(n =>
+    `<span class="rng-chip">${n}</span>`
+  ).join('');
+}
+
+/* ══════════════════════════════════════
+   PASSWORD GENERATOR
+══════════════════════════════════════ */
+const PW_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const PW_LOWER = 'abcdefghijklmnopqrstuvwxyz';
+const PW_NUMS  = '0123456789';
+const PW_SYMS  = '!@#$%^&*()-_=+[]{}|;:,.<>?';
+
+function pwUpdate() {
+  ['upper','lower','nums','syms'].forEach(k => {
+    document.getElementById('pw-' + k + '-val').textContent =
+      document.getElementById('pw-' + k).value;
+  });
+  const total = ['upper','lower','nums','syms']
+    .reduce((s, k) => s + parseInt(document.getElementById('pw-' + k).value), 0);
+  document.getElementById('pw-total').textContent = total + ' chars';
+}
+
+function pwShuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function pwRandFrom(charset, n) {
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(charset[Math.floor(Math.random() * charset.length)]);
+  return arr;
+}
+
+function pwStrength(total, types) {
+  let score = 0;
+  if (total >= 8) score++;
+  if (total >= 12) score++;
+  if (total >= 16) score++;
+  if (types >= 2) score++;
+  if (types >= 3) score++;
+  if (types >= 4) score++;
+  const labels = ['', 'Weak', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
+  const colors = ['', '#ef476f', '#ef476f', '#ffd166', '#06d6a0', '#06d6a0', '#118ab2'];
+  return { pct: Math.round((score / 6) * 100), label: labels[score] || '—', color: colors[score] || '#555' };
+}
+
+function pwGenerate() {
+  const upper = parseInt(document.getElementById('pw-upper').value);
+  const lower = parseInt(document.getElementById('pw-lower').value);
+  const nums  = parseInt(document.getElementById('pw-nums').value);
+  const syms  = parseInt(document.getElementById('pw-syms').value);
+  const total = upper + lower + nums + syms;
+
+  if (total === 0) {
+    document.getElementById('pw-text').textContent = '—';
+    return;
+  }
+
+  const chars = pwShuffle([
+    ...pwRandFrom(PW_UPPER, upper),
+    ...pwRandFrom(PW_LOWER, lower),
+    ...pwRandFrom(PW_NUMS, nums),
+    ...pwRandFrom(PW_SYMS, syms)
+  ]);
+
+  const pw = chars.join('');
+  document.getElementById('pw-text').textContent = pw;
+
+  const typesUsed = [upper, lower, nums, syms].filter(v => v > 0).length;
+  const s = pwStrength(total, typesUsed);
+  const fill = document.getElementById('pw-strength-fill');
+  fill.style.width = s.pct + '%';
+  fill.style.background = s.color;
+  document.getElementById('pw-strength-label').textContent = s.label;
+  document.getElementById('pw-total').textContent = total + ' chars';
+}
+
+function pwCopy() {
+  const text = document.getElementById('pw-text').textContent;
+  if (text && text !== '—') {
+    navigator.clipboard.writeText(text).catch(() => {});
+    const btn = document.querySelector('.pw-copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  }
+}
+
+// Init password display
+pwUpdate();
+pwGenerate();
+
+/* ══════════════════════════════════════
+   CASE CONVERTER
+══════════════════════════════════════ */
+let caseMode = 'snake';
+
+function caseSetMode(mode, el) {
+  caseMode = mode;
+  document.querySelectorAll('.case-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  caseConvert();
+}
+
+function caseConvert() {
+  const input = document.getElementById('case-input').value;
+  const out = document.getElementById('case-output');
+  if (!input.trim()) { out.textContent = '—'; return; }
+
+  // Tokenize: split on whitespace, underscores, hyphens, camelCase boundaries
+  const words = input
+    .replace(/([a-z])([A-Z])/g, '$1 $2')   // camel split
+    .replace(/[-_]+/g, ' ')                 // dash/underscore to space
+    .split(/\s+/)
+    .filter(Boolean);
+
+  let result = '';
+  switch (caseMode) {
+    case 'snake':  result = words.map(w => w.toLowerCase()).join('_'); break;
+    case 'kebab':  result = words.map(w => w.toLowerCase()).join('-'); break;
+    case 'lower':  result = input.toLowerCase(); break;
+    case 'upper':  result = input.toUpperCase(); break;
+    case 'title':  result = words.map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' '); break;
+    case 'camel':
+      result = words.map((w, i) =>
+        i === 0 ? w.toLowerCase() : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()
+      ).join('');
+      break;
+  }
+  out.textContent = result;
+}
+
+function caseCopy() {
+  const text = document.getElementById('case-output').textContent;
+  if (text && text !== '—') {
+    navigator.clipboard.writeText(text).catch(() => {});
+    const btn = document.getElementById('case-copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  }
+}
+
+/* ══════════════════════════════════════
+   WORD COUNTER
+══════════════════════════════════════ */
+function wcUpdate() {
+  const text = document.getElementById('wc-area').value;
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const chars = text.length;
+  const nospace = text.replace(/\s/g, '').length;
+  const sents = text.trim() ? (text.match(/[.!?]+/g) || []).length : 0;
+  const paras = text.trim() ? text.split(/\n\s*\n/).filter(p => p.trim()).length : 0;
+  const wordArr = text.trim() ? text.trim().split(/\s+/) : [];
+  const avgLen = wordArr.length ? (wordArr.reduce((s, w) => s + w.replace(/[^a-zA-Z]/g,'').length, 0) / wordArr.length).toFixed(1) : '—';
+  const readSecs = words ? Math.ceil(words / 200 * 60) : 0;
+  const readTime = readSecs ? (readSecs < 60 ? readSecs + 's' : Math.floor(readSecs/60) + 'm ' + (readSecs%60) + 's') : '—';
+
+  document.getElementById('wc-words').textContent = words;
+  document.getElementById('wc-chars').textContent = chars;
+  document.getElementById('wc-sents').textContent = sents;
+  document.getElementById('wc-nospace').textContent = nospace;
+  document.getElementById('wc-paras').textContent = paras || (text.trim() ? 1 : 0);
+  document.getElementById('wc-avgword').textContent = avgLen === '—' ? '—' : avgLen + ' chars';
+  document.getElementById('wc-readtime').textContent = readTime;
+}
+
+/* ══════════════════════════════════════
+   RANDOM COLOR GENERATOR
+══════════════════════════════════════ */
+let colorHistory = [];
+let colorActive = 0;
+
+function hexToRgb(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
+function rgbToHsl(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r,g,b), min = Math.min(r,g,b);
+  let h, s, l = (max + min) / 2;
+  if (max === min) { h = s = 0; }
+  else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+      case g: h = ((b - r) / d + 2) / 6; break;
+      case b: h = ((r - g) / d + 4) / 6; break;
+    }
+  }
+  return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
+}
+
+function colorRandHex() {
+  return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6,'0').toUpperCase();
+}
+
+function colorSetActive(idx) {
+  colorActive = idx;
+  const hex = colorHistory[idx];
+  const [r,g,b] = hexToRgb(hex);
+  const [h,s,l] = rgbToHsl(r,g,b);
+  document.getElementById('color-swatch-big').style.background = hex;
+  document.getElementById('color-hex').textContent = hex;
+  document.getElementById('color-rgb').textContent = r + ', ' + g + ', ' + b;
+  document.getElementById('color-hsl').textContent = h + '°, ' + s + '%, ' + l + '%';
+  document.querySelectorAll('.color-palette-swatch').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+}
+
+function colorGenerate() {
+  const hex = colorRandHex();
+  if (colorHistory.length >= 7) colorHistory.shift();
+  colorHistory.push(hex);
+  colorRenderPalette();
+  colorSetActive(colorHistory.length - 1);
+}
+
+function colorRenderPalette() {
+  const row = document.getElementById('color-palette');
+  row.innerHTML = '';
+  colorHistory.forEach((hex, i) => {
+    const el = document.createElement('div');
+    el.className = 'color-palette-swatch';
+    el.style.background = hex;
+    el.title = hex;
+    el.onclick = () => colorSetActive(i);
+    row.appendChild(el);
+  });
+}
+
+function colorCopy(type) {
+  let text = '';
+  if (type === 'hex') text = document.getElementById('color-hex').textContent;
+  else if (type === 'rgb') text = 'rgb(' + document.getElementById('color-rgb').textContent + ')';
+  else text = 'hsl(' + document.getElementById('color-hsl').textContent + ')';
+
+  navigator.clipboard.writeText(text).catch(() => {});
+  const toast = document.getElementById('toast-' + type);
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1200);
+}
+
+// Init color generator with starting color
+colorHistory.push('#FF6B35');
+colorRenderPalette();
+colorSetActive(0);
+
+/* ══════════════════════════════════════
+   UNIT CONVERTER
+══════════════════════════════════════ */
+const UNIT_CATS = {
+  length: {
+    units: ['mm','cm','m','km','in','ft','yd','mi','nm'],
+    toBase: { mm:0.001, cm:0.01, m:1, km:1000, in:0.0254, ft:0.3048, yd:0.9144, mi:1609.344, nm:1e-9 }
+  },
+  weight: {
+    units: ['mg','g','kg','t','oz','lb','st'],
+    toBase: { mg:0.000001, g:0.001, kg:1, t:1000, oz:0.0283495, lb:0.453592, st:6.35029 }
+  },
+  temp: {
+    units: ['°C','°F','K'],
+    toBase: null // handled specially
+  },
+  volume: {
+    units: ['ml','l','fl oz','cup','pt','qt','gal','tsp','tbsp'],
+    toBase: { ml:0.001, l:1, 'fl oz':0.0295735, cup:0.236588, pt:0.473176, qt:0.946353, gal:3.78541, tsp:0.00492892, tbsp:0.0147868 }
+  },
+  speed: {
+    units: ['m/s','km/h','mph','knot','ft/s'],
+    toBase: { 'm/s':1, 'km/h':1/3.6, mph:0.44704, knot:0.514444, 'ft/s':0.3048 }
+  },
+  data: {
+    units: ['bit','B','KB','MB','GB','TB','PB'],
+    toBase: { bit:1/8, B:1, KB:1024, MB:1048576, GB:1073741824, TB:1099511627776, PB:1.12589990684e15 }
+  }
+};
+
+let unitCat = 'length';
+
+function unitSetCat(cat, el) {
+  unitCat = cat;
+  document.querySelectorAll('.unit-cat-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  unitPopulateSelects();
+  unitConvert();
+}
+
+function unitPopulateSelects() {
+  const { units } = UNIT_CATS[unitCat];
+  const fromSel = document.getElementById('unit-from-sel');
+  const toSel = document.getElementById('unit-to-sel');
+  const buildOptions = (sel, defaultIdx) => {
+    sel.innerHTML = units.map((u, i) =>
+      `<option value="${u}" ${i === defaultIdx ? 'selected' : ''}>${u}</option>`
+    ).join('');
+  };
+  buildOptions(fromSel, 0);
+  buildOptions(toSel, unitCat === 'temp' ? 1 : 2);
+}
+
+function unitConvert() {
+  const fromVal = parseFloat(document.getElementById('unit-from-val').value);
+  const from = document.getElementById('unit-from-sel').value;
+  const to = document.getElementById('unit-to-sel').value;
+  const resultEl = document.getElementById('unit-result');
+
+  if (isNaN(fromVal)) { resultEl.textContent = '—'; return; }
+
+  let result;
+  if (unitCat === 'temp') {
+    // Convert to Celsius first
+    let celsius;
+    if (from === '°C') celsius = fromVal;
+    else if (from === '°F') celsius = (fromVal - 32) * 5/9;
+    else celsius = fromVal - 273.15; // K
+    // Then to target
+    if (to === '°C') result = celsius;
+    else if (to === '°F') result = celsius * 9/5 + 32;
+    else result = celsius + 273.15;
+  } else {
+    const { toBase } = UNIT_CATS[unitCat];
+    result = fromVal * toBase[from] / toBase[to];
+  }
+
+  // Smart formatting
+  const abs = Math.abs(result);
+  let formatted;
+  if (abs === 0) formatted = '0';
+  else if (abs >= 1e12 || abs < 1e-6) formatted = result.toExponential(4);
+  else if (abs >= 100) formatted = parseFloat(result.toFixed(4)).toString();
+  else formatted = parseFloat(result.toFixed(6)).toString();
+
+  resultEl.textContent = formatted + ' ' + to;
+}
+
+function unitSwap() {
+  const fromSel = document.getElementById('unit-from-sel');
+  const toSel = document.getElementById('unit-to-sel');
+  const tmp = fromSel.value;
+  fromSel.value = toSel.value;
+  toSel.value = tmp;
+  unitConvert();
+}
+
+// Init unit converter
+unitPopulateSelects();
+unitConvert();
+
+/* ══════════════════════════════════════
+   BASE64 ENCODER / DECODER
+══════════════════════════════════════ */
+let b64Mode = 'encode';
+
+function b64SetMode(mode, el) {
+  b64Mode = mode;
+  document.querySelectorAll('.b64-mode-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  const area = document.getElementById('b64-input');
+  area.placeholder = mode === 'encode' ? 'Enter text to encode…' : 'Enter Base64 to decode…';
+  b64Convert();
+}
+
+function b64Convert() {
+  const input = document.getElementById('b64-input').value;
+  const outEl = document.getElementById('b64-output');
+  const lenEl = document.getElementById('b64-len');
+
+  if (!input) {
+    outEl.textContent = '—';
+    outEl.className = 'b64-output';
+    lenEl.textContent = '0 chars in / 0 chars out';
+    return;
+  }
+
+  let result;
+  try {
+    if (b64Mode === 'encode') {
+      result = btoa(unescape(encodeURIComponent(input)));
+    } else {
+      result = decodeURIComponent(escape(atob(input.trim())));
+    }
+    outEl.textContent = result;
+    outEl.className = 'b64-output';
+    lenEl.textContent = input.length + ' chars in / ' + result.length + ' chars out';
+  } catch(e) {
+    outEl.textContent = b64Mode === 'decode' ? 'Invalid Base64 string' : 'Encoding error';
+    outEl.className = 'b64-output b64-error';
+    lenEl.textContent = '—';
+  }
+}
+
+function b64Copy() {
+  const text = document.getElementById('b64-output').textContent;
+  if (text && text !== '—' && !document.getElementById('b64-output').classList.contains('b64-error')) {
+    navigator.clipboard.writeText(text).catch(() => {});
+    const btn = event.target;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  }
+}
+
+
+
+</script>
+</body>
+</html>

@@ -1051,6 +1051,120 @@
     text-transform: uppercase;
   }
 
+  /* ── JSON FORMATTER ── */
+  .json-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.7rem; }
+  .json-mode-row { display: flex; gap: 0.4rem; }
+  .json-mode-btn {
+    flex: 1; background: var(--surface2); border: 1px solid var(--border);
+    color: var(--muted); font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.4rem 0; border-radius: 8px; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .json-mode-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .json-mode-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.08); }
+  .json-textarea {
+    width: 100%; min-height: 130px; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; color: var(--text); font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem; line-height: 1.6; padding: 0.75rem 1rem; outline: none;
+    transition: border-color 0.2s; resize: vertical;
+  }
+  .json-textarea:focus { border-color: rgba(255,209,102,0.3); }
+  .json-textarea::placeholder { color: var(--muted); opacity: 0.6; }
+  .json-output {
+    width: 100%; min-height: 110px; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 0.75rem 1rem; word-break: break-all;
+    white-space: pre-wrap; font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem; line-height: 1.6; color: var(--accent2);
+    user-select: all; cursor: text;
+  }
+  .json-output.json-ok { border-color: rgba(6,214,160,0.25); }
+  .json-output.json-err { color: #ef476f !important; border-color: rgba(239,71,111,0.25); }
+  .json-footer { display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.68rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .json-status { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .json-status.ok { color: #06d6a0; }
+  .json-status.err { color: #ef476f; }
+
+  /* ── POMODORO ── */
+  .pom-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 0.9rem; }
+  .pom-mode-row { display: flex; gap: 0.4rem; }
+  .pom-mode-btn {
+    background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+    font-family: 'Share Tech Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 7px; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .pom-mode-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .pom-mode-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.08); }
+  .pom-ring-wrap { position: relative; width: 160px; height: 160px; }
+  .pom-svg { width: 160px; height: 160px; transform: rotate(-90deg); }
+  .pom-track { fill: none; stroke: var(--surface2); stroke-width: 8; }
+  .pom-progress { fill: none; stroke-width: 8; stroke-linecap: round;
+    transition: stroke-dashoffset 0.9s linear, stroke 0.4s; }
+  .pom-time-text {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-family: 'Share Tech Mono', monospace; font-size: 2.2rem;
+    color: var(--accent); letter-spacing: 0.04em; line-height: 1;
+  }
+  .pom-label { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .pom-controls { display: flex; gap: 0.5rem; }
+  .pom-session-row { display: flex; gap: 1.5rem; font-size: 0.72rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); }
+  .pom-session-val { font-family: 'Share Tech Mono', monospace; font-size: 1rem; color: var(--accent2); }
+  .pom-alert { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); min-height: 1.2em; text-align: center; transition: color 0.3s; }
+  .pom-alert.active { color: #06d6a0; }
+
+  /* ── SNAKE GAME ── */
+  .snake-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+  #snake-canvas { border-radius: 8px; border: 1px solid var(--border); background: var(--surface2);
+    image-rendering: pixelated; max-width: 100%; }
+  .snake-info-row { display: flex; gap: 1.5rem; font-size: 0.72rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); align-items: center; }
+  .snake-info-val { font-family: 'Share Tech Mono', monospace; font-size: 1rem; color: var(--accent2); }
+  .snake-status { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); text-align: center; min-height: 1.2em; }
+  .snake-dpad { display: grid; grid-template-columns: repeat(3, 38px); grid-template-rows: repeat(3, 38px); gap: 4px; }
+  .snake-dpad-btn {
+    background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+    font-size: 0.95rem; border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.15s, background 0.15s; user-select: none;
+  }
+  .snake-dpad-btn:hover { border-color: var(--accent); background: rgba(255,107,53,0.08); }
+  .snake-dpad-btn:active { background: rgba(255,107,53,0.2); }
+
+  /* ── SIMON SAYS ── */
+  .simon-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 0.85rem; }
+  .simon-board { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 200px; height: 200px; border-radius: 50%; overflow: hidden; position: relative; }
+  .simon-pad {
+    cursor: pointer; transition: filter 0.12s, transform 0.12s;
+    border: none; outline: none;
+  }
+  .simon-pad:nth-child(1) { background: #2d8a3e; border-radius: 100% 0 0 0; }
+  .simon-pad:nth-child(2) { background: #a02020; border-radius: 0 100% 0 0; }
+  .simon-pad:nth-child(3) { background: #1a52a0; border-radius: 0 0 0 100%; }
+  .simon-pad:nth-child(4) { background: #c4940a; border-radius: 0 0 100% 0; }
+  .simon-pad.flash:nth-child(1) { background: #4ddd66; filter: brightness(1.6); }
+  .simon-pad.flash:nth-child(2) { background: #ff5555; filter: brightness(1.6); }
+  .simon-pad.flash:nth-child(3) { background: #4488ff; filter: brightness(1.6); }
+  .simon-pad.flash:nth-child(4) { background: #ffcc22; filter: brightness(1.6); }
+  .simon-pad.dim { filter: brightness(0.4); }
+  .simon-center {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--surface); border: 3px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Share Tech Mono', monospace; font-size: 1.2rem; color: var(--accent);
+    pointer-events: none;
+  }
+  .simon-status { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); text-align: center; min-height: 1.2em; }
+  .simon-score-row { display: flex; gap: 1.5rem; font-size: 0.72rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); }
+  .simon-score-val { font-family: 'Share Tech Mono', monospace; font-size: 1rem; color: var(--accent); }
+
 </style>
 </head>
 <body>
@@ -1061,7 +1175,7 @@
 </button>
 
 <h1>Interactive Hub</h1>
-<p class="subtitle">Clock · Newton's Cradle · Spirograph · Whiteboard · Timer · Notepad · Calculator · RNG · Password · Case Converter · Word Counter · Color Generator · Unit Converter · Base64 · Games</p>
+<p class="subtitle">Clock · Newton's Cradle · Spirograph · Whiteboard · Timer · Notepad · Calculator · RNG · Password · Case · Word Counter · Color · Unit Converter · Base64 · JSON · Pomodoro · Games</p>
 
 <div class="grid">
 
@@ -1386,6 +1500,56 @@
     </div>
   </div>
 
+  <!-- JSON FORMATTER -->
+  <div class="card">
+    <div class="card-title">JSON Formatter / Validator</div>
+    <div class="json-wrap">
+      <div class="json-mode-row">
+        <button class="json-mode-btn active" id="json-fmt-btn" onclick="jsonSetMode('format',this)">Format</button>
+        <button class="json-mode-btn" id="json-min-btn" onclick="jsonSetMode('minify',this)">Minify</button>
+        <button class="json-mode-btn" id="json-val-btn" onclick="jsonSetMode('validate',this)">Validate</button>
+      </div>
+      <textarea class="json-textarea" id="json-input" placeholder='Paste JSON here… {"key":"value"}' oninput="jsonProcess()"></textarea>
+      <div class="json-output" id="json-output">—</div>
+      <div class="json-footer">
+        <span class="json-status" id="json-status">—</span>
+        <button class="case-copy-btn" onclick="jsonCopy()">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POMODORO TIMER -->
+  <div class="card">
+    <div class="card-title">Pomodoro Timer</div>
+    <div class="pom-wrap">
+      <div class="pom-mode-row">
+        <button class="pom-mode-btn active" id="pom-work-btn" onclick="pomSetMode('work',this)">Work · 25m</button>
+        <button class="pom-mode-btn" id="pom-short-btn" onclick="pomSetMode('short',this)">Short · 5m</button>
+        <button class="pom-mode-btn" id="pom-long-btn" onclick="pomSetMode('long',this)">Long · 15m</button>
+      </div>
+      <div class="pom-ring-wrap">
+        <svg class="pom-svg" viewBox="0 0 160 160">
+          <circle class="pom-track" cx="80" cy="80" r="68"/>
+          <circle class="pom-progress" id="pom-ring" cx="80" cy="80" r="68"
+            stroke="var(--accent)"
+            stroke-dasharray="427.26"
+            stroke-dashoffset="0"/>
+        </svg>
+        <div class="pom-time-text" id="pom-time">25:00</div>
+      </div>
+      <div class="pom-label" id="pom-mode-label">Focus Session</div>
+      <div class="pom-controls">
+        <button class="btn" id="pom-start-btn" onclick="pomToggle()">Start</button>
+        <button class="btn" onclick="pomReset()">Reset</button>
+      </div>
+      <div class="pom-session-row">
+        <span>Sessions <span class="pom-session-val" id="pom-sessions">0</span></span>
+        <span>Completed <span class="pom-session-val" id="pom-completed">0</span></span>
+      </div>
+      <div class="pom-alert" id="pom-alert"></div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ════════════════════════════════════════
@@ -1512,6 +1676,52 @@
         <div></div>
       </div>
       <button class="btn" onclick="mazeGenerate()">New Maze</button>
+    </div>
+  </div>
+
+  <!-- SNAKE -->
+  <div class="card">
+    <div class="card-title">Snake</div>
+    <div class="snake-wrap">
+      <canvas id="snake-canvas" width="280" height="280"></canvas>
+      <div class="snake-info-row">
+        <span>Score <span class="snake-info-val" id="snake-score">0</span></span>
+        <span>Best <span class="snake-info-val" id="snake-best">0</span></span>
+        <span>Speed <span class="snake-info-val" id="snake-speed">1</span></span>
+      </div>
+      <div class="snake-status" id="snake-status">Press Start or tap below to play</div>
+      <div class="snake-dpad">
+        <div></div>
+        <button class="snake-dpad-btn" onclick="snakeDir(0,-1)" title="Up">▲</button>
+        <div></div>
+        <button class="snake-dpad-btn" onclick="snakeDir(-1,0)" title="Left">◀</button>
+        <div></div>
+        <button class="snake-dpad-btn" onclick="snakeDir(1,0)" title="Right">▶</button>
+        <div></div>
+        <button class="snake-dpad-btn" onclick="snakeDir(0,1)" title="Down">▼</button>
+        <div></div>
+      </div>
+      <button class="btn" id="snake-start-btn" onclick="snakeStart()">Start</button>
+    </div>
+  </div>
+
+  <!-- SIMON SAYS -->
+  <div class="card">
+    <div class="card-title">Simon Says</div>
+    <div class="simon-wrap">
+      <div class="simon-board" id="simon-board">
+        <button class="simon-pad" id="simon-0" onclick="simonPress(0)"></button>
+        <button class="simon-pad" id="simon-1" onclick="simonPress(1)"></button>
+        <button class="simon-pad" id="simon-2" onclick="simonPress(2)"></button>
+        <button class="simon-pad" id="simon-3" onclick="simonPress(3)"></button>
+        <div class="simon-center" id="simon-center">▶</div>
+      </div>
+      <div class="simon-status" id="simon-status">Press Start to begin</div>
+      <div class="simon-score-row">
+        <span>Round <span class="simon-score-val" id="simon-round">0</span></span>
+        <span>Best <span class="simon-score-val" id="simon-best">0</span></span>
+      </div>
+      <button class="btn" id="simon-start-btn" onclick="simonStart()">Start</button>
     </div>
   </div>
 
@@ -3152,6 +3362,386 @@ document.addEventListener('keydown', function(e) {
 mazeGenerate();
 
 
+
+/* ══════════════════════════════════════
+   JSON FORMATTER / VALIDATOR
+══════════════════════════════════════ */
+let jsonMode = 'format';
+
+function jsonSetMode(mode, btn) {
+  jsonMode = mode;
+  document.querySelectorAll('.json-mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const ph = { format: 'Paste JSON here… {"key":"value"}', minify: 'Paste JSON to minify…', validate: 'Paste JSON to validate…' };
+  document.getElementById('json-input').placeholder = ph[mode];
+  jsonProcess();
+}
+
+function jsonProcess() {
+  const raw = document.getElementById('json-input').value.trim();
+  const out = document.getElementById('json-output');
+  const status = document.getElementById('json-status');
+  if (!raw) { out.textContent = '—'; out.className = 'json-output'; status.textContent = '—'; status.className = 'json-status'; return; }
+  try {
+    const parsed = JSON.parse(raw);
+    out.classList.remove('json-err');
+    out.classList.add('json-ok');
+    if (jsonMode === 'format') {
+      out.textContent = JSON.stringify(parsed, null, 2);
+      const lines = out.textContent.split('\n').length;
+      status.textContent = `✓ Valid · ${lines} lines`;
+    } else if (jsonMode === 'minify') {
+      out.textContent = JSON.stringify(parsed);
+      const saved = raw.length - out.textContent.length;
+      status.textContent = `✓ Minified · saved ${saved} chars`;
+    } else {
+      out.textContent = '✓  Valid JSON';
+      const keys = countKeys(parsed);
+      status.textContent = `✓ Valid · ${keys} keys`;
+    }
+    status.className = 'json-status ok';
+  } catch(e) {
+    out.textContent = '✕  ' + e.message;
+    out.className = 'json-output json-err';
+    status.textContent = '✕ Invalid JSON';
+    status.className = 'json-status err';
+  }
+}
+
+function countKeys(obj, count = 0) {
+  if (typeof obj === 'object' && obj !== null) {
+    for (const k in obj) { count++; count = countKeys(obj[k], count); }
+  }
+  return count;
+}
+
+function jsonCopy() {
+  const txt = document.getElementById('json-output').textContent;
+  if (txt === '—' || txt.startsWith('✕')) return;
+  navigator.clipboard.writeText(txt).catch(() => {});
+}
+
+/* ══════════════════════════════════════
+   POMODORO TIMER
+══════════════════════════════════════ */
+const POM_MODES = {
+  work:  { label: 'Focus Session', duration: 25 * 60, color: 'var(--accent)' },
+  short: { label: 'Short Break',   duration:  5 * 60, color: '#06d6a0' },
+  long:  { label: 'Long Break',    duration: 15 * 60, color: '#4488ff' }
+};
+const POM_CIRC = 2 * Math.PI * 68; // 427.26
+
+let pomCurrentMode = 'work';
+let pomSecondsLeft = POM_MODES.work.duration;
+let pomRunning = false;
+let pomInterval = null;
+let pomSessions = 0;
+let pomCompleted = 0;
+
+function pomSetMode(mode, btn) {
+  document.querySelectorAll('.pom-mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  pomCurrentMode = mode;
+  pomReset();
+}
+
+function pomReset() {
+  clearInterval(pomInterval);
+  pomRunning = false;
+  pomSecondsLeft = POM_MODES[pomCurrentMode].duration;
+  document.getElementById('pom-start-btn').textContent = 'Start';
+  document.getElementById('pom-mode-label').textContent = POM_MODES[pomCurrentMode].label;
+  document.getElementById('pom-alert').textContent = '';
+  document.getElementById('pom-alert').classList.remove('active');
+  pomRender();
+}
+
+function pomToggle() {
+  if (pomRunning) {
+    clearInterval(pomInterval);
+    pomRunning = false;
+    document.getElementById('pom-start-btn').textContent = 'Resume';
+    document.getElementById('pom-alert').textContent = 'Paused';
+    document.getElementById('pom-alert').classList.remove('active');
+  } else {
+    pomRunning = true;
+    document.getElementById('pom-start-btn').textContent = 'Pause';
+    document.getElementById('pom-alert').textContent = '';
+    pomSessions++;
+    document.getElementById('pom-sessions').textContent = pomSessions;
+    pomInterval = setInterval(() => {
+      if (pomSecondsLeft <= 0) {
+        clearInterval(pomInterval);
+        pomRunning = false;
+        pomCompleted++;
+        document.getElementById('pom-completed').textContent = pomCompleted;
+        document.getElementById('pom-start-btn').textContent = 'Start';
+        const alertEl = document.getElementById('pom-alert');
+        alertEl.textContent = pomCurrentMode === 'work' ? '🎉 Session complete! Take a break.' : '⚡ Break over! Time to focus.';
+        alertEl.classList.add('active');
+        return;
+      }
+      pomSecondsLeft--;
+      pomRender();
+    }, 1000);
+  }
+}
+
+function pomRender() {
+  const cfg = POM_MODES[pomCurrentMode];
+  const total = cfg.duration;
+  const frac = pomSecondsLeft / total;
+  const offset = POM_CIRC * (1 - frac);
+  const ring = document.getElementById('pom-ring');
+  ring.style.strokeDashoffset = offset;
+  ring.style.stroke = cfg.color;
+  const m = Math.floor(pomSecondsLeft / 60);
+  const s = pomSecondsLeft % 60;
+  document.getElementById('pom-time').textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  document.getElementById('pom-time').style.color = cfg.color;
+}
+
+pomRender();
+
+/* ══════════════════════════════════════
+   SNAKE GAME
+══════════════════════════════════════ */
+const snakeCanvas = document.getElementById('snake-canvas');
+const snakeCtx = snakeCanvas.getContext('2d');
+const SNAKE_CELL = 14;
+const SNAKE_COLS = Math.floor(snakeCanvas.width / SNAKE_CELL);   // 20
+const SNAKE_ROWS = Math.floor(snakeCanvas.height / SNAKE_CELL);  // 20
+
+let snakeBody = [], snakeDx = 1, snakeDy = 0, snakePendingDx = 1, snakePendingDy = 0;
+let snakeFood = { x: 5, y: 5 };
+let snakeAlive = false;
+let snakeLoopId = null;
+let snakeScoreVal = 0, snakeBestVal = 0;
+let snakeSpeed = 1;
+const snakeSpeeds = [160, 140, 120, 100, 85, 72, 60, 50, 42, 35];
+
+function snakeDir(dx, dy) {
+  if (!snakeAlive) return;
+  if (dx === -snakeDx && dy === 0) return;
+  if (dy === -snakeDy && dx === 0) return;
+  snakePendingDx = dx; snakePendingDy = dy;
+}
+
+function snakePlaceFood() {
+  const free = [];
+  for (let x = 0; x < SNAKE_COLS; x++)
+    for (let y = 0; y < SNAKE_ROWS; y++)
+      if (!snakeBody.some(s => s.x === x && s.y === y)) free.push({ x, y });
+  if (free.length) snakeFood = free[Math.floor(Math.random() * free.length)];
+}
+
+function snakeStart() {
+  clearTimeout(snakeLoopId);
+  snakeBody = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
+  snakeDx = 1; snakeDy = 0; snakePendingDx = 1; snakePendingDy = 0;
+  snakeScoreVal = 0; snakeSpeed = 1;
+  document.getElementById('snake-score').textContent = 0;
+  document.getElementById('snake-speed').textContent = 1;
+  document.getElementById('snake-status').textContent = 'Arrow keys / WASD or tap d-pad';
+  document.getElementById('snake-start-btn').textContent = 'Restart';
+  snakePlaceFood();
+  snakeAlive = true;
+  snakeTick();
+}
+
+function snakeTick() {
+  snakeDx = snakePendingDx; snakeDy = snakePendingDy;
+  const head = { x: snakeBody[0].x + snakeDx, y: snakeBody[0].y + snakeDy };
+  if (head.x < 0 || head.x >= SNAKE_COLS || head.y < 0 || head.y >= SNAKE_ROWS ||
+      snakeBody.some(s => s.x === head.x && s.y === head.y)) {
+    snakeAlive = false;
+    document.getElementById('snake-status').textContent = '💀 Game over! ' + snakeScoreVal + ' pts';
+    if (snakeScoreVal > snakeBestVal) { snakeBestVal = snakeScoreVal; document.getElementById('snake-best').textContent = snakeBestVal; }
+    snakeDraw();
+    return;
+  }
+  snakeBody.unshift(head);
+  if (head.x === snakeFood.x && head.y === snakeFood.y) {
+    snakeScoreVal += 10;
+    document.getElementById('snake-score').textContent = snakeScoreVal;
+    const newSpeed = Math.min(10, 1 + Math.floor(snakeScoreVal / 50));
+    if (newSpeed !== snakeSpeed) { snakeSpeed = newSpeed; document.getElementById('snake-speed').textContent = snakeSpeed; }
+    snakePlaceFood();
+  } else {
+    snakeBody.pop();
+  }
+  snakeDraw();
+  snakeLoopId = setTimeout(snakeTick, snakeSpeeds[snakeSpeed - 1]);
+}
+
+function snakeDraw() {
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  const bgColor = isDark ? '#16161a' : '#f0f0f8';
+  const gridColor = isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.04)';
+  snakeCtx.fillStyle = bgColor;
+  snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+
+  // Grid dots
+  snakeCtx.fillStyle = gridColor;
+  for (let x = 0; x < SNAKE_COLS; x++)
+    for (let y = 0; y < SNAKE_ROWS; y++)
+      snakeCtx.fillRect(x * SNAKE_CELL + 6, y * SNAKE_CELL + 6, 2, 2);
+
+  // Food
+  const fx = snakeFood.x * SNAKE_CELL, fy = snakeFood.y * SNAKE_CELL;
+  snakeCtx.fillStyle = '#ffd166';
+  snakeCtx.beginPath();
+  snakeCtx.arc(fx + SNAKE_CELL/2, fy + SNAKE_CELL/2, SNAKE_CELL/2 - 2, 0, Math.PI * 2);
+  snakeCtx.fill();
+  snakeCtx.shadowBlur = 8; snakeCtx.shadowColor = '#ffd166';
+  snakeCtx.fill();
+  snakeCtx.shadowBlur = 0;
+
+  // Snake body
+  snakeBody.forEach((seg, i) => {
+    const sx = seg.x * SNAKE_CELL + 1, sy = seg.y * SNAKE_CELL + 1;
+    const size = SNAKE_CELL - 2;
+    const r = 3;
+    if (i === 0) {
+      const grad = snakeCtx.createRadialGradient(sx + size/2, sy + size/2, 1, sx + size/2, sy + size/2, size/2);
+      grad.addColorStop(0, '#ffaa66'); grad.addColorStop(1, '#ff6b35');
+      snakeCtx.fillStyle = grad;
+    } else {
+      const t = i / snakeBody.length;
+      snakeCtx.fillStyle = 'hsl(' + (20 + t * 30) + ', 80%, ' + (50 - t * 20) + '%)';
+    }
+    snakeCtx.beginPath();
+    snakeCtx.moveTo(sx + r, sy);
+    snakeCtx.lineTo(sx + size - r, sy);
+    snakeCtx.arcTo(sx + size, sy, sx + size, sy + r, r);
+    snakeCtx.lineTo(sx + size, sy + size - r);
+    snakeCtx.arcTo(sx + size, sy + size, sx + size - r, sy + size, r);
+    snakeCtx.lineTo(sx + r, sy + size);
+    snakeCtx.arcTo(sx, sy + size, sx, sy + size - r, r);
+    snakeCtx.lineTo(sx, sy + r);
+    snakeCtx.arcTo(sx, sy, sx + r, sy, r);
+    snakeCtx.closePath();
+    snakeCtx.fill();
+  });
+
+  // Game-over overlay
+  if (!snakeAlive && snakeBody.length > 0) {
+    snakeCtx.fillStyle = 'rgba(0,0,0,0.45)';
+    snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+  }
+}
+
+// Initial idle draw
+(function() {
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  snakeCtx.fillStyle = isDark ? '#16161a' : '#f0f0f8';
+  snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+  snakeCtx.fillStyle = 'rgba(255,107,53,0.15)';
+  snakeCtx.font = "bold 16px 'Share Tech Mono'";
+  snakeCtx.textAlign = 'center'; snakeCtx.textBaseline = 'middle';
+  snakeCtx.fillStyle = '#6b6b7e';
+  snakeCtx.fillText('Press Start', snakeCanvas.width/2, snakeCanvas.height/2);
+})();
+
+document.addEventListener('keydown', function(e) {
+  if (!snakeAlive) return;
+  const tag = (document.activeElement || {}).tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+  const map = { ArrowUp:[0,-1], ArrowDown:[0,1], ArrowLeft:[-1,0], ArrowRight:[1,0],
+                w:[0,-1], s:[0,1], a:[-1,0], d:[1,0], W:[0,-1], S:[0,1], A:[-1,0], D:[1,0] };
+  const dir = map[e.key];
+  if (dir) { e.preventDefault(); snakeDir(dir[0], dir[1]); }
+});
+
+/* ══════════════════════════════════════
+   SIMON SAYS
+══════════════════════════════════════ */
+const SIMON_COLORS = ['#2d8a3e', '#a02020', '#1a52a0', '#c4940a'];
+const SIMON_FLASH  = ['#4ddd66', '#ff5555', '#4488ff', '#ffcc22'];
+let simonSequence = [], simonPlayerIdx = 0, simonAccepting = false;
+let simonRound = 0, simonBest = 0;
+let simonBusy = false;
+
+const simonAudio = (function() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    return function(freq, dur) {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = 'sine'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.25, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime + dur);
+    };
+  } catch(e) { return () => {}; }
+})();
+
+const SIMON_FREQS = [392, 330, 262, 440];
+
+function simonFlash(idx, dur = 300) {
+  const pad = document.getElementById('simon-' + idx);
+  pad.classList.add('flash');
+  simonAudio(SIMON_FREQS[idx], dur / 1000);
+  return new Promise(res => setTimeout(() => { pad.classList.remove('flash'); setTimeout(res, 80); }, dur));
+}
+
+async function simonPlay() {
+  simonAccepting = false;
+  simonBusy = true;
+  document.getElementById('simon-center').textContent = '▶';
+  document.getElementById('simon-status').textContent = 'Watch the sequence…';
+  for (const idx of simonSequence) {
+    await simonFlash(idx, 420);
+    await new Promise(r => setTimeout(r, 60));
+  }
+  simonPlayerIdx = 0;
+  simonAccepting = true;
+  simonBusy = false;
+  document.getElementById('simon-center').textContent = '?';
+  document.getElementById('simon-status').textContent = 'Your turn! Repeat the sequence (' + simonSequence.length + ' steps)';
+}
+
+function simonStart() {
+  simonSequence = [];
+  simonRound = 0;
+  simonAccepting = false;
+  document.getElementById('simon-start-btn').textContent = 'Restart';
+  simonNextRound();
+}
+
+async function simonNextRound() {
+  simonRound++;
+  simonSequence.push(Math.floor(Math.random() * 4));
+  document.getElementById('simon-round').textContent = simonRound;
+  document.getElementById('simon-status').textContent = 'Round ' + simonRound + '…';
+  await new Promise(r => setTimeout(r, 600));
+  await simonPlay();
+}
+
+async function simonPress(idx) {
+  if (!simonAccepting || simonBusy) return;
+  simonBusy = true;
+  await simonFlash(idx, 220);
+  simonBusy = false;
+  if (idx !== simonSequence[simonPlayerIdx]) {
+    // Wrong!
+    simonAccepting = false;
+    document.getElementById('simon-center').textContent = '✕';
+    document.getElementById('simon-status').textContent = '✕ Wrong! Game over — round ' + simonRound;
+    if (simonRound > simonBest) { simonBest = simonRound; document.getElementById('simon-best').textContent = simonBest; }
+    simonAudio(150, 0.6);
+    setTimeout(() => { document.getElementById('simon-center').textContent = '▶'; }, 1200);
+    return;
+  }
+  simonPlayerIdx++;
+  if (simonPlayerIdx === simonSequence.length) {
+    simonAccepting = false;
+    document.getElementById('simon-center').textContent = '✓';
+    document.getElementById('simon-status').textContent = '✓ Correct! Get ready…';
+    await new Promise(r => setTimeout(r, 900));
+    simonNextRound();
+  }
+}
 
 </script>
 </body>

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interactive Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d0d0f'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23ff6b35'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffd166'/%3E%3Cline x1='16' y1='4' x2='16' y2='10' stroke='%23ff6b35' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='16' y1='22' x2='16' y2='28' stroke='%23ff6b35' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='4' y1='16' x2='10' y2='16' stroke='%23ff6b35' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='22' y1='16' x2='28' y2='16' stroke='%23ff6b35' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='7.75' y1='7.75' x2='12' y2='12' stroke='%23ffd166' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='20' y1='20' x2='24.25' y2='24.25' stroke='%23ffd166' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='24.25' y1='7.75' x2='20' y2='12' stroke='%23ffd166' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='12' y1='20' x2='7.75' y2='24.25' stroke='%23ffd166' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1649,7 +1650,414 @@
     display: block;
   }
 
-</style>
+  /* ══════════════════════════════════════
+     GLASS CARD EFFECT
+  ══════════════════════════════════════ */
+  .card {
+    background: rgba(22, 22, 26, 0.55) !important;
+    backdrop-filter: blur(24px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.35),
+      inset 0 1px 0 rgba(255,255,255,0.1),
+      inset 0 -1px 0 rgba(0,0,0,0.12) !important;
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255,255,255,0.18) 35%,
+      rgba(255,255,255,0.1) 65%,
+      transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg,
+      rgba(255,255,255,0.04) 0%,
+      transparent 50%,
+      rgba(0,0,0,0.04) 100%);
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 16px;
+  }
+  :root[data-theme="light"] .card {
+    background: rgba(255,255,255,0.62) !important;
+    border: 1px solid rgba(0,0,0,0.09) !important;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.1),
+      inset 0 1px 0 rgba(255,255,255,0.9),
+      inset 0 -1px 0 rgba(0,0,0,0.04) !important;
+  }
+  .card.tool-active {
+    border-color: var(--accent) !important;
+    box-shadow:
+      0 0 0 1px var(--accent),
+      0 0 32px var(--glow),
+      0 12px 40px rgba(0,0,0,0.35),
+      inset 0 1px 0 rgba(255,255,255,0.12) !important;
+    transform: scale(1.012) !important;
+  }
+  .card:hover {
+    border-color: rgba(255,107,53,0.28) !important;
+    box-shadow:
+      0 16px 48px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.14) !important;
+    transform: translateY(-2px) !important;
+  }
+  .card.search-highlight {
+    border-color: var(--accent2) !important;
+    box-shadow:
+      0 0 0 2px var(--accent2),
+      0 0 48px rgba(255,209,102,0.35),
+      0 12px 40px rgba(0,0,0,0.35),
+      inset 0 1px 0 rgba(255,255,255,0.15) !important;
+    animation: searchPulse 1.6s ease-in-out 3;
+  }
+  @keyframes searchPulse {
+    0%,100% { box-shadow: 0 0 0 2px var(--accent2), 0 0 24px rgba(255,209,102,0.2), 0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15); }
+    50%      { box-shadow: 0 0 0 3px var(--accent2), 0 0 64px rgba(255,209,102,0.55), 0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15); }
+  }
+
+  /* ══════════════════════════════════════
+     SEARCH BAR
+  ══════════════════════════════════════ */
+  .search-wrap {
+    display: flex;
+    justify-content: center;
+    margin: -1.5rem auto 2.2rem;
+    max-width: 460px;
+    padding: 0 1rem;
+    position: relative;
+  }
+  .search-inner {
+    position: relative;
+    width: 100%;
+  }
+  .search-icon {
+    position: absolute;
+    left: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 0.9rem;
+    pointer-events: none;
+    transition: color 0.2s;
+  }
+  .search-input {
+    width: 100%;
+    background: rgba(22, 22, 26, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.88rem;
+    letter-spacing: 0.08em;
+    padding: 0.6rem 3rem 0.6rem 2.5rem;
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .search-input::placeholder { color: var(--muted); opacity: 0.7; }
+  .search-input:focus {
+    border-color: rgba(255,107,53,0.45);
+    box-shadow: 0 0 0 3px rgba(255,107,53,0.1), 0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .search-input:focus + .search-icon,
+  .search-inner:focus-within .search-icon { color: var(--accent); }
+  .search-clear {
+    position: absolute;
+    right: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0.15rem 0.3rem;
+    border-radius: 4px;
+    transition: color 0.2s;
+    display: none;
+    line-height: 1;
+  }
+  .search-clear:hover { color: var(--accent); }
+  .search-clear.visible { display: block; }
+  :root[data-theme="light"] .search-input {
+    background: rgba(255,255,255,0.7);
+  }
+  .search-no-results {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 100;
+  }
+  .search-no-results.show { opacity: 1; }
+
+  /* ══════════════════════════════════════
+     FAVORITES SECTION
+  ══════════════════════════════════════ */
+  .fav-section {
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+    display: none;
+  }
+  .fav-section.has-favs { display: block; }
+  .fav-section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 0 0.25rem;
+  }
+  .fav-section-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+  }
+  .fav-section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,209,102,0.25), transparent);
+  }
+  .fav-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+  .fav-tile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(22,22,26,0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,209,102,0.2);
+    border-radius: 99px;
+    padding: 0.42rem 0.9rem 0.42rem 0.65rem;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.18s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.07);
+    position: relative;
+    overflow: hidden;
+  }
+  .fav-tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,209,102,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    border-radius: 99px;
+  }
+  .fav-tile:hover {
+    border-color: var(--accent2);
+    box-shadow: 0 0 18px rgba(255,209,102,0.2), 0 4px 18px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+    transform: translateY(-1px);
+  }
+  .fav-tile-star { font-size: 0.75rem; line-height: 1; }
+  .fav-tile-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .fav-tile-remove {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.65rem;
+    padding: 0 0 0 0.15rem;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+  .fav-tile-remove:hover { color: #ef476f; }
+  :root[data-theme="light"] .fav-tile {
+    background: rgba(255,255,255,0.65);
+  }
+
+  /* ══════════════════════════════════════
+     FAVORITE BUTTON ON CARDS
+  ══════════════════════════════════════ */
+  .card-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+  .fav-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0.2rem 0.3rem;
+    border-radius: 6px;
+    line-height: 1;
+    color: var(--muted);
+    transition: transform 0.2s, color 0.2s;
+    opacity: 0.5;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .fav-btn:hover { opacity: 1; transform: scale(1.25); }
+  .fav-btn.fav-active { color: var(--accent2); opacity: 1; }
+  .fav-btn.fav-active:hover { transform: scale(1.15) rotate(-10deg); }
+
+  /* ══════════════════════════════════════
+     PRIVACY MODAL
+  ══════════════════════════════════════ */
+  .privacy-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 99000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: overlayIn 0.3s ease-out both;
+  }
+  @keyframes overlayIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .privacy-modal {
+    background: rgba(20, 20, 26, 0.9);
+    backdrop-filter: blur(30px) saturate(160%);
+    -webkit-backdrop-filter: blur(30px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 2.2rem 2.5rem 2rem;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow:
+      0 24px 80px rgba(0,0,0,0.6),
+      inset 0 1px 0 rgba(255,255,255,0.1),
+      0 0 0 1px rgba(255,107,53,0.08);
+    animation: modalIn 0.4s cubic-bezier(0.22,1,0.36,1) both;
+    position: relative;
+    overflow: hidden;
+  }
+  .privacy-modal::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,209,102,0.35), transparent);
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.88) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .privacy-icon {
+    font-size: 2.8rem;
+    margin-bottom: 0.75rem;
+    line-height: 1;
+    display: block;
+    filter: drop-shadow(0 0 12px rgba(255,209,102,0.3));
+  }
+  .privacy-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 0.5rem;
+    font-family: 'Rajdhani', sans-serif;
+  }
+  .privacy-body {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.75;
+    letter-spacing: 0.04em;
+    margin-bottom: 1.6rem;
+  }
+  .privacy-body strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .privacy-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin-bottom: 1.6rem;
+    text-align: left;
+  }
+  .privacy-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .privacy-item-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #06d6a0;
+    flex-shrink: 0;
+    box-shadow: 0 0 6px rgba(6,214,160,0.5);
+  }
+  .privacy-ok-btn {
+    background: var(--accent);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.75rem 2.2rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(255,107,53,0.35);
+    width: 100%;
+  }
+  .privacy-ok-btn:hover {
+    background: #ff7d4a;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 28px rgba(255,107,53,0.5);
+  }
+
+
 </head>
 <body>
 
@@ -1757,14 +2165,55 @@
 <!-- ══ V2.0 TOAST ══ -->
 <div id="v2-toast">Settings saved ✅</div>
 
+<!-- ══ PRIVACY MODAL ══ -->
+<div class="privacy-overlay" id="privacy-overlay" style="display:none;">
+  <div class="privacy-modal">
+    <span class="privacy-icon">🔒</span>
+    <div class="privacy-title">100% Private</div>
+    <div class="privacy-body">
+      Everything happens entirely <strong>in your browser</strong>.<br>
+      Nothing is logged, tracked, or transmitted.
+    </div>
+    <div class="privacy-items">
+      <div class="privacy-item"><div class="privacy-item-dot"></div>No analytics or trackers</div>
+      <div class="privacy-item"><div class="privacy-item-dot"></div>No server communication</div>
+      <div class="privacy-item"><div class="privacy-item-dot"></div>Notes & settings stay on your device only</div>
+      <div class="privacy-item"><div class="privacy-item-dot"></div>No cookies, no data collection</div>
+    </div>
+    <button class="privacy-ok-btn" onclick="closePrivacyModal()">Got it — let's go</button>
+  </div>
+</div>
+
 <h1 class="app-intro-target">Interactive Hub</h1>
 <p class="subtitle app-intro-subtitle">Clock · Newton's Cradle · Spirograph · Whiteboard · Timer · Notepad · Calculator · RNG · Password · Case · Word Counter · Color · Unit Converter · Base64 · JSON · Pomodoro · Games</p>
+
+<!-- ══ SEARCH BAR ══ -->
+<div class="search-wrap">
+  <div class="search-inner">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="hub-search" type="text" placeholder="Search tools…" autocomplete="off" spellcheck="false" oninput="hubSearch(this.value)" onkeydown="hubSearchKey(event)">
+    <button class="search-clear" id="search-clear-btn" onclick="hubSearchClear()" title="Clear">✕</button>
+    <div class="search-no-results" id="search-no-results">No matching tool found</div>
+  </div>
+</div>
+
+<!-- ══ FAVORITES SECTION ══ -->
+<div class="fav-section" id="fav-section">
+  <div class="fav-section-header">
+    <div class="fav-section-title">⭐ Favorites</div>
+    <div class="fav-section-line"></div>
+  </div>
+  <div class="fav-grid" id="fav-grid"></div>
+</div>
 
 <div class="grid">
 
   <!-- CLOCK -->
-  <div class="card">
+  <div class="card" data-tool="Digital Clock">
+    <div class="card-title-row">
     <div class="card-title">Digital Clock</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="clock-display">
       <div class="clock-segment">
         <div class="clock-digits" id="cl-h">00</div>
@@ -1785,8 +2234,11 @@
   </div>
 
   <!-- NEWTON'S CRADLE -->
-  <div class="card">
+  <div class="card" data-tool="Newton's Cradle">
+    <div class="card-title-row">
     <div class="card-title">Newton's Cradle</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <canvas id="newton-canvas" width="320" height="220"></canvas>
     <div class="cradle-controls">
       <button class="btn active" id="nc-1" onclick="setCradleCount(1,this)" data-tip="Swing 1 ball">1 Ball</button>
@@ -1797,8 +2249,11 @@
   </div>
 
   <!-- SPIROGRAPH -->
-  <div class="card">
+  <div class="card" data-tool="Spirograph">
+    <div class="card-title-row">
     <div class="card-title">Spirograph</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <canvas id="spiro-canvas" width="320" height="260"></canvas>
     <div class="spiro-controls">
       <div class="spiro-row">
@@ -1824,8 +2279,11 @@
   </div>
 
   <!-- TIMER -->
-  <div class="card">
+  <div class="card" data-tool="Timer / Stopwatch">
+    <div class="card-title-row">
     <div class="card-title">Timer / Stopwatch</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="timer-display" id="timer-display">00:00.0</div>
     <div class="timer-controls">
       <button class="btn" id="timer-startstop" onclick="timerToggle()" data-tip="Start or pause">Start</button>
@@ -1843,8 +2301,11 @@
   </div>
 
   <!-- NOTEPAD -->
-  <div class="card">
+  <div class="card" data-tool="Notepad">
+    <div class="card-title-row">
     <div class="card-title">Notepad</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="notepad-wrap">
       <textarea id="notepad-area" placeholder="Start typing... notes are autosaved."></textarea>
       <div class="notepad-footer">
@@ -1862,8 +2323,11 @@
   </div>
 
   <!-- CALCULATOR -->
-  <div class="card">
+  <div class="card" data-tool="Calculator">
+    <div class="card-title-row">
     <div class="card-title">Calculator</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="calc-wrap">
       <div class="calc-screen">
         <div class="calc-expr" id="calc-expr">&nbsp;</div>
@@ -1901,8 +2365,11 @@
   </div>
 
     <!-- WHITEBOARD -->
-  <div class="card" style="grid-column: 1 / -1;">
+  <div class="card" style="grid-column: 1 / -1;" data-tool="Digital Whiteboard">
+    <div class="card-title-row">
     <div class="card-title">Digital Whiteboard</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="whiteboard-wrap">
       <div class="wb-toolbar" id="wb-toolbar">
         <!-- swatches injected by JS -->
@@ -1912,8 +2379,11 @@
   </div>
 
   <!-- RANDOM NUMBER GENERATOR -->
-  <div class="card">
+  <div class="card" data-tool="Random Number Generator">
+    <div class="card-title-row">
     <div class="card-title">Random Number Generator</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="rng-wrap">
       <div class="rng-range-row">
         <span>Min</span>
@@ -1939,8 +2409,11 @@
   </div>
 
   <!-- PASSWORD GENERATOR -->
-  <div class="card">
+  <div class="card" data-tool="Password Generator">
+    <div class="card-title-row">
     <div class="card-title">Password Generator</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="pw-wrap">
       <div class="pw-output">
         <span class="pw-text" id="pw-text">—</span>
@@ -1979,8 +2452,11 @@
   </div>
 
   <!-- CASE CONVERTER -->
-  <div class="card">
+  <div class="card" data-tool="Case Converter">
+    <div class="card-title-row">
     <div class="card-title">Case Converter</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="case-wrap">
       <textarea class="case-input" id="case-input" rows="3" placeholder="Type or paste text here…" oninput="caseConvert()"></textarea>
       <div class="case-btns">
@@ -1999,8 +2475,11 @@
   </div>
 
   <!-- WORD COUNTER -->
-  <div class="card">
+  <div class="card" data-tool="Word Counter">
+    <div class="card-title-row">
     <div class="card-title">Word Counter</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="wc-wrap">
       <textarea class="wc-textarea" id="wc-area" placeholder="Paste or type your text here…" oninput="wcUpdate()"></textarea>
       <div class="wc-stats">
@@ -2018,8 +2497,11 @@
   </div>
 
   <!-- RANDOM COLOR GENERATOR -->
-  <div class="card">
+  <div class="card" data-tool="Random Color Generator">
+    <div class="card-title-row">
     <div class="card-title">Random Color Generator</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="color-gen-wrap">
       <div class="color-swatch-big" id="color-swatch-big" style="background:#ff6b35"></div>
       <div class="color-vals">
@@ -2045,8 +2527,11 @@
   </div>
 
   <!-- UNIT CONVERTER -->
-  <div class="card">
+  <div class="card" data-tool="Unit Converter">
+    <div class="card-title-row">
     <div class="card-title">Unit Converter</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="unit-wrap">
       <div class="unit-category-row">
         <button class="unit-cat-btn active" onclick="unitSetCat('length',this)">Length</button>
@@ -2067,8 +2552,11 @@
   </div>
 
   <!-- BASE64 ENCODER / DECODER -->
-  <div class="card">
+  <div class="card" data-tool="Base64 Encoder / Decoder">
+    <div class="card-title-row">
     <div class="card-title">Base64 Encoder / Decoder</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="b64-wrap">
       <div class="b64-mode-row">
         <button class="b64-mode-btn active" id="b64-enc-btn" onclick="b64SetMode('encode',this)">Encode</button>
@@ -2084,8 +2572,11 @@
   </div>
 
   <!-- JSON FORMATTER -->
-  <div class="card">
+  <div class="card" data-tool="JSON Formatter / Validator">
+    <div class="card-title-row">
     <div class="card-title">JSON Formatter / Validator</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="json-wrap">
       <div class="json-mode-row">
         <button class="json-mode-btn active" id="json-fmt-btn" onclick="jsonSetMode('format',this)">Format</button>
@@ -2102,8 +2593,11 @@
   </div>
 
   <!-- POMODORO TIMER -->
-  <div class="card">
+  <div class="card" data-tool="Pomodoro Timer">
+    <div class="card-title-row">
     <div class="card-title">Pomodoro Timer</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="pom-wrap">
       <div class="pom-mode-row">
         <button class="pom-mode-btn active" id="pom-work-btn" onclick="pomSetMode('work',this)">Work · 25m</button>
@@ -2147,8 +2641,11 @@
 <div class="grid">
 
   <!-- PI MEMORY GAME -->
-  <div class="card">
+  <div class="card" data-tool="Pi Memory">
+    <div class="card-title-row">
     <div class="card-title">Pi Memory</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="pi-wrap" id="pi-wrap">
       <div class="pi-display" id="pi-display">
         <span id="pi-correct-text" class="pi-correct">3.</span><span class="pi-cursor" id="pi-cursor">_</span>
@@ -2175,8 +2672,11 @@
   </div>
 
   <!-- WORD UNSCRAMBLE -->
-  <div class="card">
+  <div class="card" data-tool="Word Unscramble">
+    <div class="card-title-row">
     <div class="card-title">Word Unscramble</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="scramble-wrap">
       <div class="scramble-word" id="scramble-display">——</div>
       <div class="scramble-hint" id="scramble-hint">Press "Hint" to reveal the category</div>
@@ -2198,8 +2698,11 @@
   </div>
 
   <!-- TIC TAC TOE -->
-  <div class="card">
+  <div class="card" data-tool="Tic-Tac-Toe vs AI">
+    <div class="card-title-row">
     <div class="card-title">Tic-Tac-Toe vs AI</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="ttt-wrap">
       <div class="ttt-difficulty">
         <button class="ttt-diff-btn active" onclick="tttSetDiff('easy',this)">Easy</button>
@@ -2237,8 +2740,11 @@
   </div>
 
   <!-- MAZE ESCAPE -->
-  <div class="card">
+  <div class="card" data-tool="Maze Escape">
+    <div class="card-title-row">
     <div class="card-title">Maze Escape</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="maze-wrap">
       <canvas id="maze-canvas" width="301" height="221"></canvas>
       <div class="maze-info-row">
@@ -2263,8 +2769,11 @@
   </div>
 
   <!-- SNAKE -->
-  <div class="card">
+  <div class="card" data-tool="Snake">
+    <div class="card-title-row">
     <div class="card-title">Snake</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="snake-wrap">
       <canvas id="snake-canvas" width="280" height="280"></canvas>
       <div class="snake-info-row">
@@ -2289,8 +2798,11 @@
   </div>
 
   <!-- SIMON SAYS -->
-  <div class="card">
+  <div class="card" data-tool="Simon Says">
+    <div class="card-title-row">
     <div class="card-title">Simon Says</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
     <div class="simon-wrap">
       <div class="simon-board" id="simon-board">
         <button class="simon-pad" id="simon-0" onclick="simonPress(0)"></button>
@@ -4701,9 +5213,213 @@ let v2mouseX = 0, v2mouseY = 0;
 })();
 
 /* ══════════════════════════════════════
+   PRIVACY MODAL — FIRST VISIT
+══════════════════════════════════════ */
+(function initPrivacyModal() {
+  const KEY = 'hub_privacy_seen_v2';
+  if (!localStorage.getItem(KEY)) {
+    const overlay = document.getElementById('privacy-overlay');
+    if (overlay) {
+      overlay.style.display = 'flex';
+    }
+  }
+})();
+
+function closePrivacyModal() {
+  const overlay = document.getElementById('privacy-overlay');
+  if (overlay) {
+    overlay.style.animation = 'overlayOut 0.25s ease-in both';
+    overlay.addEventListener('animationend', () => {
+      overlay.style.display = 'none';
+      overlay.style.animation = '';
+    }, { once: true });
+  }
+  try { localStorage.setItem('hub_privacy_seen_v2', '1'); } catch(e) {}
+}
+
+/* ══════════════════════════════════════
+   FAVORITES SYSTEM
+══════════════════════════════════════ */
+const FAV_KEY = 'hub_favorites_v2';
+
+function getFavs() {
+  try { return JSON.parse(localStorage.getItem(FAV_KEY)) || []; } catch(e) { return []; }
+}
+function saveFavs(arr) {
+  try { localStorage.setItem(FAV_KEY, JSON.stringify(arr)); } catch(e) {}
+}
+
+function toggleFav(btn) {
+  const card = btn.closest('.card');
+  if (!card) return;
+  const toolName = card.getAttribute('data-tool');
+  if (!toolName) return;
+
+  let favs = getFavs();
+  const idx = favs.indexOf(toolName);
+  if (idx === -1) {
+    favs.push(toolName);
+    btn.textContent = '★';
+    btn.classList.add('fav-active');
+    btn.title = 'Remove from favorites';
+    v2ShowToast('⭐ Added to favorites');
+  } else {
+    favs.splice(idx, 1);
+    btn.textContent = '☆';
+    btn.classList.remove('fav-active');
+    btn.title = 'Favorite';
+    v2ShowToast('Removed from favorites');
+  }
+  saveFavs(favs);
+  renderFavSection();
+}
+
+function renderFavSection() {
+  const favs = getFavs();
+  const section = document.getElementById('fav-section');
+  const grid = document.getElementById('fav-grid');
+  if (!section || !grid) return;
+
+  grid.innerHTML = '';
+  if (favs.length === 0) {
+    section.classList.remove('has-favs');
+    return;
+  }
+  section.classList.add('has-favs');
+
+  favs.forEach(name => {
+    const tile = document.createElement('div');
+    tile.className = 'fav-tile';
+    tile.innerHTML = `
+      <span class="fav-tile-star">⭐</span>
+      <span class="fav-tile-name">${name}</span>
+      <button class="fav-tile-remove" onclick="removeFavFromTile(this,'${name.replace(/'/g,"\\'")}')" title="Remove">✕</button>
+    `;
+    tile.addEventListener('click', (e) => {
+      if (e.target.classList.contains('fav-tile-remove')) return;
+      scrollToTool(name);
+    });
+    grid.appendChild(tile);
+  });
+}
+
+function removeFavFromTile(btn, name) {
+  let favs = getFavs();
+  favs = favs.filter(f => f !== name);
+  saveFavs(favs);
+
+  // Update star button on the actual card
+  const card = document.querySelector(`.card[data-tool="${name}"]`);
+  if (card) {
+    const favBtn = card.querySelector('.fav-btn');
+    if (favBtn) {
+      favBtn.textContent = '☆';
+      favBtn.classList.remove('fav-active');
+      favBtn.title = 'Favorite';
+    }
+  }
+  renderFavSection();
+  v2ShowToast('Removed from favorites');
+}
+
+function scrollToTool(name) {
+  const card = document.querySelector(`.card[data-tool="${name}"]`);
+  if (!card) return;
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  highlightCard(card);
+}
+
+function highlightCard(card) {
+  card.classList.remove('search-highlight');
+  void card.offsetWidth;
+  card.classList.add('search-highlight');
+  setTimeout(() => card.classList.remove('search-highlight'), 5000);
+}
+
+// Init favorites on load
+(function initFavs() {
+  const favs = getFavs();
+  // Restore star state on all cards
+  document.querySelectorAll('.card[data-tool]').forEach(card => {
+    const name = card.getAttribute('data-tool');
+    if (favs.includes(name)) {
+      const btn = card.querySelector('.fav-btn');
+      if (btn) {
+        btn.textContent = '★';
+        btn.classList.add('fav-active');
+        btn.title = 'Remove from favorites';
+      }
+    }
+  });
+  renderFavSection();
+})();
+
+/* ══════════════════════════════════════
+   SEARCH FUNCTIONALITY
+══════════════════════════════════════ */
+let hubSearchTimeout = null;
+
+function hubSearch(val) {
+  const clearBtn = document.getElementById('search-clear-btn');
+  const noResults = document.getElementById('search-no-results');
+  if (clearBtn) clearBtn.classList.toggle('visible', val.length > 0);
+
+  clearTimeout(hubSearchTimeout);
+  noResults.classList.remove('show');
+
+  if (!val.trim()) return;
+
+  hubSearchTimeout = setTimeout(() => {
+    const query = val.trim().toLowerCase();
+    const cards = document.querySelectorAll('.card[data-tool]');
+    let matched = null;
+
+    for (const card of cards) {
+      const name = card.getAttribute('data-tool').toLowerCase();
+      if (name.includes(query)) {
+        matched = card;
+        break;
+      }
+    }
+
+    if (matched) {
+      matched.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      highlightCard(matched);
+    } else {
+      noResults.classList.add('show');
+      setTimeout(() => noResults.classList.remove('show'), 2200);
+    }
+  }, 300);
+}
+
+function hubSearchKey(e) {
+  if (e.key === 'Escape') hubSearchClear();
+  if (e.key === 'Enter') {
+    clearTimeout(hubSearchTimeout);
+    hubSearch(e.target.value);
+  }
+}
+
+function hubSearchClear() {
+  const input = document.getElementById('hub-search');
+  const clearBtn = document.getElementById('search-clear-btn');
+  const noResults = document.getElementById('search-no-results');
+  if (input) input.value = '';
+  if (clearBtn) clearBtn.classList.remove('visible');
+  if (noResults) noResults.classList.remove('show');
+}
+
+/* Privacy modal fade out animation */
+const privacyStyle = document.createElement('style');
+privacyStyle.textContent = `@keyframes overlayOut { from { opacity:1; } to { opacity:0; } }`;
+document.head.appendChild(privacyStyle);
+
+/* ══════════════════════════════════════
    V2.0 — INIT ON LOAD
 ══════════════════════════════════════ */
 v2LoadSettings();
+
+
 
 </script>
 </body>

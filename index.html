@@ -1716,6 +1716,7 @@
     transform: translateY(-2px) !important;
   }
   .card.search-highlight {
+    opacity: 1 !important;
     border-color: var(--accent2) !important;
     box-shadow:
       0 0 0 2px var(--accent2),
@@ -1798,7 +1799,34 @@
   :root[data-theme="light"] .search-input {
     background: rgba(255,255,255,0.7);
   }
-  .search-no-results {
+  .search-kbd-hint {
+    position: absolute;
+    right: 2.4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    pointer-events: none;
+    opacity: 0.45;
+    transition: opacity 0.2s;
+  }
+  .search-inner:focus-within .search-kbd-hint { opacity: 0; }
+  .search-clear.visible ~ .search-kbd-hint { opacity: 0; }
+  .kbd {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 0.1rem 0.32rem;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
+
+
     position: absolute;
     top: calc(100% + 0.5rem);
     left: 50%;
@@ -2193,6 +2221,7 @@
     <span class="search-icon">🔍</span>
     <input class="search-input" id="hub-search" type="text" placeholder="Search tools…" autocomplete="off" spellcheck="false" oninput="hubSearch(this.value)" onkeydown="hubSearchKey(event)">
     <button class="search-clear" id="search-clear-btn" onclick="hubSearchClear()" title="Clear">✕</button>
+    <div class="search-kbd-hint" id="search-kbd-hint"><span class="kbd">/</span></div>
     <div class="search-no-results" id="search-no-results">No matching tool found</div>
   </div>
 </div>
@@ -5325,11 +5354,19 @@ function removeFavFromTile(btn, name) {
 function scrollToTool(name) {
   const card = document.querySelector(`.card[data-tool="${name}"]`);
   if (!card) return;
+  // Ensure card is visible immediately before scrolling (clears any pending intro animation)
+  card.style.opacity = '1';
+  card.style.animation = 'none';
   card.scrollIntoView({ behavior: 'smooth', block: 'center' });
   highlightCard(card);
 }
 
 function highlightCard(card) {
+  // Instantly reveal card — cancel any pending intro animation so it's
+  // never stuck invisible when the user navigates to it via search or favorites
+  card.style.opacity = '1';
+  card.style.animation = 'none';
+  void card.offsetWidth; // force reflow to flush the cancelled animation
   card.classList.remove('search-highlight');
   void card.offsetWidth;
   card.classList.add('search-highlight');
@@ -5413,6 +5450,26 @@ function hubSearchClear() {
 const privacyStyle = document.createElement('style');
 privacyStyle.textContent = `@keyframes overlayOut { from { opacity:1; } to { opacity:0; } }`;
 document.head.appendChild(privacyStyle);
+
+/* ══════════════════════════════════════
+   KEYBOARD SHORTCUT — "/" focuses search
+══════════════════════════════════════ */
+document.addEventListener('keydown', function(e) {
+  // Ignore if user is typing inside an input, textarea, or contenteditable
+  const tag = document.activeElement ? document.activeElement.tagName : '';
+  const isEditable = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT'
+    || document.activeElement.isContentEditable;
+  if (isEditable) return;
+
+  if (e.key === '/') {
+    e.preventDefault();
+    const input = document.getElementById('hub-search');
+    if (input) {
+      input.focus();
+      input.select();
+    }
+  }
+});
 
 /* ══════════════════════════════════════
    V2.0 — INIT ON LOAD

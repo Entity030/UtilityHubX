@@ -11,37 +11,32 @@
 
   :root {
     --bg: #0d0d0f;
-    --surface: #13131a;
-    --surface2: #1a1a22;
-    --border: rgba(255,255,255,0.07);
-    --border-hover: rgba(255,255,255,0.14);
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --border: rgba(255,255,255,0.08);
     --text: #e8e8f0;
     --muted: #6b6b7e;
     --accent: #ff6b35;
     --accent2: #ffd166;
     --glow: rgba(255,107,53,0.25);
-    --wb-bg: #0f0f14;
+    --wb-bg: #111115;
     --calc-btn-hover: rgba(255,255,255,0.06);
     --calc-btn-border-hover: rgba(255,255,255,0.15);
-    --card-shadow: 0 2px 20px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
-    --panel-transition: 0.32s cubic-bezier(0.22,1,0.36,1);
   }
 
   :root[data-theme="light"] {
-    --bg: #eeeef5;
-    --surface: #fafafa;
-    --surface2: #ebebf3;
-    --border: rgba(0,0,0,0.09);
-    --border-hover: rgba(0,0,0,0.18);
+    --bg: #f0f0f5;
+    --surface: #ffffff;
+    --surface2: #e8e8f0;
+    --border: rgba(0,0,0,0.1);
     --text: #1a1a2e;
     --muted: #7777aa;
     --accent: #e85d22;
     --accent2: #c97b00;
     --glow: rgba(232,93,34,0.2);
-    --wb-bg: #f5f5fd;
-    --calc-btn-hover: rgba(0,0,0,0.04);
-    --calc-btn-border-hover: rgba(0,0,0,0.18);
-    --card-shadow: 0 2px 16px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04);
+    --wb-bg: #f8f8ff;
+    --calc-btn-hover: rgba(0,0,0,0.05);
+    --calc-btn-border-hover: rgba(0,0,0,0.2);
   }
 
   body {
@@ -49,42 +44,32 @@
     color: var(--text);
     font-family: 'Rajdhani', sans-serif;
     min-height: 100vh;
-    padding: 2rem 1.5rem 5rem;
+    padding: 2rem 1.5rem 4rem;
   }
 
   h1 {
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    background: linear-gradient(135deg, var(--accent2) 0%, var(--accent) 60%, var(--accent2) 100%);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--accent2);
     text-align: center;
-    margin-bottom: 0.35rem;
-    animation: shimmerText 5s linear infinite;
-  }
-  @keyframes shimmerText {
-    0%   { background-position: 0% center; }
-    100% { background-position: 200% center; }
+    margin-bottom: 0.3rem;
   }
 
   .subtitle {
     text-align: center;
     color: var(--muted);
-    font-size: 0.82rem;
+    font-size: 0.9rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    margin-bottom: 2.5rem;
-    opacity: 0.75;
+    margin-bottom: 3rem;
   }
 
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 1.25rem;
+    gap: 1.5rem;
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -98,30 +83,17 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    box-shadow: var(--card-shadow);
-    transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
-    position: relative;
-    overflow: hidden;
-  }
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
-    pointer-events: none;
   }
 
   .card-title {
-    font-size: 0.72rem;
-    letter-spacing: 0.22em;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--muted);
     align-self: flex-start;
     display: flex;
     align-items: center;
     gap: 0.45rem;
-    font-weight: 600;
   }
 
   /* ── CLOCK ── */
@@ -196,11 +168,10 @@
     padding: 0.45rem 1rem;
     border-radius: 8px;
     cursor: pointer;
-    transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.15s, box-shadow 0.2s;
+    transition: border-color 0.2s, color 0.2s;
   }
 
-  .btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.05); box-shadow: 0 0 12px var(--glow); transform: translateY(-1px); }
-  .btn:active { transform: translateY(0) scale(0.97); }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
   .btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.08); }
 
   /* ── SPIROGRAPH ── */
@@ -1249,14 +1220,14 @@
   .card.tool-active {
     border-color: var(--accent) !important;
     box-shadow: 0 0 0 1px var(--accent),
-                0 0 30px var(--glow),
-                0 12px 40px rgba(0,0,0,0.4);
+                0 0 28px var(--glow),
+                0 12px 40px rgba(0,0,0,0.35);
     transform: scale(1.012);
   }
   .card:hover {
-    border-color: rgba(255,107,53,0.3);
-    box-shadow: 0 6px 30px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,107,53,0.1);
-    transform: translateY(-2px);
+    border-color: rgba(255,107,53,0.25);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    transform: translateY(-1px);
   }
   .card.tool-active:hover { transform: scale(1.012); }
 
@@ -1297,7 +1268,7 @@
     position: fixed;
     top: 1rem;
     right: 1rem;
-    width: 42px; height: 42px;
+    width: 40px; height: 40px;
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--text);
@@ -1306,22 +1277,19 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 1.1rem;
     z-index: 500;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.04);
-    transition: border-color 0.2s, color 0.2s, transform 0.3s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
   }
   .settings-btn:hover {
     border-color: var(--accent);
     color: var(--accent);
-    transform: rotate(45deg) scale(1.1);
-    box-shadow: 0 0 20px var(--glow), 0 4px 16px rgba(0,0,0,0.3);
-    background: rgba(255,107,53,0.06);
+    transform: rotate(30deg) scale(1.08);
+    box-shadow: 0 0 16px var(--glow);
   }
   .settings-btn.open {
     border-color: var(--accent);
     color: var(--accent);
     transform: rotate(90deg);
     background: rgba(255,107,53,0.1);
-    box-shadow: 0 0 20px var(--glow);
   }
 
   /* ══════════════════════════════════════
@@ -1330,13 +1298,11 @@
   .settings-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(4px);
     z-index: 600;
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--panel-transition);
   }
   .settings-overlay.open {
     opacity: 1;
@@ -1346,7 +1312,7 @@
   .settings-panel {
     position: fixed;
     top: 0; right: 0; bottom: 0;
-    width: 310px;
+    width: 300px;
     background: var(--surface);
     border-left: 1px solid var(--border);
     z-index: 700;
@@ -1354,11 +1320,8 @@
     flex-direction: column;
     gap: 0;
     transform: translateX(100%);
-    box-shadow: -12px 0 50px rgba(0,0,0,0.45);
+    box-shadow: -8px 0 40px rgba(0,0,0,0.35);
     overflow-y: auto;
-    transition: transform var(--panel-transition);
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
   }
   .settings-panel.open { transform: translateX(0); }
 
@@ -1372,14 +1335,6 @@
     top: 0;
     background: var(--surface);
     z-index: 1;
-    backdrop-filter: blur(12px);
-  }
-  .settings-header::after {
-    content: '';
-    position: absolute;
-    bottom: -1px; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,107,53,0.3), transparent);
   }
   .settings-header-title {
     font-size: 0.78rem;
@@ -1398,9 +1353,8 @@
     font-size: 1rem;
     display: flex; align-items: center; justify-content: center;
     line-height: 1;
-    transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s;
   }
-  .settings-close-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.08); transform: rotate(90deg); }
+  .settings-close-btn:hover { border-color: var(--accent); color: var(--accent); }
 
   .settings-section {
     padding: 1.1rem 1.5rem;
@@ -1545,7 +1499,7 @@
     position: fixed;
     bottom: 1.5rem;
     left: 50%;
-    transform: translateX(-50%) translateY(20px);
+    transform: translateX(-50%) translateY(16px);
     background: var(--surface);
     border: 1px solid rgba(6,214,160,0.4);
     color: #06d6a0;
@@ -1553,16 +1507,13 @@
     font-size: 0.82rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    padding: 0.6rem 1.4rem;
+    padding: 0.55rem 1.2rem;
     border-radius: 99px;
     z-index: 99999;
     opacity: 0;
     pointer-events: none;
-    box-shadow: 0 4px 28px rgba(6,214,160,0.2), 0 0 0 1px rgba(6,214,160,0.1);
+    box-shadow: 0 4px 24px rgba(6,214,160,0.15);
     white-space: nowrap;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.22,1,0.36,1);
   }
   #v2-toast.show {
     opacity: 1;
@@ -2018,9 +1969,9 @@
   ══════════════════════════════════════ */
   .edit-btn {
     position: fixed;
-    top: 3.7rem;
+    top: 3.5rem;
     right: 1rem;
-    width: 42px; height: 42px;
+    width: 40px; height: 40px;
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--text);
@@ -2029,55 +1980,48 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 1rem;
     z-index: 500;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.04);
-    transition: border-color 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    transition: border-color 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
   }
-  .edit-btn:hover { border-color: var(--accent); color: var(--accent); transform: scale(1.1); box-shadow: 0 0 18px var(--glow); background: rgba(255,107,53,0.06); }
-  .edit-btn.edit-active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.14); box-shadow: 0 0 18px var(--glow); }
+  .edit-btn:hover { border-color: var(--accent); color: var(--accent); transform: scale(1.08); box-shadow: 0 0 16px var(--glow); }
+  .edit-btn.edit-active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.12); }
 
   body.edit-mode .card {
     cursor: grab !important;
-    border-color: rgba(255,107,53,0.4) !important;
-    animation: editWiggle 0.22s ease-in-out infinite alternate !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,107,53,0.15) !important;
+    border-color: rgba(255,107,53,0.35) !important;
+    animation: editWiggle 0.18s ease-in-out infinite alternate !important;
   }
   @keyframes editWiggle {
-    from { transform: rotate(-0.5deg) scale(1); }
-    to   { transform: rotate(0.5deg) scale(1); }
+    from { transform: rotate(-0.4deg) scale(1); }
+    to   { transform: rotate(0.4deg) scale(1); }
   }
   body.edit-mode .card:active { cursor: grabbing !important; }
   body.edit-mode .card.drag-over {
     border-color: var(--accent2) !important;
-    box-shadow: 0 0 0 2px var(--accent2), 0 0 32px rgba(255,209,102,0.3) !important;
-    transform: scale(1.025) !important;
+    box-shadow: 0 0 0 2px var(--accent2), 0 0 30px rgba(255,209,102,0.25) !important;
+    transform: scale(1.02) !important;
     animation: none !important;
-    background: rgba(255,209,102,0.04) !important;
   }
   body.edit-mode .card.dragging {
-    opacity: 0.25 !important;
+    opacity: 0.35 !important;
     animation: none !important;
-    transform: scale(0.97) !important;
   }
   .drag-handle {
     display: none;
     position: absolute;
     top: 0.6rem; left: 0.6rem;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: var(--accent);
-    opacity: 0.8;
+    opacity: 0.7;
     z-index: 10;
     pointer-events: none;
-    letter-spacing: 0.06em;
-    background: rgba(255,107,53,0.1);
-    padding: 0.15rem 0.4rem;
-    border-radius: 5px;
-    border: 1px solid rgba(255,107,53,0.25);
+    letter-spacing: 0.04em;
   }
   body.edit-mode .drag-handle { display: block; }
   .edit-mode-banner {
     position: fixed;
     bottom: 1.5rem; left: 50%;
-    transform: translateX(-50%) translateY(90px);
+    transform: translateX(-50%) translateY(80px);
     background: var(--surface);
     border: 1px solid rgba(255,107,53,0.5);
     color: var(--accent);
@@ -2085,15 +2029,14 @@
     font-size: 0.78rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    padding: 0.6rem 1.6rem;
+    padding: 0.55rem 1.4rem;
     border-radius: 99px;
     z-index: 9999;
     pointer-events: none;
     opacity: 0;
-    box-shadow: 0 4px 24px rgba(255,107,53,0.25), 0 0 0 1px rgba(255,107,53,0.15);
-    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.35s;
+    box-shadow: 0 4px 20px rgba(255,107,53,0.2);
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.3s;
     white-space: nowrap;
-    backdrop-filter: blur(12px);
   }
   .edit-mode-banner.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
@@ -2329,55 +2272,448 @@
   }
 
   /* ══════════════════════════════════════
+     SCROLL PROGRESS BAR
+  ══════════════════════════════════════ */
+  #scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    z-index: 999999;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px var(--glow);
+    pointer-events: none;
+  }
+
+  /* ══════════════════════════════════════
      BACK TO TOP BUTTON
   ══════════════════════════════════════ */
   #back-to-top {
     position: fixed;
-    bottom: 1.5rem;
-    right: 1rem;
+    bottom: 1.8rem;
+    right: 1.2rem;
     width: 40px; height: 40px;
     background: var(--surface);
     border: 1px solid var(--border);
-    color: var(--muted);
     border-radius: 50%;
+    color: var(--muted);
+    font-size: 1rem;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1rem;
-    z-index: 490;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+    z-index: 9999;
     opacity: 0;
-    pointer-events: none;
     transform: translateY(12px);
-    transition: opacity 0.3s, transform 0.3s cubic-bezier(0.22,1,0.36,1), border-color 0.2s, color 0.2s, box-shadow 0.2s;
+    transition: opacity 0.25s, transform 0.25s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+    pointer-events: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
   }
   #back-to-top.visible {
     opacity: 1;
-    pointer-events: all;
     transform: translateY(0);
+    pointer-events: auto;
   }
   #back-to-top:hover {
     border-color: var(--accent);
     color: var(--accent);
-    box-shadow: 0 0 16px var(--glow);
+    box-shadow: 0 0 16px var(--glow), 0 4px 16px rgba(0,0,0,0.3);
   }
 
   /* ══════════════════════════════════════
-     ENHANCED SECTION DIVIDER
+     HUB STATS BADGE
   ══════════════════════════════════════ */
-  .section-divider-label {
-    font-size: 0.72rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
+  .hub-stats {
+    text-align: center;
+    margin-top: -2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+  .hub-stat-badge {
+    background: rgba(255,107,53,0.08);
+    border: 1px solid rgba(255,107,53,0.2);
+    border-radius: 99px;
     color: var(--muted);
-    white-space: nowrap;
-    padding: 0.3rem 0.8rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.28rem 0.85rem;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .hub-stat-badge span { color: var(--accent2); }
+
+  /* ══════════════════════════════════════
+     KEYBOARD SHORTCUT PANEL
+  ══════════════════════════════════════ */
+  #shortcut-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(8px);
+    z-index: 98000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  #shortcut-overlay.open { display: flex; }
+  .shortcut-panel {
+    background: rgba(20,20,28,0.95);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    padding: 1.8rem 2rem;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  }
+  .shortcut-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+  }
+  .shortcut-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .shortcut-row:last-child { border-bottom: none; }
+  .shortcut-key {
+    font-family: 'Share Tech Mono', monospace;
     background: var(--surface2);
     border: 1px solid var(--border);
-    border-radius: 99px;
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text);
+    min-width: 28px;
+    text-align: center;
+  }
+  #shortcut-help-btn {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 32px; height: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-family: 'Share Tech Mono', monospace;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  #shortcut-help-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ══════════════════════════════════════
+     MARKDOWN PREVIEWER
+  ══════════════════════════════════════ */
+  .md-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
+  .md-pane-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    width: 100%;
+  }
+  .md-textarea {
+    width: 100%; min-height: 200px; max-height: 260px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; color: var(--text);
+    font-family: 'Share Tech Mono', monospace; font-size: 0.78rem;
+    line-height: 1.7; padding: 0.75rem; outline: none;
+    resize: vertical; transition: border-color 0.2s;
+  }
+  .md-textarea:focus { border-color: rgba(255,209,102,0.3); }
+  .md-preview {
+    min-height: 200px; max-height: 260px; overflow-y: auto;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 0.75rem 1rem;
+    font-size: 0.85rem; line-height: 1.7; color: var(--text);
+    word-break: break-word;
+  }
+  .md-preview h1,.md-preview h2,.md-preview h3 { color: var(--accent2); margin: 0.4em 0 0.2em; font-family:'Rajdhani',sans-serif; }
+  .md-preview h1 { font-size: 1.4em; }
+  .md-preview h2 { font-size: 1.15em; }
+  .md-preview h3 { font-size: 1em; }
+  .md-preview strong { color: var(--accent); font-weight: 700; }
+  .md-preview em { font-style: italic; color: var(--accent2); opacity: 0.85; }
+  .md-preview code {
+    background: rgba(255,107,53,0.12); border: 1px solid rgba(255,107,53,0.25);
+    border-radius: 4px; padding: 0.05em 0.35em;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.88em; color: var(--accent);
+  }
+  .md-preview pre {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 0.75rem; overflow-x: auto; margin: 0.5em 0;
+  }
+  .md-preview pre code { background: none; border: none; padding: 0; }
+  .md-preview blockquote {
+    border-left: 3px solid var(--accent); padding-left: 0.75rem;
+    margin: 0.5em 0; color: var(--muted); font-style: italic;
+  }
+  .md-preview ul,.md-preview ol { padding-left: 1.4em; margin: 0.3em 0; }
+  .md-preview li { margin: 0.15em 0; }
+  .md-preview a { color: var(--accent); text-decoration: none; }
+  .md-preview hr { border: none; border-top: 1px solid var(--border); margin: 0.75em 0; }
+  .md-preview p { margin: 0.3em 0; }
+  .md-pane-label {
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 0.3rem;
+  }
+  .md-pane { display: flex; flex-direction: column; }
+  .md-toolbar { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+  .md-fmt-btn {
+    background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+    font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; padding: 0.25rem 0.55rem;
+    border-radius: 6px; cursor: pointer; transition: border-color 0.2s, color 0.2s;
+  }
+  .md-fmt-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ══════════════════════════════════════
+     JSON FORMATTER
+  ══════════════════════════════════════ */
+  .json-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
+  .json-textarea {
+    width: 100%; min-height: 160px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; color: var(--text);
+    font-family: 'Share Tech Mono', monospace; font-size: 0.78rem;
+    line-height: 1.6; padding: 0.75rem; outline: none;
+    resize: vertical; transition: border-color 0.2s;
+  }
+  .json-textarea:focus { border-color: rgba(255,209,102,0.3); }
+  .json-output {
+    min-height: 120px; max-height: 220px; overflow-y: auto;
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 0.75rem; font-family: 'Share Tech Mono', monospace; font-size: 0.76rem;
+    line-height: 1.6; white-space: pre; color: var(--text); word-break: break-all;
+  }
+  .json-output.valid { border-color: rgba(6,214,160,0.3); }
+  .json-output.error { border-color: rgba(239,71,111,0.4); color: #ef476f; }
+  .json-status {
+    font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.25rem 0.65rem; border-radius: 6px; align-self: flex-start;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .json-status.ok { background: rgba(6,214,160,0.12); color: #06d6a0; border: 1px solid rgba(6,214,160,0.3); }
+  .json-status.err { background: rgba(239,71,111,0.1); color: #ef476f; border: 1px solid rgba(239,71,111,0.3); }
+  .json-btn-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+  /* ══════════════════════════════════════
+     TIP CALCULATOR
+  ══════════════════════════════════════ */
+  .tip-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.85rem; }
+  .tip-input-group {
+    display: flex; flex-direction: column; gap: 0.35rem;
+  }
+  .tip-label {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+  }
+  .tip-input {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 9px; color: var(--text); font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1rem; padding: 0.5rem 0.75rem; outline: none;
+    transition: border-color 0.2s; text-align: left;
+  }
+  .tip-input:focus { border-color: var(--accent); }
+  .tip-pct-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .tip-pct-btn {
+    flex: 1; min-width: 44px;
+    background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+    font-family: 'Share Tech Mono', monospace; font-size: 0.75rem;
+    padding: 0.35rem 0; border-radius: 7px; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s; text-align: center;
+  }
+  .tip-pct-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tip-pct-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.1); }
+  .tip-result-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .tip-result-box {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 0.65rem 0.75rem;
+    display: flex; flex-direction: column; gap: 0.2rem;
+  }
+  .tip-result-box.highlight { border-color: rgba(255,107,53,0.4); }
+  .tip-result-label { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .tip-result-val {
+    font-family: 'Share Tech Mono', monospace; font-size: 1.3rem; color: var(--accent2);
+    transition: color 0.2s;
+  }
+  .tip-result-box.highlight .tip-result-val { color: var(--accent); }
+  .tip-split-row { display: flex; align-items: center; gap: 0.6rem; }
+  .tip-split-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+
+  /* ══════════════════════════════════════
+     POMODORO TIMER
+  ══════════════════════════════════════ */
+  .pomo-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.85rem; align-items: center; }
+  .pomo-phase-row { display: flex; gap: 0.4rem; }
+  .pomo-phase-btn {
+    flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+    font-family: 'Share Tech Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.35rem; border-radius: 8px; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s; text-align: center;
+  }
+  .pomo-phase-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.1); }
+  .pomo-ring-wrap {
+    position: relative; width: 160px; height: 160px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pomo-ring-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+  .pomo-ring-bg { fill: none; stroke: var(--surface2); stroke-width: 8; }
+  .pomo-ring-fill { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1s linear, stroke 0.4s; }
+  .pomo-time-text {
+    font-family: 'Share Tech Mono', monospace; font-size: 2.6rem;
+    color: var(--accent); text-shadow: 0 0 20px var(--glow); letter-spacing: 0.04em; line-height: 1;
+  }
+  .pomo-phase-label {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); margin-top: 0.2rem; text-align: center;
+  }
+  .pomo-controls { display: flex; gap: 0.5rem; }
+  .pomo-stat-row {
+    display: flex; gap: 1.5rem; font-size: 0.7rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .pomo-stat-val { font-family: 'Share Tech Mono', monospace; font-size: 1rem; color: var(--accent2); }
+
+  /* ══════════════════════════════════════
+     MEMORY MATCH GAME
+  ══════════════════════════════════════ */
+  .mem-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.85rem; align-items: center; }
+  .mem-board { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; width: 100%; max-width: 300px; }
+  .mem-card {
+    aspect-ratio: 1; border-radius: 10px; cursor: pointer;
+    position: relative; transform-style: preserve-3d;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    user-select: none;
+  }
+  .mem-card.flipped,.mem-card.matched { transform: rotateY(180deg); }
+  .mem-card.matched .mem-face { border-color: rgba(6,214,160,0.5); background: rgba(6,214,160,0.1); }
+  .mem-back,.mem-face {
+    position: absolute; inset: 0; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    font-size: 1.5rem; border: 1px solid var(--border);
+  }
+  .mem-back { background: var(--surface2); }
+  .mem-back::after {
+    content: '?'; font-family: 'Share Tech Mono', monospace;
+    font-size: 1.2rem; color: var(--muted); opacity: 0.5;
+  }
+  .mem-face { background: var(--surface); transform: rotateY(180deg); }
+  .mem-stat-row { display: flex; gap: 1.2rem; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .mem-stat-val { font-family: 'Share Tech Mono', monospace; font-size: 1rem; color: var(--accent2); }
+  .mem-status { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); min-height: 1.2em; text-align: center; }
+
+  /* ══════════════════════════════════════
+     TYPING SPEED TEST
+  ══════════════════════════════════════ */
+  .type-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.85rem; }
+  .type-quote {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1rem; font-family: 'Share Tech Mono', monospace; font-size: 0.9rem;
+    line-height: 1.9; letter-spacing: 0.02em; min-height: 90px;
+    display: flex; flex-wrap: wrap; align-items: flex-start; align-content: flex-start; gap: 0;
+  }
+  .type-char { color: var(--muted); }
+  .type-char.correct { color: var(--accent2); }
+  .type-char.wrong { color: #ef476f; background: rgba(239,71,111,0.12); border-radius: 2px; }
+  .type-char.current { color: var(--text); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--accent); }
+  .type-input {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 9px; color: var(--text); font-family: 'Share Tech Mono', monospace;
+    font-size: 0.95rem; padding: 0.6rem 0.85rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  .type-input:focus { border-color: rgba(255,209,102,0.35); }
+  .type-input:disabled { opacity: 0.5; }
+  .type-stat-row { display: flex; gap: 1rem; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); flex-wrap: wrap; }
+  .type-stat-val { font-family: 'Share Tech Mono', monospace; font-size: 1.1rem; color: var(--accent); }
+  .type-stat-val.wpm-live { color: var(--accent2); }
+  .type-progress {
+    height: 3px; background: var(--surface2); border-radius: 2px;
+    border: 1px solid var(--border); overflow: hidden;
+  }
+  .type-progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px; width: 0%; transition: width 0.1s;
   }
 
+  /* ══════════════════════════════════════
+     MINESWEEPER GAME
+  ══════════════════════════════════════ */
+  .mines-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; align-items: center; }
+  .mines-header { display: flex; gap: 1.5rem; align-items: center; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .mines-val { font-family: 'Share Tech Mono', monospace; font-size: 1rem; color: var(--accent2); }
+  .mines-board {
+    display: grid; gap: 3px; max-width: 100%;
+    background: rgba(0,0,0,0.2); border-radius: 10px; padding: 6px;
+    border: 1px solid var(--border); user-select: none;
+  }
+  .mines-cell {
+    width: 28px; height: 28px; border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; font-weight: 700;
+    cursor: pointer; transition: background 0.12s, transform 0.08s;
+    border: 1px solid rgba(255,255,255,0.06); background: var(--surface2);
+  }
+  .mines-cell:hover:not(.revealed):not(.flagged) { background: rgba(255,107,53,0.1); border-color: rgba(255,107,53,0.3); }
+  .mines-cell:active:not(.revealed) { transform: scale(0.88); }
+  .mines-cell.revealed { background: rgba(0,0,0,0.2); cursor: default; border-color: transparent; }
+  .mines-cell.flagged { background: rgba(255,209,102,0.1); border-color: rgba(255,209,102,0.35); }
+  .mines-cell.mine-hit { background: rgba(239,71,111,0.2); border-color: rgba(239,71,111,0.5); }
+  .mines-status { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-align: center; min-height: 1.2em; }
+  .mines-diff-row { display: flex; gap: 0.4rem; }
+  .mines-diff-btn {
+    background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+    font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.28rem 0.65rem; border-radius: 6px; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .mines-diff-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .mines-diff-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.08); }
+  .n1{color:#06d6a0} .n2{color:#ffd166} .n3{color:#ef476f} .n4{color:#a855f7} .n5{color:#f97316} .n6{color:#22d3ee} .n7{color:#e879f9} .n8{color:var(--muted)}
+
 </style>
+</head>
 <body>
+
+<!-- ══ SCROLL PROGRESS ══ -->
+<div id="scroll-progress"></div>
+
+<!-- ══ BACK TO TOP ══ -->
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top" aria-label="Back to top">↑</button>
+
+<!-- ══ KEYBOARD SHORTCUTS ══ -->
+<button id="shortcut-help-btn" onclick="document.getElementById('shortcut-overlay').classList.add('open')" title="Keyboard shortcuts">?</button>
+<div id="shortcut-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="shortcut-panel">
+    <div class="shortcut-title">⌨ Keyboard Shortcuts</div>
+    <div class="shortcut-row"><span>Focus search</span><span class="shortcut-key">/</span></div>
+    <div class="shortcut-row"><span>Show shortcuts</span><span class="shortcut-key">?</span></div>
+    <div class="shortcut-row"><span>Dismiss / Close</span><span class="shortcut-key">Esc</span></div>
+    <div class="shortcut-row"><span>Open settings</span><span class="shortcut-key">S</span></div>
+    <div class="shortcut-row"><span>Back to top</span><span class="shortcut-key">T</span></div>
+    <div style="margin-top:1rem;text-align:center">
+      <button class="btn" onclick="document.getElementById('shortcut-overlay').classList.remove('open')" style="padding:0.4rem 1.5rem;">Close</button>
+    </div>
+  </div>
+</div>
 
 <!-- ══ V2.0 LOADER BAR ══ -->
 <div id="v2-loader"></div>
@@ -2400,9 +2736,6 @@
 
 <!-- ══ EDIT MODE BANNER ══ -->
 <div class="edit-mode-banner" id="edit-mode-banner">✏ Drag cards to reorder — click ✏ again to save</div>
-
-<!-- ══ BACK TO TOP ══ -->
-<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top" aria-label="Back to top">↑</button>
 
 <!-- ══ V2.0 SETTINGS OVERLAY ══ -->
 <div class="settings-overlay" id="settings-overlay" onclick="v2CloseSettings()"></div>
@@ -2590,7 +2923,13 @@
 </div>
 
 <h1 class="app-intro-target">Interactive Hub</h1>
-<p class="subtitle app-intro-subtitle">Clock · Newton's Cradle · Spirograph · Whiteboard · Timer · Notepad · Calculator · RNG · Password · Case · Word Counter · Color · Unit Converter · Base64 · JSON · Pomodoro · Games</p>
+<p class="subtitle app-intro-subtitle">Tools · Utilities · Games · All in your browser</p>
+
+<div class="hub-stats">
+  <div class="hub-stat-badge"><span id="stat-tools">10</span> Tools</div>
+  <div class="hub-stat-badge"><span id="stat-games">10</span> Games</div>
+  <div class="hub-stat-badge">100% <span>Private</span></div>
+</div>
 
 <!-- ══ SEARCH BAR ══ -->
 <div class="search-wrap">
@@ -3033,6 +3372,88 @@
     </div>
   </div>
 
+  <!-- MARKDOWN PREVIEWER -->
+  <div class="card" style="grid-column: 1 / -1;" data-tool="Markdown Previewer">
+    <div class="card-title-row">
+    <div class="card-title">Markdown Previewer</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
+    <div class="md-wrap">
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.2rem;">
+        <button class="md-fmt-btn" onclick="mdInsert('**','**')" data-tip="Bold">B</button>
+        <button class="md-fmt-btn" onclick="mdInsert('*','*')" data-tip="Italic" style="font-style:italic">I</button>
+        <button class="md-fmt-btn" onclick="mdInsert('`','`')" data-tip="Inline code">&lt;/&gt;</button>
+        <button class="md-fmt-btn" onclick="mdInsert('# ','','prefix')" data-tip="Heading">H1</button>
+        <button class="md-fmt-btn" onclick="mdInsert('## ','','prefix')" data-tip="Heading 2">H2</button>
+        <button class="md-fmt-btn" onclick="mdInsert('> ','','prefix')" data-tip="Blockquote">❝</button>
+        <button class="md-fmt-btn" onclick="mdInsert('- ','','prefix')" data-tip="List item">• List</button>
+        <button class="md-fmt-btn" onclick="mdInsert('---\n','')" data-tip="Horizontal rule">—</button>
+        <button class="btn" onclick="mdCopy()" style="margin-left:auto;padding:0.28rem 0.8rem;" data-tip="Copy markdown">Copy MD</button>
+        <button class="btn" onclick="mdClear()" style="padding:0.28rem 0.8rem;" data-tip="Clear all">Clear</button>
+      </div>
+      <div class="md-pane-row">
+        <div class="md-pane">
+          <div class="md-pane-label">Markdown Input</div>
+          <textarea class="md-textarea" id="md-input" placeholder="# Hello World&#10;&#10;Type **markdown** here and see the *live preview*." oninput="mdRender()"></textarea>
+        </div>
+        <div class="md-pane">
+          <div class="md-pane-label">Live Preview</div>
+          <div class="md-preview" id="md-preview"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIP CALCULATOR -->
+  <div class="card" data-tool="Tip Calculator">
+    <div class="card-title-row">
+    <div class="card-title">Tip Calculator</div>
+    <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
+    <div class="tip-wrap">
+      <div class="tip-input-group">
+        <span class="tip-label">Bill Amount ($)</span>
+        <input class="tip-input" id="tip-bill" type="number" min="0" step="0.01" placeholder="0.00" oninput="tipCalc()">
+      </div>
+      <div class="tip-input-group">
+        <span class="tip-label">Tip Percentage</span>
+        <div class="tip-pct-row">
+          <button class="tip-pct-btn" onclick="tipSetPct(10,this)">10%</button>
+          <button class="tip-pct-btn active" onclick="tipSetPct(15,this)">15%</button>
+          <button class="tip-pct-btn" onclick="tipSetPct(18,this)">18%</button>
+          <button class="tip-pct-btn" onclick="tipSetPct(20,this)">20%</button>
+          <button class="tip-pct-btn" onclick="tipSetPct(25,this)">25%</button>
+        </div>
+        <input class="tip-input" id="tip-pct" type="number" min="0" max="100" value="15" placeholder="%" oninput="tipCalc()" style="font-size:0.95rem;margin-top:0.35rem;">
+      </div>
+      <div class="tip-split-row">
+        <span class="tip-split-label">Split between</span>
+        <button class="rng-count-btn" onclick="tipAdjustSplit(-1)">−</button>
+        <span class="rng-count-val" id="tip-split-val">1</span>
+        <button class="rng-count-btn" onclick="tipAdjustSplit(1)">+</button>
+        <span class="tip-split-label">people</span>
+      </div>
+      <div class="tip-result-grid">
+        <div class="tip-result-box">
+          <div class="tip-result-label">Tip Amount</div>
+          <div class="tip-result-val" id="tip-amount">$0.00</div>
+        </div>
+        <div class="tip-result-box highlight">
+          <div class="tip-result-label">Total Bill</div>
+          <div class="tip-result-val" id="tip-total">$0.00</div>
+        </div>
+        <div class="tip-result-box">
+          <div class="tip-result-label">Per Person (tip)</div>
+          <div class="tip-result-val" id="tip-per-tip">$0.00</div>
+        </div>
+        <div class="tip-result-box highlight">
+          <div class="tip-result-label">Per Person (total)</div>
+          <div class="tip-result-val" id="tip-per-total">$0.00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ════════════════════════════════════════
@@ -3289,6 +3710,70 @@
       </div>
       <div class="g2048-board" id="g2048-board"></div>
       <div class="g2048-status" id="g2048-status">Swipe or use arrow keys to merge tiles</div>
+    </div>
+  </div>
+
+  <!-- MEMORY MATCH -->
+  <div class="card" data-tool="Memory Match">
+    <div class="card-title-row">
+      <div class="card-title">Memory Match</div>
+      <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
+    <div class="mem-wrap">
+      <div class="mem-board" id="mem-board"></div>
+      <div class="mem-stat-row">
+        <span>Moves <span class="mem-stat-val" id="mem-moves">0</span></span>
+        <span>Pairs <span class="mem-stat-val" id="mem-pairs">0</span>/8</span>
+        <span>Best <span class="mem-stat-val" id="mem-best">—</span></span>
+      </div>
+      <div class="mem-status" id="mem-status">Press New Game to start</div>
+      <button class="btn" onclick="memNew()" data-tip="Shuffle and start new game">New Game</button>
+    </div>
+  </div>
+
+  <!-- TYPING SPEED TEST -->
+  <div class="card" data-tool="Typing Speed">
+    <div class="card-title-row">
+      <div class="card-title">Typing Speed Test</div>
+      <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
+    <div class="type-wrap">
+      <div class="type-quote" id="type-quote"></div>
+      <div class="type-progress"><div class="type-progress-fill" id="type-progress-fill"></div></div>
+      <input class="type-input" id="type-input" type="text" placeholder="Start typing to begin the test…" oninput="typeInput()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <div class="type-stat-row">
+        <span>WPM <span class="type-stat-val wpm-live" id="type-wpm">—</span></span>
+        <span>Accuracy <span class="type-stat-val" id="type-acc">—</span></span>
+        <span>Time <span class="type-stat-val" id="type-time">60s</span></span>
+        <span>Best WPM <span class="type-stat-val" id="type-best">—</span></span>
+      </div>
+      <div style="display:flex;gap:0.5rem;justify-content:center;">
+        <button class="btn" onclick="typeNew()" data-tip="New random sentence">New Text</button>
+        <button class="btn" onclick="typeReset()" data-tip="Reset current test">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MINESWEEPER -->
+  <div class="card" data-tool="Minesweeper">
+    <div class="card-title-row">
+      <div class="card-title">Minesweeper</div>
+      <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
+    </div>
+    <div class="mines-wrap">
+      <div class="mines-diff-row">
+        <button class="mines-diff-btn active" id="mines-easy" onclick="minesSetDiff('easy',this)">Easy 9×9</button>
+        <button class="mines-diff-btn" id="mines-med" onclick="minesSetDiff('med',this)">Med 12×9</button>
+        <button class="mines-diff-btn" id="mines-hard" onclick="minesSetDiff('hard',this)">Hard 16×9</button>
+      </div>
+      <div class="mines-header">
+        <span>💣 <span class="mines-val" id="mines-count">10</span></span>
+        <span>⏱ <span class="mines-val" id="mines-time">0s</span></span>
+        <span>🏆 <span class="mines-val" id="mines-best">—</span></span>
+      </div>
+      <div class="mines-board" id="mines-board"></div>
+      <div class="mines-status" id="mines-status">Left-click to reveal · Right-click to flag</div>
+      <button class="btn" onclick="minesNew()" data-tip="Start a new game">New Game</button>
     </div>
   </div>
 
@@ -5435,7 +5920,7 @@ let dragSrcGrid = null;
       if (!order) return;
       order.forEach(toolName => {
         const card = grid.querySelector(`.card[data-tool="${CSS.escape(toolName)}"]`);
-        if (card) grid.appendChild(card);
+        if (card) grid.appendChild(card); // move to end in saved order
       });
     });
   } catch(e) {}
@@ -5462,6 +5947,7 @@ function toggleEditMode() {
 
   if (editModeActive) {
     banner.classList.add('show');
+    // Enable drag on all cards
     document.querySelectorAll('.card').forEach(card => {
       card.setAttribute('draggable', 'true');
       card.addEventListener('dragstart', onDragStart);
@@ -5472,6 +5958,7 @@ function toggleEditMode() {
     });
   } else {
     banner.classList.remove('show');
+    // Disable drag on all cards
     document.querySelectorAll('.card').forEach(card => {
       card.setAttribute('draggable', 'false');
       card.removeEventListener('dragstart', onDragStart);
@@ -5496,25 +5983,18 @@ function onDragStart(e) {
 
 function onDragOver(e) {
   if (!editModeActive || !dragSrcCard || this === dragSrcCard) return;
-  // Only allow drag within the same grid
-  if (this.parentElement !== dragSrcGrid) return;
   e.preventDefault();
   e.dataTransfer.dropEffect = 'move';
   document.querySelectorAll('.card').forEach(c => c.classList.remove('drag-over'));
   this.classList.add('drag-over');
 }
 
-function onDragLeave(e) {
-  // Only remove the class if we're truly leaving this card (not entering a child element)
-  if (!this.contains(e.relatedTarget)) {
-    this.classList.remove('drag-over');
-  }
+function onDragLeave() {
+  this.classList.remove('drag-over');
 }
 
 function onDrop(e) {
   if (!editModeActive || !dragSrcCard || this === dragSrcCard) return;
-  // Prevent cross-grid drops
-  if (this.parentElement !== dragSrcGrid) return;
   e.preventDefault();
   this.classList.remove('drag-over');
   const grid = this.parentElement;
@@ -5527,21 +6007,18 @@ function onDrop(e) {
   } else {
     grid.insertBefore(dragSrcCard, this);
   }
-  // Auto-save after each successful drop
-  saveCardOrder();
 }
 
 function onDragEnd() {
   this.classList.remove('dragging');
   document.querySelectorAll('.card').forEach(c => c.classList.remove('drag-over'));
   dragSrcCard = null;
-  dragSrcGrid = null;
 }
 
 // Touch-based drag for mobile
 (function initTouchDrag() {
   let touchDragCard = null, touchClone = null, touchGrid = null;
-  let touchOffsetX = 0, touchOffsetY = 0;
+  let touchStartX = 0, touchStartY = 0;
 
   document.addEventListener('touchstart', e => {
     if (!editModeActive) return;
@@ -5550,39 +6027,24 @@ function onDragEnd() {
     touchDragCard = card;
     touchGrid = card.parentElement;
     const r = card.getBoundingClientRect();
-    touchOffsetX = e.touches[0].clientX - r.left;
-    touchOffsetY = e.touches[0].clientY - r.top;
+    touchStartX = e.touches[0].clientX - r.left;
+    touchStartY = e.touches[0].clientY - r.top;
     touchClone = card.cloneNode(true);
-    touchClone.style.cssText = `
-      position: fixed;
-      width: ${r.width}px;
-      height: ${r.height}px;
-      top: ${r.top}px;
-      left: ${r.left}px;
-      opacity: 0.8;
-      pointer-events: none;
-      z-index: 9999;
-      transition: none;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 2px var(--accent2);
-      border-radius: ${r.borderRadius || '16px'};
-      transform: scale(1.04);
-    `;
+    touchClone.style.cssText = `position:fixed;width:${r.width}px;opacity:0.75;pointer-events:none;z-index:9999;top:${r.top}px;left:${r.left}px;transition:none;`;
     document.body.appendChild(touchClone);
-    card.style.opacity = '0.25';
+    card.style.opacity = '0.3';
   }, { passive: true });
 
   document.addEventListener('touchmove', e => {
     if (!touchDragCard || !touchClone) return;
     e.preventDefault();
     const t = e.touches[0];
-    touchClone.style.top  = (t.clientY - touchOffsetY) + 'px';
-    touchClone.style.left = (t.clientX - touchOffsetX) + 'px';
+    touchClone.style.top  = (t.clientY - touchStartY) + 'px';
+    touchClone.style.left = (t.clientX - touchStartX) + 'px';
     document.querySelectorAll('.card').forEach(c => c.classList.remove('drag-over'));
     const el = document.elementFromPoint(t.clientX, t.clientY);
     const target = el && el.closest('.card');
-    if (target && target !== touchDragCard && target.parentElement === touchGrid) {
-      target.classList.add('drag-over');
-    }
+    if (target && target !== touchDragCard) target.classList.add('drag-over');
   }, { passive: false });
 
   document.addEventListener('touchend', e => {
@@ -5590,21 +6052,19 @@ function onDragEnd() {
     const t = e.changedTouches[0];
     const el = document.elementFromPoint(t.clientX, t.clientY);
     const target = el && el.closest('.card');
-    if (target && target !== touchDragCard && target.parentElement === touchGrid) {
-      const grid = touchGrid;
+    if (target && target !== touchDragCard) {
+      const grid = target.parentElement;
       const cards = [...grid.querySelectorAll('.card')];
       const dstIdx = cards.indexOf(target);
       const srcIdx = cards.indexOf(touchDragCard);
       if (srcIdx < dstIdx) grid.insertBefore(touchDragCard, target.nextSibling);
       else grid.insertBefore(touchDragCard, target);
-      saveCardOrder();
     }
     touchDragCard.style.opacity = '';
     document.querySelectorAll('.card').forEach(c => c.classList.remove('drag-over'));
     touchClone.remove();
     touchClone = null;
     touchDragCard = null;
-    touchGrid = null;
   });
 })();
 
@@ -6399,17 +6859,6 @@ privacyStyle.textContent = `@keyframes overlayOut { from { opacity:1; } to { opa
 document.head.appendChild(privacyStyle);
 
 /* ══════════════════════════════════════
-   BACK TO TOP
-══════════════════════════════════════ */
-(function initBackToTop() {
-  const btn = document.getElementById('back-to-top');
-  if (!btn) return;
-  window.addEventListener('scroll', () => {
-    btn.classList.toggle('visible', window.scrollY > 400);
-  }, { passive: true });
-})();
-
-/* ══════════════════════════════════════
    KEYBOARD SHORTCUT — "/" focuses search
 ══════════════════════════════════════ */
 document.addEventListener('keydown', function(e) {
@@ -6434,7 +6883,498 @@ document.addEventListener('keydown', function(e) {
 ══════════════════════════════════════ */
 v2LoadSettings();
 
+/* ══════════════════════════════════════
+   SCROLL PROGRESS BAR & BACK TO TOP
+══════════════════════════════════════ */
+(function() {
+  const bar = document.getElementById('scroll-progress');
+  const btn = document.getElementById('back-to-top');
+  function onScroll() {
+    const el = document.documentElement;
+    const scrolled = el.scrollTop / (el.scrollHeight - el.clientHeight);
+    if (bar) bar.style.width = (scrolled * 100) + '%';
+    if (btn) btn.classList.toggle('visible', el.scrollTop > 400);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
 
+/* ══════════════════════════════════════
+   KEYBOARD SHORTCUTS EXTENSION
+══════════════════════════════════════ */
+document.addEventListener('keydown', function(e) {
+  const tag = document.activeElement ? document.activeElement.tagName : '';
+  const isEditable = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT'
+    || document.activeElement.isContentEditable;
+  if (isEditable) return;
+  if (e.key === '?') {
+    document.getElementById('shortcut-overlay').classList.add('open');
+  }
+  if (e.key === 'Escape') {
+    document.getElementById('shortcut-overlay').classList.remove('open');
+  }
+  if (e.key === 't' || e.key === 'T') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  if (e.key === 's' || e.key === 'S') {
+    v2ToggleSettings();
+  }
+});
+
+/* ══════════════════════════════════════
+   HUB STATS BADGE COUNT
+══════════════════════════════════════ */
+(function() {
+  const allCards = document.querySelectorAll('.card[data-tool]');
+  const gameSection = document.querySelector('.section-divider');
+  let tools = 0, games = 0, pastDivider = false;
+  allCards.forEach(c => {
+    const rect = c.getBoundingClientRect();
+    const tool = c.getAttribute('data-tool');
+    if (gameSection) {
+      const divRect = gameSection.getBoundingClientRect();
+      if (c.compareDocumentPosition(gameSection) & Node.DOCUMENT_POSITION_PRECEDING) {
+        games++;
+      } else {
+        tools++;
+      }
+    } else {
+      tools++;
+    }
+  });
+  const tEl = document.getElementById('stat-tools');
+  const gEl = document.getElementById('stat-games');
+  if (tEl) tEl.textContent = tools || allCards.length;
+  if (gEl) gEl.textContent = games || '—';
+})();
+
+/* ══════════════════════════════════════
+   MARKDOWN PREVIEWER
+══════════════════════════════════════ */
+function mdRender() {
+  const src = document.getElementById('md-input').value;
+  const prev = document.getElementById('md-preview');
+  if (!src.trim()) { prev.innerHTML = '<span style="color:var(--muted);font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;">Preview will appear here…</span>'; return; }
+  let html = src
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/^#{3} (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^#{2} (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^# (.+)$/gm,'<h1>$1</h1>')
+    .replace(/^---$/gm,'<hr>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/^&gt; (.+)$/gm,'<blockquote>$1</blockquote>')
+    .replace(/^\- (.+)$/gm,'<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/s,'<ul>$1</ul>')
+    .replace(/\[(.+?)\]\((.+?)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\n\n+/g,'</p><p>')
+    .replace(/\n/g,'<br>');
+  html = '<p>' + html + '</p>';
+  html = html.replace(/<p>(<h[1-3]>)/g,'$1').replace(/(<\/h[1-3]>)<\/p>/g,'$1');
+  html = html.replace(/<p>(<hr>)<\/p>/g,'$1');
+  html = html.replace(/<p>(<blockquote>)/g,'$1').replace(/(<\/blockquote>)<\/p>/g,'$1');
+  html = html.replace(/<p>(<ul>)/g,'$1').replace(/(<\/ul>)<\/p>/g,'$1');
+  prev.innerHTML = html;
+}
+
+function mdInsert(before, after, mode) {
+  const ta = document.getElementById('md-input');
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  const sel = ta.value.substring(start, end);
+  if (mode === 'prefix') {
+    const lineStart = ta.value.lastIndexOf('\n', start - 1) + 1;
+    ta.value = ta.value.substring(0, lineStart) + before + ta.value.substring(lineStart);
+    ta.selectionStart = ta.selectionEnd = start + before.length;
+  } else {
+    ta.value = ta.value.substring(0, start) + before + sel + after + ta.value.substring(end);
+    ta.selectionStart = start + before.length;
+    ta.selectionEnd = end + before.length;
+  }
+  ta.focus();
+  mdRender();
+}
+
+function mdCopy() {
+  const val = document.getElementById('md-input').value;
+  navigator.clipboard.writeText(val).then(() => v2ShowToast('Markdown copied!'));
+}
+function mdClear() {
+  document.getElementById('md-input').value = '';
+  mdRender();
+}
+
+mdRender();
+
+/* ══════════════════════════════════════
+   TIP CALCULATOR
+══════════════════════════════════════ */
+var tipSplit = 1;
+var tipPct = 15;
+
+function tipSetPct(pct, btn) {
+  tipPct = pct;
+  document.getElementById('tip-pct').value = pct;
+  document.querySelectorAll('.tip-pct-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  tipCalc();
+}
+
+function tipAdjustSplit(delta) {
+  tipSplit = Math.max(1, Math.min(20, tipSplit + delta));
+  document.getElementById('tip-split-val').textContent = tipSplit;
+  tipCalc();
+}
+
+function tipCalc() {
+  const bill = parseFloat(document.getElementById('tip-bill').value) || 0;
+  const pct = parseFloat(document.getElementById('tip-pct').value) || tipPct;
+  const tipAmt = bill * (pct / 100);
+  const total = bill + tipAmt;
+  document.getElementById('tip-amount').textContent = '$' + tipAmt.toFixed(2);
+  document.getElementById('tip-total').textContent = '$' + total.toFixed(2);
+  document.getElementById('tip-per-tip').textContent = '$' + (tipAmt / tipSplit).toFixed(2);
+  document.getElementById('tip-per-total').textContent = '$' + (total / tipSplit).toFixed(2);
+}
+
+/* ══════════════════════════════════════
+   MEMORY MATCH GAME
+══════════════════════════════════════ */
+(function() {
+  const EMOJIS = ['🍕','🎸','🚀','🦊','🎯','🌊','⚡','🌸'];
+  let cards = [], flipped = [], matched = 0, moves = 0, lock = false;
+  let bestMoves = null;
+  try { bestMoves = JSON.parse(localStorage.getItem('mem_best')) || null; } catch(e){}
+
+  function memNew() {
+    const board = document.getElementById('mem-board');
+    cards = []; flipped = []; matched = 0; moves = 0; lock = false;
+    document.getElementById('mem-moves').textContent = '0';
+    document.getElementById('mem-pairs').textContent = '0';
+    document.getElementById('mem-status').textContent = 'Find all matching pairs!';
+    const deck = [...EMOJIS, ...EMOJIS].sort(() => Math.random() - 0.5);
+    board.innerHTML = '';
+    deck.forEach((emoji, i) => {
+      const card = document.createElement('div');
+      card.className = 'mem-card';
+      card.innerHTML = '<div class="mem-back"></div><div class="mem-face">' + emoji + '</div>';
+      card.dataset.val = emoji;
+      card.dataset.idx = i;
+      card.addEventListener('click', () => memFlip(card));
+      board.appendChild(card);
+      cards.push(card);
+    });
+    updateBest();
+  }
+
+  function updateBest() {
+    document.getElementById('mem-best').textContent = bestMoves !== null ? bestMoves + ' moves' : '—';
+  }
+
+  function memFlip(card) {
+    if (lock || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+    card.classList.add('flipped');
+    flipped.push(card);
+    if (flipped.length === 2) {
+      lock = true;
+      moves++;
+      document.getElementById('mem-moves').textContent = moves;
+      if (flipped[0].dataset.val === flipped[1].dataset.val) {
+        flipped[0].classList.add('matched');
+        flipped[1].classList.add('matched');
+        flipped = [];
+        matched++;
+        document.getElementById('mem-pairs').textContent = matched;
+        lock = false;
+        if (matched === 8) {
+          document.getElementById('mem-status').textContent = '🎉 Solved in ' + moves + ' moves!';
+          if (bestMoves === null || moves < bestMoves) {
+            bestMoves = moves;
+            try { localStorage.setItem('mem_best', JSON.stringify(bestMoves)); } catch(e){}
+            updateBest();
+          }
+          v2ShowToast('🎉 Matched all pairs!');
+        }
+      } else {
+        setTimeout(() => {
+          flipped[0].classList.remove('flipped');
+          flipped[1].classList.remove('flipped');
+          flipped = [];
+          lock = false;
+        }, 900);
+      }
+    }
+  }
+
+  window.memNew = memNew;
+  memNew();
+})();
+
+/* ══════════════════════════════════════
+   TYPING SPEED TEST
+══════════════════════════════════════ */
+(function() {
+  const QUOTES = [
+    "The quick brown fox jumps over the lazy dog near the riverbank.",
+    "Success is not the key to happiness. Happiness is the key to success.",
+    "In the middle of every difficulty lies opportunity waiting to be found.",
+    "The only way to do great work is to love what you do every single day.",
+    "Technology is best when it brings people closer together as one.",
+    "Code is like humor. When you have to explain it, it is not that good.",
+    "Programs must be written for people to read and incidentally for machines.",
+    "The best time to plant a tree was twenty years ago. The second best time is now.",
+    "Simplicity is the soul of efficiency in everything we design and build.",
+    "Every expert was once a beginner who refused to give up on their dream."
+  ];
+
+  let currentQuote = '', started = false, timer = null, timeLeft = 60, bestWpm = null;
+  try { bestWpm = JSON.parse(localStorage.getItem('type_best')); } catch(e){}
+
+  function typeNew() {
+    currentQuote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+    typeReset();
+    renderQuote();
+  }
+
+  function renderQuote(typed) {
+    const el = document.getElementById('type-quote');
+    el.innerHTML = '';
+    for (let i = 0; i < currentQuote.length; i++) {
+      const span = document.createElement('span');
+      span.className = 'type-char';
+      if (typed !== undefined) {
+        if (i < typed.length) {
+          span.classList.add(typed[i] === currentQuote[i] ? 'correct' : 'wrong');
+        } else if (i === typed.length) {
+          span.classList.add('current');
+        }
+      } else if (i === 0) {
+        span.classList.add('current');
+      }
+      span.textContent = currentQuote[i];
+      el.appendChild(span);
+    }
+  }
+
+  function typeInput() {
+    const input = document.getElementById('type-input');
+    const val = input.value;
+    if (!started && val.length > 0) {
+      started = true;
+      timeLeft = 60;
+      timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById('type-time').textContent = timeLeft + 's';
+        updateStats(val);
+        if (timeLeft <= 0) endTest(val);
+      }, 1000);
+    }
+    renderQuote(val);
+    updateStats(val);
+    document.getElementById('type-progress-fill').style.width = Math.min(100, (val.length / currentQuote.length) * 100) + '%';
+    if (val === currentQuote) { endTest(val); }
+  }
+
+  function updateStats(val) {
+    if (!val) return;
+    const elapsed = Math.max(1, 60 - timeLeft);
+    const words = val.trim().split(/\s+/).length;
+    const wpm = Math.round((words / elapsed) * 60);
+    let correct = 0;
+    for (let i = 0; i < val.length; i++) {
+      if (val[i] === currentQuote[i]) correct++;
+    }
+    const acc = val.length > 0 ? Math.round((correct / val.length) * 100) : 100;
+    document.getElementById('type-wpm').textContent = wpm;
+    document.getElementById('type-acc').textContent = acc + '%';
+    document.getElementById('type-best').textContent = bestWpm !== null ? bestWpm + ' wpm' : '—';
+  }
+
+  function endTest(val) {
+    clearInterval(timer);
+    const input = document.getElementById('type-input');
+    input.disabled = true;
+    const elapsed = Math.max(1, 60 - timeLeft);
+    const words = val.trim().split(/\s+/).length;
+    const wpm = Math.round((words / elapsed) * 60);
+    if (bestWpm === null || wpm > bestWpm) {
+      bestWpm = wpm;
+      try { localStorage.setItem('type_best', JSON.stringify(bestWpm)); } catch(e){}
+    }
+    document.getElementById('type-best').textContent = bestWpm + ' wpm';
+    v2ShowToast('Test done — ' + wpm + ' WPM!');
+  }
+
+  function typeReset() {
+    clearInterval(timer);
+    started = false; timeLeft = 60;
+    const input = document.getElementById('type-input');
+    input.value = '';
+    input.disabled = false;
+    document.getElementById('type-wpm').textContent = '—';
+    document.getElementById('type-acc').textContent = '—';
+    document.getElementById('type-time').textContent = '60s';
+    document.getElementById('type-progress-fill').style.width = '0%';
+    document.getElementById('type-best').textContent = bestWpm !== null ? bestWpm + ' wpm' : '—';
+    renderQuote();
+  }
+
+  window.typeNew = typeNew;
+  window.typeReset = typeReset;
+  window.typeInput = typeInput;
+  typeNew();
+})();
+
+/* ══════════════════════════════════════
+   MINESWEEPER
+══════════════════════════════════════ */
+(function() {
+  const DIFFS = {
+    easy: { rows: 9, cols: 9, mines: 10 },
+    med:  { rows: 9, cols: 12, mines: 20 },
+    hard: { rows: 9, cols: 16, mines: 35 }
+  };
+  let diff = 'easy', board = [], rows = 9, cols = 9, mineCount = 10;
+  let revealed = 0, flagged = 0, started = false, over = false;
+  let timer = null, elapsed = 0, bestTime = {};
+  try { bestTime = JSON.parse(localStorage.getItem('mines_best')) || {}; } catch(e){}
+
+  function minesSetDiff(d, btn) {
+    diff = d;
+    document.querySelectorAll('.mines-diff-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    minesNew();
+  }
+
+  function minesNew() {
+    clearInterval(timer);
+    const cfg = DIFFS[diff];
+    rows = cfg.rows; cols = cfg.cols; mineCount = cfg.mines;
+    board = []; revealed = 0; flagged = 0; started = false; over = false; elapsed = 0;
+    document.getElementById('mines-time').textContent = '0s';
+    document.getElementById('mines-count').textContent = mineCount;
+    document.getElementById('mines-status').textContent = 'Left-click to reveal · Right-click to flag';
+    const best = bestTime[diff];
+    document.getElementById('mines-best').textContent = best ? best + 's' : '—';
+
+    for (let r = 0; r < rows; r++) {
+      board[r] = [];
+      for (let c = 0; c < cols; c++) {
+        board[r][c] = { mine: false, revealed: false, flagged: false, adj: 0 };
+      }
+    }
+    renderBoard();
+  }
+
+  function placeMines(firstR, firstC) {
+    let placed = 0;
+    while (placed < mineCount) {
+      const r = Math.floor(Math.random() * rows);
+      const c = Math.floor(Math.random() * cols);
+      if (!board[r][c].mine && !(r === firstR && c === firstC)) {
+        board[r][c].mine = true;
+        placed++;
+      }
+    }
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        if (!board[r][c].mine) {
+          let count = 0;
+          forNeighbors(r, c, (nr, nc) => { if (board[nr][nc].mine) count++; });
+          board[r][c].adj = count;
+        }
+      }
+    }
+  }
+
+  function forNeighbors(r, c, fn) {
+    for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+      if (dr === 0 && dc === 0) continue;
+      const nr = r + dr, nc = c + dc;
+      if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) fn(nr, nc);
+    }
+  }
+
+  function reveal(r, c) {
+    const cell = board[r][c];
+    if (cell.revealed || cell.flagged || over) return;
+    cell.revealed = true;
+    revealed++;
+    if (cell.mine) {
+      over = true;
+      clearInterval(timer);
+      board.forEach(row => row.forEach(c => { if (c.mine) c.revealed = true; }));
+      document.getElementById('mines-status').textContent = '💥 Game over! Press New Game';
+      renderBoard();
+      return;
+    }
+    if (cell.adj === 0) {
+      forNeighbors(r, c, (nr, nc) => reveal(nr, nc));
+    }
+    if (revealed === rows * cols - mineCount) {
+      over = true;
+      clearInterval(timer);
+      document.getElementById('mines-status').textContent = '🏆 You win in ' + elapsed + 's!';
+      if (!bestTime[diff] || elapsed < bestTime[diff]) {
+        bestTime[diff] = elapsed;
+        try { localStorage.setItem('mines_best', JSON.stringify(bestTime)); } catch(e){}
+        document.getElementById('mines-best').textContent = elapsed + 's';
+      }
+      v2ShowToast('💣 Minesweeper cleared!');
+    }
+  }
+
+  function cellClick(r, c, e) {
+    if (over) return;
+    if (!started) {
+      started = true;
+      placeMines(r, c);
+      timer = setInterval(() => {
+        elapsed++;
+        document.getElementById('mines-time').textContent = elapsed + 's';
+      }, 1000);
+    }
+    if (e.button === 2 || e.type === 'contextmenu') {
+      e.preventDefault();
+      const cell = board[r][c];
+      if (cell.revealed) return;
+      cell.flagged = !cell.flagged;
+      flagged += cell.flagged ? 1 : -1;
+      document.getElementById('mines-count').textContent = mineCount - flagged;
+    } else {
+      if (board[r][c].flagged) return;
+      reveal(r, c);
+    }
+    renderBoard();
+  }
+
+  function renderBoard() {
+    const el = document.getElementById('mines-board');
+    el.style.gridTemplateColumns = 'repeat(' + cols + ',28px)';
+    el.innerHTML = '';
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const cell = board[r][c];
+        const div = document.createElement('div');
+        div.className = 'mines-cell';
+        if (cell.revealed) {
+          div.classList.add('revealed');
+          if (cell.mine) { div.textContent = '💣'; div.classList.add('mine-hit'); }
+          else if (cell.adj > 0) { div.textContent = cell.adj; div.classList.add('n' + cell.adj); }
+        } else if (cell.flagged) {
+          div.classList.add('flagged');
+          div.textContent = '🚩';
+        }
+        div.addEventListener('click', (e) => cellClick(r, c, e));
+        div.addEventListener('contextmenu', (e) => cellClick(r, c, e));
+        el.appendChild(div);
+      }
+    }
+  }
+
+  window.minesNew = minesNew;
+  window.minesSetDiff = minesSetDiff;
+  minesNew();
+})();
 
 </script>
 </body>

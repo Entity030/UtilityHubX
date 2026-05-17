@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interactive Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&family=Cormorant+Garamond:wght@300;400;600;700&family=Space+Mono:wght@400;700&family=Quicksand:wght@300;400;500;700&family=Raleway:wght@300;400;600;700&family=Inter:wght@300;400;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d0d0f'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23ff6b35'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffd166'/%3E%3Cline x1='16' y1='4' x2='16' y2='10' stroke='%23ff6b35' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='16' y1='22' x2='16' y2='28' stroke='%23ff6b35' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='4' y1='16' x2='10' y2='16' stroke='%23ff6b35' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='22' y1='16' x2='28' y2='16' stroke='%23ff6b35' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='7.75' y1='7.75' x2='12' y2='12' stroke='%23ffd166' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='20' y1='20' x2='24.25' y2='24.25' stroke='%23ffd166' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='24.25' y1='7.75' x2='20' y2='12' stroke='%23ffd166' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='12' y1='20' x2='7.75' y2='24.25' stroke='%23ffd166' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,6 +37,227 @@
     --wb-bg: #f8f8ff;
     --calc-btn-hover: rgba(0,0,0,0.05);
     --calc-btn-border-hover: rgba(0,0,0,0.2);
+  }
+
+  /* ══════════════════════════════════════
+     UI THEMES — Full visual theme system
+  ══════════════════════════════════════ */
+
+  /* THEME: Luxe (Black · Gold · Silver — Premium) */
+  :root[data-ui-theme="luxe"] {
+    --bg: #080808;
+    --surface: #101010;
+    --surface2: #181818;
+    --border: rgba(212,175,55,0.18);
+    --text: #e8e4d8;
+    --muted: #8a8070;
+    --accent: #d4af37;
+    --accent2: #c0c0c8;
+    --glow: rgba(212,175,55,0.35);
+    --wb-bg: #0c0c0c;
+    --calc-btn-hover: rgba(212,175,55,0.06);
+    --calc-btn-border-hover: rgba(212,175,55,0.3);
+    --theme-font: 'Cormorant Garamond', Georgia, serif;
+    --theme-font-mono: 'Courier Prime', monospace;
+    --theme-radius-card: 6px;
+  }
+  :root[data-ui-theme="luxe"] body { font-family: var(--theme-font); letter-spacing: 0.03em; }
+  :root[data-ui-theme="luxe"] h1 { font-family: var(--theme-font); font-weight: 300; letter-spacing: 0.35em; color: #d4af37; }
+  :root[data-ui-theme="luxe"] .subtitle { font-family: var(--theme-font); letter-spacing: 0.25em; }
+  :root[data-ui-theme="luxe"] .card {
+    background: rgba(10,10,10,0.82) !important;
+    border: 1px solid rgba(212,175,55,0.2) !important;
+    box-shadow: 0 0 0 1px rgba(212,175,55,0.05), 0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(212,175,55,0.08) !important;
+  }
+  :root[data-ui-theme="luxe"] .card:hover {
+    border-color: rgba(212,175,55,0.4) !important;
+    box-shadow: 0 0 0 1px rgba(212,175,55,0.12), 0 0 30px rgba(212,175,55,0.12), 0 12px 50px rgba(0,0,0,0.7), inset 0 1px 0 rgba(212,175,55,0.1) !important;
+  }
+  :root[data-ui-theme="luxe"] .btn { font-family: var(--theme-font); letter-spacing: 0.18em; border-color: rgba(212,175,55,0.25); }
+  :root[data-ui-theme="luxe"] .card-title { font-family: var(--theme-font); letter-spacing: 0.22em; color: #8a8070; font-size: 0.7rem; }
+  :root[data-ui-theme="luxe"] .clock-digits { font-family: 'Courier Prime', monospace; color: #d4af37; }
+  :root[data-ui-theme="luxe"] .bg-orb-1 { background: radial-gradient(circle, rgba(212,175,55,0.18) 0%, rgba(180,130,0,0.06) 55%, transparent 78%); }
+  :root[data-ui-theme="luxe"] .bg-orb-2 { background: radial-gradient(circle, rgba(192,192,200,0.12) 0%, rgba(160,160,180,0.04) 55%, transparent 78%); }
+  :root[data-ui-theme="luxe"] .bg-orb-3 { background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, rgba(180,140,0,0.03) 55%, transparent 78%); }
+  :root[data-ui-theme="luxe"] .bg-orb-4 { background: radial-gradient(circle, rgba(192,192,200,0.08) 0%, transparent 72%); }
+  :root[data-ui-theme="luxe"] .settings-panel { background: #0c0c0c; border-left-color: rgba(212,175,55,0.2); }
+  :root[data-ui-theme="luxe"] .settings-header { background: #0c0c0c; border-bottom-color: rgba(212,175,55,0.15); }
+  :root[data-ui-theme="luxe"] .settings-header-title { color: #d4af37; font-family: var(--theme-font); letter-spacing: 0.3em; }
+  :root[data-ui-theme="luxe"] #scroll-progress { background: linear-gradient(90deg, #d4af37, #c0c0c0, #d4af37); box-shadow: 0 0 10px rgba(212,175,55,0.5); }
+  :root[data-ui-theme="luxe"] .hub-stat-badge { border-color: rgba(212,175,55,0.2); background: rgba(212,175,55,0.06); }
+  :root[data-ui-theme="luxe"] #v2-loader { background: linear-gradient(90deg, #d4af37, #c0c0c0, #d4af37); }
+  :root[data-ui-theme="luxe"] .search-input { background: rgba(16,16,16,0.85) !important; }
+  :root[data-ui-theme="luxe"] .fav-section-title { color: #d4af37; }
+  :root[data-ui-theme="luxe"] .fav-tile { border-color: rgba(212,175,55,0.22); }
+  :root[data-ui-theme="luxe"] .section-divider-label { color: #d4af37; letter-spacing: 0.3em; font-family: var(--theme-font); }
+
+  /* THEME: Ocean (Deep Navy · Cyan · Teal) */
+  :root[data-ui-theme="ocean"] {
+    --bg: #070f1c;
+    --surface: #0d1825;
+    --surface2: #132030;
+    --border: rgba(0,200,230,0.12);
+    --text: #cde8f0;
+    --muted: #4a7a99;
+    --accent: #00c8e8;
+    --accent2: #00e8c8;
+    --glow: rgba(0,200,230,0.3);
+    --wb-bg: #0a141f;
+    --calc-btn-hover: rgba(0,200,230,0.06);
+    --calc-btn-border-hover: rgba(0,200,230,0.25);
+    --theme-font: 'Inter', system-ui, sans-serif;
+  }
+  :root[data-ui-theme="ocean"] body { font-family: 'Inter', system-ui, sans-serif; }
+  :root[data-ui-theme="ocean"] h1 { font-family: 'Inter', system-ui, sans-serif; font-weight: 700; color: #00c8e8; letter-spacing: 0.1em; }
+  :root[data-ui-theme="ocean"] .card { background: rgba(10,20,35,0.72) !important; border-color: rgba(0,200,230,0.14) !important; }
+  :root[data-ui-theme="ocean"] .bg-orb-1 { background: radial-gradient(circle, rgba(0,100,200,0.22) 0%, rgba(0,80,160,0.08) 55%, transparent 78%); }
+  :root[data-ui-theme="ocean"] .bg-orb-2 { background: radial-gradient(circle, rgba(0,180,200,0.18) 0%, rgba(0,140,160,0.06) 55%, transparent 78%); }
+  :root[data-ui-theme="ocean"] .bg-orb-3 { background: radial-gradient(circle, rgba(0,100,180,0.14) 0%, rgba(0,60,140,0.04) 55%, transparent 78%); }
+  :root[data-ui-theme="ocean"] .bg-orb-4 { background: radial-gradient(circle, rgba(0,200,220,0.1) 0%, transparent 72%); }
+  :root[data-ui-theme="ocean"] #scroll-progress { background: linear-gradient(90deg, #00c8e8, #00e8c8, #00c8e8); }
+  :root[data-ui-theme="ocean"] .settings-header-title { color: #00c8e8; }
+
+  /* THEME: Neon (Cyberpunk · Electric Green · Hot Pink) */
+  :root[data-ui-theme="neon"] {
+    --bg: #04040c;
+    --surface: #080818;
+    --surface2: #0e0e22;
+    --border: rgba(0,255,136,0.15);
+    --text: #e0ffe0;
+    --muted: #3a6a4a;
+    --accent: #00ff88;
+    --accent2: #ff0099;
+    --glow: rgba(0,255,136,0.4);
+    --wb-bg: #060610;
+    --calc-btn-hover: rgba(0,255,136,0.07);
+    --calc-btn-border-hover: rgba(0,255,136,0.3);
+  }
+  :root[data-ui-theme="neon"] body { font-family: 'Space Mono', monospace; font-size: 0.94em; }
+  :root[data-ui-theme="neon"] h1 { font-family: 'Space Mono', monospace; color: #00ff88; letter-spacing: 0.15em; text-shadow: 0 0 20px rgba(0,255,136,0.5); }
+  :root[data-ui-theme="neon"] .card { background: rgba(4,4,18,0.8) !important; border-color: rgba(0,255,136,0.18) !important; box-shadow: 0 0 0 1px rgba(0,255,136,0.05), 0 8px 40px rgba(0,0,0,0.7), inset 0 1px 0 rgba(0,255,136,0.06) !important; }
+  :root[data-ui-theme="neon"] .card:hover { border-color: rgba(0,255,136,0.4) !important; box-shadow: 0 0 20px rgba(0,255,136,0.12), 0 12px 50px rgba(0,0,0,0.8) !important; }
+  :root[data-ui-theme="neon"] .btn { font-family: 'Space Mono', monospace; font-size: 0.65rem; }
+  :root[data-ui-theme="neon"] .card-title { font-family: 'Space Mono', monospace; font-size: 0.6rem; }
+  :root[data-ui-theme="neon"] .clock-digits { font-family: 'Space Mono', monospace; }
+  :root[data-ui-theme="neon"] .bg-orb-1 { background: radial-gradient(circle, rgba(0,255,136,0.2) 0%, rgba(0,180,100,0.07) 55%, transparent 78%); }
+  :root[data-ui-theme="neon"] .bg-orb-2 { background: radial-gradient(circle, rgba(255,0,153,0.18) 0%, rgba(200,0,120,0.06) 55%, transparent 78%); }
+  :root[data-ui-theme="neon"] .bg-orb-3 { background: radial-gradient(circle, rgba(0,200,255,0.12) 0%, rgba(0,160,220,0.04) 55%, transparent 78%); }
+  :root[data-ui-theme="neon"] .bg-orb-4 { background: radial-gradient(circle, rgba(255,0,153,0.1) 0%, transparent 72%); }
+  :root[data-ui-theme="neon"] #scroll-progress { background: linear-gradient(90deg, #00ff88, #ff0099, #00ff88); box-shadow: 0 0 12px rgba(0,255,136,0.6); }
+  :root[data-ui-theme="neon"] .settings-header-title { color: #00ff88; }
+
+  /* THEME: Sakura (Dark · Cherry Pink · Lavender) */
+  :root[data-ui-theme="sakura"] {
+    --bg: #0d0912;
+    --surface: #14101a;
+    --surface2: #1c1525;
+    --border: rgba(255,140,190,0.14);
+    --text: #f0e8f8;
+    --muted: #7a5a8a;
+    --accent: #ff8cc8;
+    --accent2: #c8a8ff;
+    --glow: rgba(255,140,200,0.3);
+    --wb-bg: #100c16;
+    --calc-btn-hover: rgba(255,140,200,0.07);
+    --calc-btn-border-hover: rgba(255,140,200,0.28);
+  }
+  :root[data-ui-theme="sakura"] body { font-family: 'Quicksand', system-ui, sans-serif; font-weight: 500; }
+  :root[data-ui-theme="sakura"] h1 { font-family: 'Quicksand', system-ui, sans-serif; font-weight: 700; color: #ff8cc8; letter-spacing: 0.12em; }
+  :root[data-ui-theme="sakura"] .card { background: rgba(14,10,20,0.7) !important; border-color: rgba(255,140,200,0.16) !important; }
+  :root[data-ui-theme="sakura"] .card:hover { border-color: rgba(255,140,200,0.35) !important; }
+  :root[data-ui-theme="sakura"] .bg-orb-1 { background: radial-gradient(circle, rgba(255,100,180,0.2) 0%, rgba(220,60,140,0.07) 55%, transparent 78%); }
+  :root[data-ui-theme="sakura"] .bg-orb-2 { background: radial-gradient(circle, rgba(180,100,255,0.18) 0%, rgba(140,60,220,0.06) 55%, transparent 78%); }
+  :root[data-ui-theme="sakura"] .bg-orb-3 { background: radial-gradient(circle, rgba(255,140,200,0.13) 0%, rgba(200,100,160,0.04) 55%, transparent 78%); }
+  :root[data-ui-theme="sakura"] .bg-orb-4 { background: radial-gradient(circle, rgba(200,140,255,0.1) 0%, transparent 72%); }
+  :root[data-ui-theme="sakura"] #scroll-progress { background: linear-gradient(90deg, #ff8cc8, #c8a8ff, #ff8cc8); }
+  :root[data-ui-theme="sakura"] .settings-header-title { color: #ff8cc8; }
+  :root[data-ui-theme="sakura"] .btn { font-family: 'Quicksand', system-ui, sans-serif; font-weight: 600; }
+
+  /* THEME: Vapor (Synthwave · Purple · Pink Gradient) */
+  :root[data-ui-theme="vapor"] {
+    --bg: #0c0816;
+    --surface: #120f20;
+    --surface2: #1a152c;
+    --border: rgba(155,93,229,0.18);
+    --text: #e8d8ff;
+    --muted: #6a4a99;
+    --accent: #9b5de5;
+    --accent2: #ff6eb4;
+    --glow: rgba(155,93,229,0.35);
+    --wb-bg: #0f0c1a;
+    --calc-btn-hover: rgba(155,93,229,0.08);
+    --calc-btn-border-hover: rgba(155,93,229,0.3);
+  }
+  :root[data-ui-theme="vapor"] body { font-family: 'Raleway', system-ui, sans-serif; }
+  :root[data-ui-theme="vapor"] h1 { font-family: 'Raleway', system-ui, sans-serif; font-weight: 700; color: #9b5de5; letter-spacing: 0.2em; }
+  :root[data-ui-theme="vapor"] .card { background: rgba(12,8,22,0.75) !important; border-color: rgba(155,93,229,0.2) !important; }
+  :root[data-ui-theme="vapor"] .card:hover { border-color: rgba(155,93,229,0.4) !important; box-shadow: 0 0 24px rgba(155,93,229,0.15), 0 12px 50px rgba(0,0,0,0.7) !important; }
+  :root[data-ui-theme="vapor"] .bg-orb-1 { background: radial-gradient(circle, rgba(155,93,229,0.22) 0%, rgba(120,60,200,0.08) 55%, transparent 78%); }
+  :root[data-ui-theme="vapor"] .bg-orb-2 { background: radial-gradient(circle, rgba(255,110,180,0.18) 0%, rgba(220,60,150,0.06) 55%, transparent 78%); }
+  :root[data-ui-theme="vapor"] .bg-orb-3 { background: radial-gradient(circle, rgba(155,93,229,0.14) 0%, rgba(100,50,180,0.04) 55%, transparent 78%); }
+  :root[data-ui-theme="vapor"] .bg-orb-4 { background: radial-gradient(circle, rgba(255,110,180,0.12) 0%, transparent 72%); }
+  :root[data-ui-theme="vapor"] #scroll-progress { background: linear-gradient(90deg, #9b5de5, #ff6eb4, #9b5de5); }
+  :root[data-ui-theme="vapor"] .settings-header-title { color: #9b5de5; }
+  :root[data-ui-theme="vapor"] .btn { font-family: 'Raleway', system-ui, sans-serif; font-weight: 600; }
+
+  /* Theme picker styles */
+  .theme-picker {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .theme-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.25rem 0.4rem;
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .theme-tile:hover { transform: translateY(-2px); }
+  .theme-tile.active { border-color: var(--accent); box-shadow: 0 0 12px var(--glow); }
+  .theme-tile-preview {
+    width: 100%;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    gap: 3px;
+    align-items: stretch;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .theme-tile-swatch {
+    flex: 1;
+    border-radius: 2px;
+  }
+  .theme-tile-name {
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.2;
+    font-family: 'Rajdhani', sans-serif;
+  }
+  .theme-tile.active .theme-tile-name { color: var(--accent); }
+  .theme-tile-badge {
+    position: absolute;
+    top: 3px; right: 3px;
+    font-size: 0.5rem;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'Rajdhani', sans-serif;
+    line-height: 1.4;
   }
 
   body {
@@ -1826,7 +2047,7 @@
     line-height: 1.5;
   }
 
-
+  .search-no-results {
     position: absolute;
     top: calc(100% + 0.5rem);
     left: 50%;
@@ -2502,13 +2723,6 @@
   }
   .json-output.valid { border-color: rgba(6,214,160,0.3); }
   .json-output.error { border-color: rgba(239,71,111,0.4); color: #ef476f; }
-  .json-status {
-    font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
-    padding: 0.25rem 0.65rem; border-radius: 6px; align-self: flex-start;
-    font-family: 'Share Tech Mono', monospace;
-  }
-  .json-status.ok { background: rgba(6,214,160,0.12); color: #06d6a0; border: 1px solid rgba(6,214,160,0.3); }
-  .json-status.err { background: rgba(239,71,111,0.1); color: #ef476f; border: 1px solid rgba(239,71,111,0.3); }
   .json-btn-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
 
   /* ══════════════════════════════════════
@@ -2556,40 +2770,6 @@
   .tip-result-box.highlight .tip-result-val { color: var(--accent); }
   .tip-split-row { display: flex; align-items: center; gap: 0.6rem; }
   .tip-split-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
-
-  /* ══════════════════════════════════════
-     POMODORO TIMER
-  ══════════════════════════════════════ */
-  .pomo-wrap { width: 100%; display: flex; flex-direction: column; gap: 0.85rem; align-items: center; }
-  .pomo-phase-row { display: flex; gap: 0.4rem; }
-  .pomo-phase-btn {
-    flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
-    font-family: 'Share Tech Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em;
-    text-transform: uppercase; padding: 0.35rem; border-radius: 8px; cursor: pointer;
-    transition: border-color 0.2s, color 0.2s, background 0.2s; text-align: center;
-  }
-  .pomo-phase-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.1); }
-  .pomo-ring-wrap {
-    position: relative; width: 160px; height: 160px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .pomo-ring-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
-  .pomo-ring-bg { fill: none; stroke: var(--surface2); stroke-width: 8; }
-  .pomo-ring-fill { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1s linear, stroke 0.4s; }
-  .pomo-time-text {
-    font-family: 'Share Tech Mono', monospace; font-size: 2.6rem;
-    color: var(--accent); text-shadow: 0 0 20px var(--glow); letter-spacing: 0.04em; line-height: 1;
-  }
-  .pomo-phase-label {
-    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--muted); margin-top: 0.2rem; text-align: center;
-  }
-  .pomo-controls { display: flex; gap: 0.5rem; }
-  .pomo-stat-row {
-    display: flex; gap: 1.5rem; font-size: 0.7rem; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--muted);
-  }
-  .pomo-stat-val { font-family: 'Share Tech Mono', monospace; font-size: 1rem; color: var(--accent2); }
 
   /* ══════════════════════════════════════
      MEMORY MATCH GAME
@@ -2764,6 +2944,72 @@
     <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:0.55rem">
       <div class="settings-row-label">Accent Color</div>
       <div class="accent-picker" id="accent-picker"></div>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-section-label">🖌 UI Theme</div>
+    <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:0.55rem">
+      <div class="settings-row-sub" style="margin-bottom:0.25rem">Full visual theme — changes colors, fonts &amp; vibe</div>
+      <div class="theme-picker" id="theme-picker">
+        <div class="theme-tile active" data-theme-id="default" onclick="v2SetUITheme('default',this)" title="Ember — Default dark theme">
+          <div class="theme-tile-preview">
+            <div class="theme-tile-swatch" style="background:#0d0d0f"></div>
+            <div class="theme-tile-swatch" style="background:#ff6b35"></div>
+            <div class="theme-tile-swatch" style="background:#ffd166"></div>
+          </div>
+          <div class="theme-tile-name">Ember</div>
+        </div>
+        <div class="theme-tile" data-theme-id="light" onclick="v2SetUITheme('light',this)" title="Light mode">
+          <div class="theme-tile-preview">
+            <div class="theme-tile-swatch" style="background:#f0f0f5"></div>
+            <div class="theme-tile-swatch" style="background:#e85d22"></div>
+            <div class="theme-tile-swatch" style="background:#c97b00"></div>
+          </div>
+          <div class="theme-tile-name">Daylight</div>
+        </div>
+        <div class="theme-tile" data-theme-id="luxe" onclick="v2SetUITheme('luxe',this)" title="Luxe — Black, Gold &amp; Silver premium theme">
+          <div class="theme-tile-preview">
+            <div class="theme-tile-swatch" style="background:#080808"></div>
+            <div class="theme-tile-swatch" style="background:#d4af37"></div>
+            <div class="theme-tile-swatch" style="background:#c0c0c8"></div>
+          </div>
+          <div class="theme-tile-name">Luxe</div>
+          <span class="theme-tile-badge">✦</span>
+        </div>
+        <div class="theme-tile" data-theme-id="ocean" onclick="v2SetUITheme('ocean',this)" title="Ocean — Deep navy &amp; cyan">
+          <div class="theme-tile-preview">
+            <div class="theme-tile-swatch" style="background:#070f1c"></div>
+            <div class="theme-tile-swatch" style="background:#00c8e8"></div>
+            <div class="theme-tile-swatch" style="background:#00e8c8"></div>
+          </div>
+          <div class="theme-tile-name">Ocean</div>
+        </div>
+        <div class="theme-tile" data-theme-id="neon" onclick="v2SetUITheme('neon',this)" title="Neon — Cyberpunk electric">
+          <div class="theme-tile-preview">
+            <div class="theme-tile-swatch" style="background:#04040c"></div>
+            <div class="theme-tile-swatch" style="background:#00ff88"></div>
+            <div class="theme-tile-swatch" style="background:#ff0099"></div>
+          </div>
+          <div class="theme-tile-name">Neon</div>
+        </div>
+        <div class="theme-tile" data-theme-id="sakura" onclick="v2SetUITheme('sakura',this)" title="Sakura — Cherry blossom &amp; lavender">
+          <div class="theme-tile-preview">
+            <div class="theme-tile-swatch" style="background:#0d0912"></div>
+            <div class="theme-tile-swatch" style="background:#ff8cc8"></div>
+            <div class="theme-tile-swatch" style="background:#c8a8ff"></div>
+          </div>
+          <div class="theme-tile-name">Sakura</div>
+        </div>
+        <div class="theme-tile" data-theme-id="vapor" onclick="v2SetUITheme('vapor',this)" title="Vapor — Synthwave purple &amp; pink">
+          <div class="theme-tile-preview">
+            <div class="theme-tile-swatch" style="background:#0c0816"></div>
+            <div class="theme-tile-swatch" style="background:#9b5de5"></div>
+            <div class="theme-tile-swatch" style="background:#ff6eb4"></div>
+          </div>
+          <div class="theme-tile-name">Vapor</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -3110,7 +3356,7 @@
   </div>
 
     <!-- WHITEBOARD -->
-  <div class="card" style="grid-column: 1 / -1;" data-tool="Digital Whiteboard">
+  <div class="card" data-tool="Digital Whiteboard">
     <div class="card-title-row">
     <div class="card-title">Digital Whiteboard</div>
     <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
@@ -3373,7 +3619,7 @@
   </div>
 
   <!-- MARKDOWN PREVIEWER -->
-  <div class="card" style="grid-column: 1 / -1;" data-tool="Markdown Previewer">
+  <div class="card" data-tool="Markdown Previewer">
     <div class="card-title-row">
     <div class="card-title">Markdown Previewer</div>
     <button class="fav-btn" onclick="toggleFav(this)" title="Favorite">☆</button>
@@ -6338,6 +6584,7 @@ const V2_ACCENTS = [
 
 let v2Settings = {
   darkMode: true,
+  uiTheme: 'default',
   orbs: true,
   dots: true,
   grain: true,
@@ -6366,22 +6613,48 @@ function v2SaveSettings() {
 }
 
 function v2ApplyAll() {
-  // Theme
-  if (v2Settings.darkMode) {
-    document.documentElement.removeAttribute('data-theme');
+  // UI Theme (applies first — sets data-ui-theme and possibly overrides dark/light)
+  const uiTheme = v2Settings.uiTheme || 'default';
+  const root = document.documentElement;
+
+  // Remove all ui-theme attributes first
+  root.removeAttribute('data-ui-theme');
+  root.removeAttribute('data-theme');
+
+  if (uiTheme === 'light') {
+    root.setAttribute('data-theme', 'light');
+    v2Settings.darkMode = false;
+  } else if (uiTheme !== 'default') {
+    root.setAttribute('data-ui-theme', uiTheme);
+    root.removeAttribute('data-theme');
+    v2Settings.darkMode = true;
   } else {
-    document.documentElement.setAttribute('data-theme', 'light');
+    // Default theme — apply dark/light toggle
+    if (!v2Settings.darkMode) {
+      root.setAttribute('data-theme', 'light');
+    }
   }
 
-  // Accent
-  const a = V2_ACCENTS[v2Settings.accentIdx] || V2_ACCENTS[0];
-  const root = document.documentElement;
-  root.style.setProperty('--accent', a.hex);
-  root.style.setProperty('--glow', a.glow);
-  if (v2Settings.accentIdx !== 0) {
-    root.style.setProperty('--accent2', a.hex2);
+  // Sync dark mode checkbox
+  const themeCheck = document.getElementById('set-theme');
+  if (themeCheck) themeCheck.checked = v2Settings.darkMode;
+
+  // Theme picker active state
+  document.querySelectorAll('.theme-tile').forEach(tile => {
+    tile.classList.toggle('active', tile.getAttribute('data-theme-id') === uiTheme);
+  });
+
+  // Accent — skip if a non-default ui-theme sets its own accent
+  const themesWithOwnAccent = ['luxe','ocean','neon','sakura','vapor'];
+  if (!themesWithOwnAccent.includes(uiTheme)) {
+    const a = V2_ACCENTS[v2Settings.accentIdx] || V2_ACCENTS[0];
+    root.style.setProperty('--accent', a.hex);
+    root.style.setProperty('--glow', a.glow);
+    root.style.setProperty('--accent2', v2Settings.accentIdx !== 0 ? a.hex2 : '#ffd166');
   } else {
-    root.style.setProperty('--accent2', '#ffd166');
+    root.style.removeProperty('--accent');
+    root.style.removeProperty('--glow');
+    root.style.removeProperty('--accent2');
   }
 
   // Orbs
@@ -6457,7 +6730,8 @@ function v2SyncPanel() {
   if (id('set-clockfmt')) id('set-clockfmt').value   = v2Settings.clockFormat;
 }
 
-function v2SetTheme(darkMode) { v2Settings.darkMode = darkMode; v2ApplyAll(); v2SaveSettings(); }
+function v2SetTheme(darkMode) { v2Settings.darkMode = darkMode; if(v2Settings.uiTheme==='light'){v2Settings.uiTheme='default';} v2ApplyAll(); v2SaveSettings(); }
+function v2SetUITheme(themeId, tileEl) { v2Settings.uiTheme = themeId; if(themeId==='light'){v2Settings.darkMode=false;}else{v2Settings.darkMode=true;} v2ApplyAll(); v2SaveSettings(); }
 function v2SetOrbs(val) { v2Settings.orbs = val; v2ApplyAll(); v2SaveSettings(); }
 function v2SetDots(val) { v2Settings.dots = val; v2ApplyAll(); v2SaveSettings(); }
 function v2SetGrain(val) { v2Settings.grain = val; v2ApplyAll(); v2SaveSettings(); }
@@ -6470,7 +6744,7 @@ function v2SetClockFormat(val) { v2Settings.clockFormat = val; v2ApplyAll(); v2S
 function v2SetSeconds(val) { v2Settings.showSeconds = val; v2ApplyAll(); v2SaveSettings(); }
 
 function v2ResetSettings() {
-  v2Settings = { darkMode: true, orbs: true, dots: true, grain: true, animations: true, parallax: true, accentIdx: 0, cardSize: 340, radius: 16, blur: 24, clockFormat: '24', showSeconds: true };
+  v2Settings = { darkMode: true, uiTheme: 'default', orbs: true, dots: true, grain: true, animations: true, parallax: true, accentIdx: 0, cardSize: 340, radius: 16, blur: 24, clockFormat: '24', showSeconds: true };
   try { localStorage.removeItem(V2_SETTINGS_KEY); } catch(e) {}
   v2ApplyAll();
   v2SyncPanel();
